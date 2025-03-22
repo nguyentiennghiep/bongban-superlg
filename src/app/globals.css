@@ -1,21 +1,31 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8f9fa; /* Nền xám nhạt */
+  --foreground: #212529; /* Màu chữ chính */
+  --primary: #0077b6; /* Xanh biển đậm */
+  --secondary: #d90429; /* Đỏ thể thao */
+  --hover-primary: #0096c7; /* Hover xanh */
+  --hover-secondary: #f04444; /* Hover đỏ */
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-hover-primary: var(--hover-primary);
+  --color-hover-secondary: var(--hover-secondary);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #1c1c1e; /* Nền tối */
+    --foreground: #ededed; /* Chữ sáng */
+    --primary: #0096c7; /* Xanh nhạt hơn */
+    --secondary: #f04444; /* Đỏ sáng hơn */
   }
 }
 
@@ -23,4 +33,30 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Nút chính */
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background 0.3s ease-in-out;
+}
+
+.btn-primary:hover {
+  background-color: var(--hover-primary);
+}
+
+/* Nút phụ */
+.btn-secondary {
+  background-color: var(--secondary);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background 0.3s ease-in-out;
+}
+
+.btn-secondary:hover {
+  background-color: var(--hover-secondary);
 }
