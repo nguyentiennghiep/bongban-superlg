@@ -4,17 +4,17 @@ const executiveMembers = [
   {
     name: "Nguyễn Văn A",
     position: "President",
-    image: "/mock-avatar.png", // Thay bằng ảnh thật sau này
+    image: "https://picsum.photos/200/267?random=1",
   },
   {
     name: "Trần Văn B",
     position: "Vice President",
-    image: "/mock-avatar.png",
+    image: "https://picsum.photos/200/267?random=2",
   },
   {
     name: "Lê Văn C",
     position: "Member",
-    image: "/mock-avatar.png",
+    image: "https://picsum.photos/200/267?random=3",
   },
 ];
 
@@ -33,8 +33,8 @@ export default function Page() {
             <Image
               src={member.image}
               alt={member.name}
-              width={150}
-              height={200}
+              width={200}
+              height={267}
               className="mx-auto rounded-lg"
             />
             <h3 className="mt-2 font-semibold text-secondary">{member.name}</h3>

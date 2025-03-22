@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 import { Menu, X } from "lucide-react";
 
 export default function Header() {
@@ -8,7 +9,9 @@ export default function Header() {
   return (
     <header className="bg-white shadow-md py-4 px-6 flex items-center justify-between relative">
       {/* Logo */}
-      <div className="text-2xl font-extrabold text-primary">Ping Pong Club</div>
+      <div className="text-2xl font-extrabold text-[#0077B6]">
+        Ping Pong Club
+      </div>
 
       {/* Navigation Menu */}
       <nav
@@ -17,30 +20,58 @@ export default function Header() {
         }`}
       >
         <ul className="flex flex-col md:flex-row md:space-x-6">
-          {["Trang Chủ", "Ban điều hành", "Đội & VĐV", "Giải", "Tin Tức"].map(
-            (item, index) => (
-              <li key={index}>
-                <a
-                  href="#"
-                  className="block py-2 px-4 md:px-0 text-gray-700 hover:text-primary transition"
-                >
-                  {item}
-                </a>
-              </li>
-            )
-          )}
+          <li>
+            <Link
+              href="/"
+              className="block py-2 px-4 md:px-0 text-[#212529] hover:text-[#0077B6] transition"
+            >
+              Trang Chủ
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/executive-board"
+              className="block py-2 px-4 md:px-0 text-[#212529] hover:text-[#0077B6] transition"
+            >
+              Ban điều hành
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/player-list"
+              className="block py-2 px-4 md:px-0 text-[#212529] hover:text-[#0077B6] transition"
+            >
+              Đội & VĐV
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="#"
+              className="block py-2 px-4 md:px-0 text-[#212529] hover:text-[#0077B6] transition"
+            >
+              Giải
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="#"
+              className="block py-2 px-4 md:px-0 text-[#212529] hover:text-[#0077B6] transition"
+            >
+              Tin Tức
+            </Link>
+          </li>
         </ul>
       </nav>
 
       {/* Login Button & Mobile Menu */}
       <div className="flex items-center space-x-4">
         <button
-          className="md:hidden text-gray-700 focus:outline-none"
+          className="md:hidden text-[#212529] focus:outline-none"
           onClick={() => setMenuOpen(!menuOpen)}
         >
           {menuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
-        <button className="bg-primary text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:bg-hover-primary transition">
+        <button className="bg-[#0077B6] text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:bg-[#005F8C] transition">
           Login
         </button>
       </div>

@@ -1,66 +1,20 @@
 "use client";
-import { useState } from "react";
 import Image from "next/image";
-import { Menu, X } from "lucide-react";
 
 export default function HomePage() {
-  const [menuOpen, setMenuOpen] = useState(false);
-
   return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Header */}
-      <header className="bg-white shadow-md py-4 px-6 flex items-center justify-between relative">
-        {/* Logo */}
-        <div className="text-2xl font-extrabold text-primary">
-          Ping Pong Club
-        </div>
-
-        {/* Navigation Menu */}
-        <nav
-          className={`absolute md:static top-full right-0 w-full bg-white/80 backdrop-blur-md md:bg-transparent md:flex md:space-x-6 text-lg font-medium shadow-md md:shadow-none transition-all duration-300 ease-in-out z-50 ${
-            menuOpen ? "flex flex-col" : "hidden"
-          }`}
-        >
-          <ul className="flex flex-col md:flex-row md:space-x-6">
-            {["Trang Chủ", "Ban điều hành", "Đội & VĐV", "Giải", "Tin Tức"].map(
-              (item, index) => (
-                <li key={index}>
-                  <a
-                    href="#"
-                    className="block py-2 px-4 md:px-0 text-gray-700 hover:text-primary transition"
-                  >
-                    {item}
-                  </a>
-                </li>
-              )
-            )}
-          </ul>
-        </nav>
-
-        {/* Login Button & Mobile Menu */}
-        <div className="flex items-center space-x-4">
-          <button
-            className="md:hidden text-gray-700 focus:outline-none"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            {menuOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
-          <button className="bg-primary text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:bg-hover-primary transition">
-            Login
-          </button>
-        </div>
-      </header>
+    <div>
       {/* Banner */}
       <div className="relative w-full h-64">
         <Image
-          src="https://picsum.photos/1200/300?random=99" // Ảnh banner mock
+          src="https://picsum.photos/1200/300?random=99"
           alt="Banner Bóng Bàn"
           layout="fill"
           objectFit="cover"
         />
       </div>
-      {/* Xếp hạng */}
-      {/* Xếp hạng */}
+
+      {/* Nội dung trang */}
       <section className="p-6">
         <h2 className="text-2xl font-semibold text-primary mb-4">Xếp hạng</h2>
         <div className="overflow-x-auto">
@@ -104,7 +58,6 @@ export default function HomePage() {
           </table>
         </div>
       </section>
-      {/* 05 cây vợt có phong độ tốt nhất */}
       <section className="p-6">
         <h2 className="text-2xl font-semibold text-primary mb-4">
           05 cây vợt có phong độ tốt nhất
@@ -145,43 +98,6 @@ export default function HomePage() {
           </p>
         </div>
       </section>
-      {/* Footer */}
-      <footer className="bg-[var(--background)] text-[var(--foreground)] text-center p-6 mt-10 border-t border-gray-300 dark:border-gray-700">
-        <div className="container mx-auto">
-          <h3 className="text-lg font-semibold mb-2">Liên hệ</h3>
-          <p>
-            SĐT:{" "}
-            <a
-              href="tel:0123456789"
-              className="text-blue-600 dark:text-blue-400 font-medium"
-            >
-              0123 456 789
-            </a>
-          </p>
-          <p>
-            Facebook:{" "}
-            <a
-              href="https://facebook.com/yourprofile"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-600 dark:text-blue-400 font-medium"
-            >
-              facebook.com/yourprofile
-            </a>
-          </p>
-          <p>
-            Zalo:{" "}
-            <a
-              href="https://zalo.me/yourzalo"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-600 dark:text-blue-400 font-medium"
-            >
-              zalo.me/yourzalo
-            </a>
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }
