@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, X } from "lucide-react";
 
 export default function Header() {
@@ -9,13 +10,10 @@ export default function Header() {
   return (
     <header className="bg-white shadow-md py-4 px-6 flex items-center justify-between relative">
       {/* Logo */}
-      <div className="text-2xl font-extrabold text-[#0077B6]">
-        Ping Pong Club
-      </div>
-
+      <Image src={"/Logo_HaNoiSPL.png"} alt="" width={100} height={100} />
       {/* Navigation Menu */}
       <nav
-        className={`absolute md:static top-full right-0 w-full bg-white/80 backdrop-blur-md md:bg-transparent md:flex md:space-x-6 text-lg font-medium shadow-md md:shadow-none transition-all duration-300 ease-in-out z-50 ${
+        className={`absolute md:static top-full flex w-full items-center justify-between bg-white/80 backdrop-blur-md md:bg-transparent md:flex md:space-x-6 text-lg font-medium shadow-md md:shadow-none transition-all duration-300 ease-in-out z-50 ${
           menuOpen ? "flex flex-col" : "hidden"
         }`}
       >
@@ -23,7 +21,7 @@ export default function Header() {
           <li>
             <Link
               href="/"
-              className="block py-2 px-4 md:px-0 text-[#212529] hover:text-[#0077B6] transition"
+              className="block py-2 px-4 md:px-0 text-[#212529] hover:text-[#0077B6] transition "
             >
               Trang Chủ
             </Link>
