@@ -1,4 +1,7 @@
+"use client";
 import { notFound } from "next/navigation";
+import { use } from "react";
+import Link from "next/link";
 
 const players = [
   {
@@ -30,12 +33,13 @@ const players = [
   },
 ];
 
-export default function PlayerDetail({
-  params,
-}: {
-  params: { playerId: string };
-}) {
-  const player = players.find((p) => p.id.toString() === params.playerId);
+interface PageProps {
+  params: Promise<{ playerId: string }>;
+}
+
+export default function PlayerDetail({ params }: PageProps) {
+  const { playerId } = use(params);
+  const player = players.find((p) => p.id.toString() === playerId);
 
   if (!player) return notFound();
 
@@ -65,14 +69,12 @@ export default function PlayerDetail({
         </p>
       </div>
 
-      <div className="mt-6">
-        <a
-          href="/player-list"
-          className="text-white bg-[#0077B6] px-4 py-2 rounded shadow hover:bg-[#005f99] transition pt-2"
-        >
-          Quay lại danh sách
-        </a>
-      </div>
+      <Link
+        href="/player-list"
+        className="text-white bg-[#0077B6] px-4 py-2 rounded shadow hover:bg-[#005f99] transition pt-2"
+      >
+        Quay lại danh sách
+      </Link>
     </div>
   );
 }
