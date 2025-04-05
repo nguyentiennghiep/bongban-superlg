@@ -22,15 +22,12 @@ interface Player {
     percentage: number;
   };
 }
+//
 
-export default function PlayerDetailPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default function PlayerDetailPage() {
   // Mock data - trong thực tế sẽ lấy từ API dựa vào params.id
   const playerData: Player = {
-    id: params.id,
+    id: "1",
     name: "Hoàng Danh Nhân",
     birthYear: "1963",
     rank: "C1",
