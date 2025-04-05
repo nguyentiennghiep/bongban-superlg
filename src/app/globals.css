@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f8f9fa; /* Nền xám nhạt */
+  --background: #ffffff; /* Nền xám nhạt */
   --foreground: #212529; /* Màu chữ chính */
   --primary: #0077b6; /* Xanh biển đậm */
   --secondary: #d90429; /* Đỏ thể thao */

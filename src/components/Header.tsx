@@ -72,7 +72,7 @@ export default function Header() {
             </li>
             <li>
               <Link
-                href="/player-list"
+                href="/players-teams"
                 className="block py-2 px-4 md:px-0 text-[#212529] hover:text-[#EE344D] transition leading-6"
               >
                 Đội bóng và Vận động viên
