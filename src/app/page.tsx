@@ -5,13 +5,19 @@ export default function HomePage() {
   return (
     <div>
       {/* Banner */}
-      <div className="relative w-full h-64">
+      <div className="relative w-full h-[440px]">
         <Image
-          src="https://picsum.photos/1200/300?random=99"
+          src="/background-top.jpg"
           alt="Banner Bóng Bàn"
-          layout="fill"
-          objectFit="cover"
+          fill
+          className="object-contain"
+          priority
+          quality={100}
         />
+        {/* Tham Gia Button */}
+        <button className="absolute left-1/2 -translate-x-1/2 -bottom-[66px] w-[144px] h-[144px] rounded-full bg-[#EE344D] border-6 border-[#FFF5F5] text-white font-semibold text-[30px] leading-[38px] text-center flex items-center justify-center hover:bg-[#d62e43] transition-colors">
+          THAM GIA
+        </button>
       </div>
 
       {/* Nội dung trang */}
