@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff; /* Nền xám nhạt */
-  --foreground: #212529; /* Màu chữ chính */
-  --primary: #0077b6; /* Xanh biển đậm */
-  --secondary: #d90429; /* Đỏ thể thao */
-  --hover-primary: #0096c7; /* Hover xanh */
-  --hover-secondary: #f04444; /* Hover đỏ */
+  --background: #ffffff;
+  --foreground: #000000;
+  --primary: #0077b6;
+  --secondary: #d90429;
+  --hover-primary: #0096c7;
+  --hover-secondary: #f04444;
 }
 
 @theme inline {
@@ -18,15 +18,6 @@
   --color-hover-secondary: var(--hover-secondary);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #1c1c1e; /* Nền tối */
-    --foreground: #ededed; /* Chữ sáng */
-    --primary: #0096c7; /* Xanh nhạt hơn */
-    --secondary: #f04444; /* Đỏ sáng hơn */
-  }
 }
 
 body {

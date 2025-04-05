@@ -133,7 +133,9 @@ export default function HomePage() {
       <TopPlayers />
 
       {/* Lịch thi đấu tuần kế tiếp */}
-      <MatchSchedule />
+      <div className="container mx-auto px-6 pb-10">
+        <MatchSchedule />
+      </div>
     </div>
   );
 }

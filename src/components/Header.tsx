@@ -3,9 +3,11 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X, Phone, Mail } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <>
@@ -41,7 +43,9 @@ export default function Header() {
             <li>
               <Link
                 href="/"
-                className="block py-2 px-4 md:px-0 text-[#212529] hover:text-[#EE344D] transition leading-6"
+                className={`block py-2 px-4 md:px-0 hover:text-[#EE344D] transition leading-6 ${
+                  pathname === "/" ? "text-[#EE344D]" : "text-[#212529]"
+                }`}
               >
                 Trang chủ
               </Link>
@@ -49,7 +53,9 @@ export default function Header() {
             <li>
               <Link
                 href="/about"
-                className="block py-2 px-4 md:px-0 text-[#212529] hover:text-[#EE344D] transition leading-6"
+                className={`block py-2 px-4 md:px-0 hover:text-[#EE344D] transition leading-6 ${
+                  pathname === "/about" ? "text-[#EE344D]" : "text-[#212529]"
+                }`}
               >
                 Giới thiệu
               </Link>
@@ -57,7 +63,11 @@ export default function Header() {
             <li>
               <Link
                 href="/executive-board"
-                className="block py-2 px-4 md:px-0 text-[#212529] hover:text-[#EE344D] transition leading-6"
+                className={`block py-2 px-4 md:px-0 hover:text-[#EE344D] transition leading-6 ${
+                  pathname === "/executive-board"
+                    ? "text-[#EE344D]"
+                    : "text-[#212529]"
+                }`}
               >
                 Ban điều hành
               </Link>
@@ -65,7 +75,9 @@ export default function Header() {
             <li>
               <Link
                 href="/news"
-                className="block py-2 px-4 md:px-0 text-[#212529] hover:text-[#EE344D] transition leading-6"
+                className={`block py-2 px-4 md:px-0 hover:text-[#EE344D] transition leading-6 ${
+                  pathname === "/news" ? "text-[#EE344D]" : "text-[#212529]"
+                }`}
               >
                 Tin Tức
               </Link>
@@ -73,7 +85,11 @@ export default function Header() {
             <li>
               <Link
                 href="/players-teams"
-                className="block py-2 px-4 md:px-0 text-[#212529] hover:text-[#EE344D] transition leading-6"
+                className={`block py-2 px-4 md:px-0 hover:text-[#EE344D] transition leading-6 ${
+                  pathname === "/players-teams"
+                    ? "text-[#EE344D]"
+                    : "text-[#212529]"
+                }`}
               >
                 Đội bóng và Vận động viên
               </Link>
@@ -81,7 +97,11 @@ export default function Header() {
             <li>
               <Link
                 href="/tournaments"
-                className="block py-2 px-4 md:px-0 text-[#212529] hover:text-[#EE344D] transition leading-6"
+                className={`block py-2 px-4 md:px-0 hover:text-[#EE344D] transition leading-6 ${
+                  pathname === "/tournaments"
+                    ? "text-[#EE344D]"
+                    : "text-[#212529]"
+                }`}
               >
                 Giải đấu
               </Link>
@@ -89,7 +109,9 @@ export default function Header() {
             <li>
               <Link
                 href="/contact"
-                className="block py-2 px-4 md:px-0 text-[#212529] hover:text-[#EE344D] transition leading-6"
+                className={`block py-2 px-4 md:px-0 hover:text-[#EE344D] transition leading-6 ${
+                  pathname === "/contact" ? "text-[#EE344D]" : "text-[#212529]"
+                }`}
               >
                 Liên hệ
               </Link>
