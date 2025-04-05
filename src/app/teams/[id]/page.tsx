@@ -13,8 +13,9 @@ interface Player {
   rankPoints: string;
   totalPoints: string;
 }
+// { params }: { params: { id: string } }
 
-export default function TeamDetailPage({ params }: { params: { id: string } }) {
+export default function TeamDetailPage() {
   const [selectedSeason, setSelectedSeason] = useState("Hà Nội SPL 2024");
 
   // Mock data - trong thực tế sẽ lấy từ API dựa vào params.id
