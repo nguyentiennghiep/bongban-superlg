@@ -47,10 +47,28 @@ export interface TeamMember {
   vdv_diem: number;
 }
 
+export interface AthleteDetail {
+  id: string;
+  ma_vdv: string;
+  ten_vdv: string;
+  ten_tieng_anh: string | null;
+  thongtin_timkiem: string;
+  nam_sinh: string;
+  quoc_tich_id: string;
+  quoc_tich_ten: string;
+  so_cccd: string | null;
+  so_dien_thoai: string | null;
+  avatar_url: string | null;
+  hang_vdv: string;
+  diem_vdv: number;
+  doi_bong_id: string;
+  doi_bong_ten: string;
+}
+
 const fetchApi = async <T>(
   endpoint: string,
   params: Record<string, string | number> = {}
-): Promise<ApiResponse<T>> => {
+): Promise<ApiResponse<T> | T> => {
   const queryString = new URLSearchParams(
     params as Record<string, string>
   ).toString();
@@ -106,6 +124,12 @@ export const athleteApi = {
       ...(searchText && { text: searchText }),
       ...(rank && { rank }),
     });
+  },
+  getAthleteDetail: async (id: string): Promise<AthleteDetail> => {
+    const response = await fetchApi<AthleteDetail>(
+      `/get_detail_athlete?id=${id}`
+    );
+    return response as AthleteDetail;
   },
 };
 

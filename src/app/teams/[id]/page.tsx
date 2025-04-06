@@ -31,7 +31,7 @@ export default function TeamDetailPage({
           undefined,
           resolvedParams.id
         );
-        if (teamData.objects.length > 0) {
+        if ("objects" in teamData && teamData.objects.length > 0) {
           setTeam(teamData.objects[0]);
         }
 
@@ -42,8 +42,10 @@ export default function TeamDetailPage({
           20,
           searchText
         );
-        setMembers(membersData.objects);
-        setTotalPages(membersData.total_pages);
+        if ("objects" in membersData) {
+          setMembers(membersData.objects);
+          setTotalPages(membersData.total_pages);
+        }
       } catch (error) {
         console.error("Error fetching team data:", error);
       } finally {

@@ -17,6 +17,7 @@ interface PlayerStatsProps {
     losses: number;
     percentage: number;
   };
+  avatarUrl?: string;
 }
 
 export default function PlayerStats({

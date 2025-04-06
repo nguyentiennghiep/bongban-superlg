@@ -19,8 +19,10 @@ export default function PlayersTeamsPage() {
     try {
       setIsLoading(true);
       const data = await teamApi.getTeams(page, 20, search);
-      setTeams(data.objects);
-      setTotalPages(data.total_pages);
+      if ("objects" in data) {
+        setTeams(data.objects);
+        setTotalPages(data.total_pages);
+      }
     } catch (error) {
       console.error("Error fetching teams:", error);
     } finally {
@@ -32,15 +34,16 @@ export default function PlayersTeamsPage() {
     try {
       setIsLoading(true);
       const data = await athleteApi.getAthletes(page, 20, search);
-      // Filter athletes by rank if selected
-      const filteredAthletes = selectedRank
-        ? data.objects.filter((athlete) => athlete.hang_vdv === selectedRank)
-        : data.objects;
-
-      setAthletes(filteredAthletes);
-      // Recalculate total pages based on filtered results
-      const filteredTotal = Math.ceil(filteredAthletes.length / 20);
-      setTotalPages(filteredTotal);
+      if ("objects" in data) {
+        const filteredAthletes = selectedRank
+          ? data.objects.filter(
+              (athlete: Athlete) => athlete.hang_vdv === selectedRank
+            )
+          : data.objects;
+        setAthletes(filteredAthletes);
+        const filteredTotal = Math.ceil(filteredAthletes.length / 20);
+        setTotalPages(filteredTotal);
+      }
     } catch (error) {
       console.error("Error fetching athletes:", error);
     } finally {

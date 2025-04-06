@@ -1,62 +1,56 @@
 "use client";
 
+import { useState, useEffect, use } from "react";
 import Link from "next/link";
+import { athleteApi, AthleteDetail } from "@/services/api";
 import PlayerStats from "@/app/components/PlayerStats";
 
-interface Player {
-  id: string;
-  name: string;
-  birthYear: string;
-  rank: string;
-  rankPoints: string;
-  totalPoints: string;
-  matches: {
-    date: string;
-    round: string;
-    result: string;
-  }[];
-  winRate: {
-    total: number;
-    wins: number;
-    losses: number;
-    percentage: number;
-  };
-}
-//
+export default function PlayerDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const resolvedParams = use(params);
+  const [playerData, setPlayerData] = useState<AthleteDetail | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-export default function PlayerDetailPage() {
-  // Mock data - trong thực tế sẽ lấy từ API dựa vào params.id
-  const playerData: Player = {
-    id: "1",
-    name: "Hoàng Danh Nhân",
-    birthYear: "1963",
-    rank: "C1",
-    rankPoints: "+80",
-    totalPoints: "1800",
-    matches: [
-      {
-        date: "30/06/2025",
-        round: "F1",
-        result: "",
-      },
-      {
-        date: "24/04/2025",
-        round: "F2",
-        result: "",
-      },
-      {
-        date: "31/03/2025",
-        round: "G1",
-        result: "",
-      },
-    ],
-    winRate: {
-      total: 10,
-      wins: 9,
-      losses: 1,
-      percentage: 98,
-    },
-  };
+  useEffect(() => {
+    const fetchPlayerData = async () => {
+      try {
+        setIsLoading(true);
+        const data = await athleteApi.getAthleteDetail(resolvedParams.id);
+        setPlayerData(data);
+      } catch (error) {
+        console.error("Error fetching player data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPlayerData();
+  }, [resolvedParams.id]);
+
+  if (isLoading) {
+    return (
+      <main className="bg-white min-h-screen">
+        <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
+          <div className="text-center">Đang tải dữ liệu...</div>
+        </div>
+      </main>
+    );
+  }
+
+  if (!playerData) {
+    return (
+      <main className="bg-white min-h-screen">
+        <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
+          <div className="text-center">
+            Không tìm thấy thông tin vận động viên
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="bg-white min-h-screen">
@@ -71,7 +65,7 @@ export default function PlayerDetailPage() {
             Đội và vận động viên
           </Link>
           <span className="text-black">/</span>
-          <span className="text-black">{playerData.name}</span>
+          <span className="text-black">{playerData.ten_vdv}</span>
         </div>
 
         {/* Title */}
@@ -81,13 +75,23 @@ export default function PlayerDetailPage() {
 
         {/* Player Stats with Avatar */}
         <PlayerStats
-          name={playerData.name}
-          birthYear={playerData.birthYear}
-          rank={playerData.rank}
-          rankPoints={playerData.rankPoints}
-          totalPoints={playerData.totalPoints}
-          matches={playerData.matches}
-          winRate={playerData.winRate}
+          name={playerData.ten_vdv}
+          birthYear={playerData.nam_sinh}
+          rank={playerData.hang_vdv}
+          rankPoints={playerData.diem_vdv.toString()}
+          totalPoints={playerData.diem_vdv.toString()}
+          matches={[]} // TODO: Add match history API
+          winRate={{
+            total: 0,
+            wins: 0,
+            losses: 0,
+            percentage: 0,
+          }}
+          avatarUrl={
+            playerData.avatar_url
+              ? `https://hanoispl.com/static${playerData.avatar_url}`
+              : undefined
+          }
         />
 
         {/* Match History Section */}
