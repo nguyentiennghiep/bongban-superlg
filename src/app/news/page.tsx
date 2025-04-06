@@ -58,82 +58,86 @@ const newsData = [
 export default function NewsPage() {
   return (
     <main className="bg-white min-h-screen">
-      <div className="container mx-auto px-6 py-8">
+      <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
         {/* Page Title */}
-        <h1 className="text-[24px] font-[600] text-black text-center mb-8">
+        <h1 className="text-xl sm:text-[24px] font-[600] text-black text-center mb-6 sm:mb-8">
           Tin tức & sự kiện
         </h1>
 
         {/* Featured News */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <NewsItem {...newsData[0]} featured />
         </div>
 
         {/* News List */}
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {newsData.slice(1).map((news) => (
             <NewsItem key={news.id} {...news} />
           ))}
         </div>
 
         {/* Pagination */}
-        <div className="flex justify-center items-center mt-8 gap-2">
+        <div className="flex justify-center items-center mt-6 sm:mt-8 gap-2">
           <Link
             href="/news?page=1"
-            className="w-8 h-8 flex items-center justify-center rounded border border-[#DFDFDF] text-[#666666] hover:border-[#FF1654] hover:text-[#FF1654]"
+            className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded border border-[#DFDFDF] text-[#666666] hover:border-[#FF1654] hover:text-[#FF1654]"
           >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path
-                d="M9.99998 13.2799L5.65331 8.93324C5.13998 8.41991 5.13998 7.57991 5.65331 7.06657L9.99998 2.71991"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <div className="w-4 h-4 sm:w-5 sm:h-5">
+              <svg viewBox="0 0 16 16" fill="none">
+                <path
+                  d="M9.99998 13.2799L5.65331 8.93324C5.13998 8.41991 5.13998 7.57991 5.65331 7.06657L9.99998 2.71991"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeMiterlimit="10"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
           </Link>
           <Link
             href="/news?page=1"
-            className="w-8 h-8 flex items-center justify-center rounded bg-[#FF1654] text-white"
+            className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded bg-[#FF1654] text-white text-sm sm:text-base"
           >
             1
           </Link>
           <Link
             href="/news?page=2"
-            className="w-8 h-8 flex items-center justify-center rounded border border-[#DFDFDF] text-[#666666] hover:border-[#FF1654] hover:text-[#FF1654]"
+            className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded border border-[#DFDFDF] text-[#666666] hover:border-[#FF1654] hover:text-[#FF1654] text-sm sm:text-base"
           >
             2
           </Link>
           <Link
             href="/news?page=3"
-            className="w-8 h-8 flex items-center justify-center rounded border border-[#DFDFDF] text-[#666666] hover:border-[#FF1654] hover:text-[#FF1654]"
+            className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded border border-[#DFDFDF] text-[#666666] hover:border-[#FF1654] hover:text-[#FF1654] text-sm sm:text-base"
           >
             3
           </Link>
-          <span className="w-8 h-8 flex items-center justify-center text-[#666666]">
+          <span className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-[#666666] text-sm sm:text-base">
             ...
           </span>
           <Link
             href="/news?page=10"
-            className="w-8 h-8 flex items-center justify-center rounded border border-[#DFDFDF] text-[#666666] hover:border-[#FF1654] hover:text-[#FF1654]"
+            className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded border border-[#DFDFDF] text-[#666666] hover:border-[#FF1654] hover:text-[#FF1654] text-sm sm:text-base"
           >
             10
           </Link>
           <Link
             href="/news?page=2"
-            className="w-8 h-8 flex items-center justify-center rounded border border-[#DFDFDF] text-[#666666] hover:border-[#FF1654] hover:text-[#FF1654]"
+            className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded border border-[#DFDFDF] text-[#666666] hover:border-[#FF1654] hover:text-[#FF1654]"
           >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path
-                d="M6 13.2799L10.3467 8.93324C10.86 8.41991 10.86 7.57991 10.3467 7.06657L6 2.71991"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <div className="w-4 h-4 sm:w-5 sm:h-5">
+              <svg viewBox="0 0 16 16" fill="none">
+                <path
+                  d="M6 13.2799L10.3467 8.93324C10.86 8.41991 10.86 7.57991 10.3467 7.06657L6 2.71991"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeMiterlimit="10"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
           </Link>
         </div>
       </div>
