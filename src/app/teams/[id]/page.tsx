@@ -166,8 +166,8 @@ export default function TeamDetailPage({
                   name: member.thanhvien_ten,
                   birthYear: "", // Not available in API
                   rank: member.vdv_hang,
-                  rankPoints: member.vdv_diem.toString(),
-                  totalPoints: member.vdv_diem.toString(),
+                  rankPoints: member.vdv_diem?.toString() || "0",
+                  totalPoints: member.vdv_diem?.toString() || "0",
                   avatarUrl: member.thanhvien_avatar_url
                     ? `https://hanoispl.com/static${member.thanhvien_avatar_url}`
                     : undefined,
