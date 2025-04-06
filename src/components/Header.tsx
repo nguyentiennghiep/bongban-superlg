@@ -13,7 +13,7 @@ export default function Header() {
     <>
       {/* Contact Info Bar */}
       <div className="w-full bg-[#EE344D] py-2">
-        <div className="container mx-auto px-6 flex justify-end items-center space-x-6 mr-[85px]">
+        <div className="container mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-center sm:justify-end items-center space-y-2 sm:space-y-0 sm:space-x-6">
           <div className="flex items-center space-x-2 text-white">
             <Phone size={16} />
             <span className="font-roboto text-sm leading-[22px]">
@@ -30,17 +30,25 @@ export default function Header() {
       </div>
 
       {/* Main Header */}
-      <header className="bg-white shadow-md py-4 px-6 flex items-center justify-between relative">
+      <header className="bg-white shadow-md py-4 px-4 sm:px-6 flex items-center justify-between relative">
         {/* Logo */}
-        <Image src={"/Logo_HaNoiSPL.png"} alt="" width={100} height={100} />
+        <div className="relative w-[80px] h-[80px] sm:w-[100px] sm:h-[100px]">
+          <Image
+            src={"/Logo_HaNoiSPL.png"}
+            alt="Hanoi SPL Logo"
+            fill
+            className="object-contain"
+          />
+        </div>
+
         {/* Navigation Menu */}
         <nav
-          className={`absolute md:static top-full flex w-full items-start justify-end bg-white/80 backdrop-blur-md md:bg-transparent md:flex text-base font-semibold shadow-md md:shadow-none transition-all duration-300 ease-in-out z-50 mr-[80px] ${
+          className={`absolute md:static top-full left-0 right-0 flex w-full items-start justify-end bg-white/80 backdrop-blur-md md:bg-transparent md:flex text-base font-semibold shadow-md md:shadow-none transition-all duration-300 ease-in-out z-50 ${
             menuOpen ? "flex flex-col" : "hidden"
           }`}
         >
-          <ul className="flex flex-col md:flex-row md:space-x-12">
-            <li>
+          <ul className="flex flex-col md:flex-row md:space-x-8 lg:space-x-12 w-full md:w-auto pr-4 md:pr-8 lg:pr-12">
+            <li className="w-full md:w-auto">
               <Link
                 href="/"
                 className={`block py-2 px-4 md:px-0 hover:text-[#EE344D] transition leading-6 ${
@@ -50,7 +58,7 @@ export default function Header() {
                 Trang chủ
               </Link>
             </li>
-            <li>
+            <li className="w-full md:w-auto">
               <Link
                 href="/about"
                 className={`block py-2 px-4 md:px-0 hover:text-[#EE344D] transition leading-6 ${
@@ -60,7 +68,7 @@ export default function Header() {
                 Giới thiệu
               </Link>
             </li>
-            <li>
+            <li className="w-full md:w-auto">
               <Link
                 href="/executive-board"
                 className={`block py-2 px-4 md:px-0 hover:text-[#EE344D] transition leading-6 ${
@@ -72,7 +80,7 @@ export default function Header() {
                 Ban điều hành
               </Link>
             </li>
-            <li>
+            <li className="w-full md:w-auto">
               <Link
                 href="/news"
                 className={`block py-2 px-4 md:px-0 hover:text-[#EE344D] transition leading-6 ${
@@ -82,7 +90,7 @@ export default function Header() {
                 Tin Tức
               </Link>
             </li>
-            <li>
+            <li className="w-full md:w-auto">
               <Link
                 href="/players-teams"
                 className={`block py-2 px-4 md:px-0 hover:text-[#EE344D] transition leading-6 ${
@@ -94,7 +102,7 @@ export default function Header() {
                 Đội bóng và Vận động viên
               </Link>
             </li>
-            <li>
+            <li className="w-full md:w-auto">
               <Link
                 href="/tournaments"
                 className={`block py-2 px-4 md:px-0 hover:text-[#EE344D] transition leading-6 ${
@@ -106,7 +114,7 @@ export default function Header() {
                 Giải đấu
               </Link>
             </li>
-            <li>
+            <li className="w-full md:w-auto">
               <Link
                 href="/contact"
                 className={`block py-2 px-4 md:px-0 hover:text-[#EE344D] transition leading-6 ${
@@ -119,15 +127,14 @@ export default function Header() {
           </ul>
         </nav>
 
-        {/* Mobile Menu */}
-        <div className="flex items-center">
-          <button
-            className="md:hidden text-[#212529] focus:outline-none"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            {menuOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
-        </div>
+        {/* Mobile Menu Button */}
+        <button
+          className="md:hidden text-[#212529] focus:outline-none p-2"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+        >
+          {menuOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
       </header>
     </>
   );

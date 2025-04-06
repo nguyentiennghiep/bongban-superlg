@@ -87,15 +87,15 @@ export default function PlayersTeamsPage() {
 
   return (
     <main className="bg-white">
-      <div className="container mx-auto px-6 py-8">
-        <h1 className="text-center font-roboto font-[600] text-[38px] leading-[46px] mb-6 text-black">
+      <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <h1 className="text-center font-roboto font-[600] text-2xl sm:text-[38px] leading-[32px] sm:leading-[46px] mb-4 sm:mb-6 text-black">
           Đội bóng và vận động viên
         </h1>
 
         {/* Tabs */}
-        <div className="flex gap-1 mb-6">
+        <div className="flex gap-1 mb-4 sm:mb-6">
           <button
-            className={`px-6 py-2 rounded-sm ${
+            className={`px-4 sm:px-6 py-2 rounded-sm text-sm sm:text-base ${
               activeTab === "team"
                 ? "bg-[#EE344D] text-white"
                 : "bg-white text-black border border-gray-300"
@@ -105,7 +105,7 @@ export default function PlayersTeamsPage() {
             Đội
           </button>
           <button
-            className={`px-6 py-2 rounded-sm ${
+            className={`px-4 sm:px-6 py-2 rounded-sm text-sm sm:text-base ${
               activeTab === "player"
                 ? "bg-[#EE344D] text-white"
                 : "bg-white text-black border border-gray-300"
@@ -119,21 +119,21 @@ export default function PlayersTeamsPage() {
         {/* Search and Filters */}
         {activeTab === "team" ? (
           // Team search
-          <div className="mb-6">
-            <label className="block mb-2 font-roboto font-[600] text-[16px] leading-[24px] text-black">
+          <div className="mb-4 sm:mb-6">
+            <label className="block mb-2 font-roboto font-[600] text-sm sm:text-[16px] leading-[20px] sm:leading-[24px] text-black">
               Tên đội
             </label>
             <input
               type="text"
               placeholder="Nhập tên đội để tìm kiếm"
-              className="w-full max-w-md p-[6px] border border-[#DFDFDF] rounded-sm bg-[#F3F3F3] placeholder-black text-black text-sm leading-[22px]"
+              className="w-full p-[6px] border border-[#DFDFDF] rounded-sm bg-[#F3F3F3] placeholder-black text-black text-sm leading-[22px]"
             />
           </div>
         ) : (
           // Player filters
-          <div className="mb-6 flex gap-4">
-            <div className="w-[120px]">
-              <label className="block mb-2 font-roboto font-[600] text-[16px] leading-[24px] text-black">
+          <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row gap-4">
+            <div className="w-full sm:w-[120px]">
+              <label className="block mb-2 font-roboto font-[600] text-sm sm:text-[16px] leading-[20px] sm:leading-[24px] text-black">
                 Hạng
               </label>
               <select className="w-full p-[6px] pr-[6px] rounded bg-[#F3F3F3] text-black text-sm leading-[22px] border border-[#DFDFDF] appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2014%2014%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M3.5%205.25L7%208.75L10.5%205.25%22%20stroke%3D%22%23000000%22%20stroke-width%3D%221.16667%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[center_right_6px]">
@@ -146,7 +146,7 @@ export default function PlayersTeamsPage() {
               </select>
             </div>
             <div className="flex-1">
-              <label className="block mb-2 font-roboto font-[600] text-[16px] leading-[24px] text-black">
+              <label className="block mb-2 font-roboto font-[600] text-sm sm:text-[16px] leading-[20px] sm:leading-[24px] text-black">
                 Họ và Tên
               </label>
               <input
@@ -159,40 +159,40 @@ export default function PlayersTeamsPage() {
         )}
 
         {/* Table */}
-        <div className="overflow-x-auto bg-white shadow-md">
+        <div className="overflow-x-auto bg-white shadow-md rounded-lg">
           <table className="w-full">
             <thead>
               <tr className="bg-black text-white text-left h-[42px]">
-                <th className="px-4 w-16 font-[600] text-[14px] leading-[22px] font-roboto">
+                <th className="px-2 sm:px-4 w-12 sm:w-16 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                   STT
                 </th>
                 {activeTab === "team" ? (
                   <>
-                    <th className="px-4 font-[600] text-[14px] leading-[22px] font-roboto">
+                    <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                       Tên đội
                     </th>
-                    <th className="px-4 font-[600] text-[14px] leading-[22px] font-roboto">
+                    <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                       CLB Chủ quản
                     </th>
-                    <th className="px-4 font-[600] text-[14px] leading-[22px] font-roboto">
+                    <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                       Liên hệ
                     </th>
                   </>
                 ) : (
                   <>
-                    <th className="px-4 font-[600] text-[14px] leading-[22px] font-roboto">
+                    <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                       Tên
                     </th>
-                    <th className="px-4 font-[600] text-[14px] leading-[22px] font-roboto">
+                    <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                       Đội
                     </th>
-                    <th className="px-4 w-24 font-[600] text-[14px] leading-[22px] font-roboto">
+                    <th className="px-2 sm:px-4 w-16 sm:w-24 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                       Hạng
                     </th>
-                    <th className="px-4 font-[600] text-[14px] leading-[22px] font-roboto">
+                    <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                       Điểm hạng
                     </th>
-                    <th className="px-4 font-[600] text-[14px] leading-[22px] font-roboto">
+                    <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                       Tích luỹ
                     </th>
                   </>
@@ -204,12 +204,12 @@ export default function PlayersTeamsPage() {
                 ? teams.map((team, index) => (
                     <tr
                       key={team.id}
-                      className={`text-black font-roboto font-[400] text-[14px] leading-[22px] h-[42px] ${
+                      className={`text-black font-roboto font-[400] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] h-[42px] ${
                         index % 2 === 0 ? "bg-[#F3F3F3]" : "bg-[#D9D9D9]"
                       }`}
                     >
-                      <td className="px-4">{team.id}</td>
-                      <td className="px-4">
+                      <td className="px-2 sm:px-4">{team.id}</td>
+                      <td className="px-2 sm:px-4">
                         <Link
                           href={`/teams/${team.id}`}
                           className="text-blue-600 hover:underline"
@@ -217,19 +217,19 @@ export default function PlayersTeamsPage() {
                           {team.name}
                         </Link>
                       </td>
-                      <td className="px-4">{team.club}</td>
-                      <td className="px-4">{team.contact}</td>
+                      <td className="px-2 sm:px-4">{team.club}</td>
+                      <td className="px-2 sm:px-4">{team.contact}</td>
                     </tr>
                   ))
                 : players.map((player, index) => (
                     <tr
                       key={player.id}
-                      className={`text-black font-roboto font-[400] text-[14px] leading-[22px] h-[42px] ${
+                      className={`text-black font-roboto font-[400] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] h-[42px] ${
                         index % 2 === 0 ? "bg-[#F3F3F3]" : "bg-[#D9D9D9]"
                       }`}
                     >
-                      <td className="px-4">{player.id}</td>
-                      <td className="px-4">
+                      <td className="px-2 sm:px-4">{player.id}</td>
+                      <td className="px-2 sm:px-4">
                         <Link
                           href={`/players/${player.id}`}
                           className="text-blue-600 hover:underline"
@@ -237,10 +237,10 @@ export default function PlayersTeamsPage() {
                           {player.name}
                         </Link>
                       </td>
-                      <td className="px-4">{player.team}</td>
-                      <td className="px-4">{player.rank}</td>
-                      <td className="px-4">{player.rankPoints}</td>
-                      <td className="px-4">{player.totalPoints}</td>
+                      <td className="px-2 sm:px-4">{player.team}</td>
+                      <td className="px-2 sm:px-4">{player.rank}</td>
+                      <td className="px-2 sm:px-4">{player.rankPoints}</td>
+                      <td className="px-2 sm:px-4">{player.totalPoints}</td>
                     </tr>
                   ))}
             </tbody>
@@ -248,23 +248,23 @@ export default function PlayersTeamsPage() {
         </div>
 
         {/* Pagination */}
-        <div className="flex justify-end items-center gap-2 mt-4">
-          <span className="w-8 h-8 flex items-center justify-center bg-[#EE344D] text-white">
+        <div className="flex justify-center sm:justify-end items-center gap-2 mt-4">
+          <span className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center bg-[#EE344D] text-white text-sm sm:text-base">
             1
           </span>
-          <span className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 text-black">
+          <span className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center hover:bg-gray-100 text-black text-sm sm:text-base">
             2
           </span>
-          <span className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 text-black">
+          <span className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center hover:bg-gray-100 text-black text-sm sm:text-base">
             3
           </span>
-          <span className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 text-black">
+          <span className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center hover:bg-gray-100 text-black text-sm sm:text-base">
             4
           </span>
-          <span className="w-8 h-8 flex items-center justify-center text-black">
+          <span className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center text-black text-sm sm:text-base">
             ...
           </span>
-          <span className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 text-black">
+          <span className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center hover:bg-gray-100 text-black text-sm sm:text-base">
             »
           </span>
         </div>
