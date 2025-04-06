@@ -162,7 +162,7 @@ export default function TeamDetailPage({
               <PlayerCard
                 key={member.id}
                 player={{
-                  id: parseInt(member.vdv_id.replace(/-/g, ""), 16),
+                  id: member.vdv_id,
                   name: member.thanhvien_ten,
                   birthYear: "", // Not available in API
                   rank: member.vdv_hang,

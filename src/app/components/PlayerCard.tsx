@@ -1,7 +1,8 @@
 import Image from "next/image";
+import Link from "next/link";
 
 interface Player {
-  id: number;
+  id: string;
   name: string;
   birthYear: string;
   rank: string;
@@ -30,7 +31,9 @@ export default function PlayerCard({ player }: PlayerCardProps) {
           </div>
         </div>
         <h3 className="font-['Roboto'] font-[600] text-[20px] leading-[28px] text-black mb-1 text-center">
-          {player.name}
+          <Link href={`/players/${player.id}`} className="hover:text-blue-600">
+            {player.name}
+          </Link>
         </h3>
         <p className="font-['Roboto'] font-normal text-[14px] leading-[22px] text-black mb-4 text-center">
           Năm sinh: {player.birthYear}
