@@ -1,89 +1,87 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { teamApi, athleteApi, Team, Athlete } from "@/services/api";
 
 export default function PlayersTeamsPage() {
   const [activeTab, setActiveTab] = useState<"team" | "player">("team");
+  const [teams, setTeams] = useState<Team[]>([]);
+  const [athletes, setAthletes] = useState<Athlete[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [athleteSearchText, setAthleteSearchText] = useState("");
+  const [selectedRank, setSelectedRank] = useState("");
 
-  const teams = [
-    {
-      id: 1,
-      name: "Bản Rồng Lửa",
-      club: "Rồng Lửa",
-      contact: "Tầng 5 Tòa nhà 131 Trần Phú Hà Đông - 0979332555 - 098 8615338",
-    },
-    {
-      id: 2,
-      name: "Cơn Lốc Xoáy",
-      club: "Hổ Võ",
-      contact: "Tầng 5 Tòa A Chung cư goldseason 47 nguyễn tuân thanh xuân",
-    },
-    {
-      id: 3,
-      name: "Rồng Xanh",
-      club: "Sấm Sét",
-      contact: "Tầng KT tòa HH3.1 FLC Garden City, Đại Mỗ, Nam Từ Liêm, Hà Nội",
-    },
-    {
-      id: 4,
-      name: "Sấm Xoáy",
-      club: "Bão Tố",
-      contact:
-        "Tầng 2 Tòa HH2B-CC Ecolakeview số 32 Đại Từ, P.Đại Kim, Q.Hoàng Mai, Hà Nội",
-    },
-    {
-      id: 5,
-      name: "Hổ Võ",
-      club: "Cơn Lốc",
-      contact:
-        "Nhà văn hóa ngõ 495/3 B. Nguyễn Trãi, Thanh Xuân Nam, Thanh Xuân, Hà Nội (CLB Tôn Phủi)",
-    },
-    // ... thêm các đội khác tương tự
-  ];
+  const fetchTeams = async (page: number, search?: string) => {
+    try {
+      setIsLoading(true);
+      const data = await teamApi.getTeams(page, 20, search);
+      setTeams(data.objects);
+      setTotalPages(data.total_pages);
+    } catch (error) {
+      console.error("Error fetching teams:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-  const players = [
-    {
-      id: 1,
-      name: "Bản Tay Vàng",
-      team: "Rồng Lửa",
-      rank: "A",
-      rankPoints: "34.70",
-      totalPoints: "184.70",
-    },
-    {
-      id: 2,
-      name: "Ánh Chớp",
-      team: "Hổ Võ",
-      rank: "B",
-      rankPoints: "40.80",
-      totalPoints: "148.00",
-    },
-    {
-      id: 3,
-      name: "Tia Chớp",
-      team: "Sấm Sét",
-      rank: "C",
-      rankPoints: "10.20",
-      totalPoints: "135.10",
-    },
-    {
-      id: 4,
-      name: "Bức Tường Thép",
-      team: "Bão Tố",
-      rank: "D",
-      rankPoints: "18.80",
-      totalPoints: "99.60",
-    },
-    {
-      id: 5,
-      name: "Áo Thuật Giao Bóng",
-      team: "Cơn Lốc",
-      rank: "E",
-      rankPoints: "14.10",
-      totalPoints: "95.60",
-    },
-  ];
+  const fetchAthletes = async (page: number, search?: string) => {
+    try {
+      setIsLoading(true);
+      const data = await athleteApi.getAthletes(page, 20, search);
+      // Filter athletes by rank if selected
+      const filteredAthletes = selectedRank
+        ? data.objects.filter((athlete) => athlete.hang_vdv === selectedRank)
+        : data.objects;
+
+      setAthletes(filteredAthletes);
+      // Recalculate total pages based on filtered results
+      const filteredTotal = Math.ceil(filteredAthletes.length / 20);
+      setTotalPages(filteredTotal);
+    } catch (error) {
+      console.error("Error fetching athletes:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === "team") {
+      fetchTeams(currentPage, searchText);
+    } else {
+      fetchAthletes(currentPage, athleteSearchText);
+    }
+  }, [activeTab, currentPage, searchText, athleteSearchText, selectedRank]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const handleTabChange = (tab: "team" | "player") => {
+    setActiveTab(tab);
+    setCurrentPage(1); // Reset to first page when changing tabs
+    setSearchText(""); // Reset search text when changing tabs
+    setAthleteSearchText(""); // Reset athlete search text when changing tabs
+    setSelectedRank(""); // Reset rank filter when changing tabs
+  };
+
+  const handleSearch = (value: string) => {
+    setSearchText(value);
+    setCurrentPage(1); // Reset to first page when searching
+  };
+
+  const handleAthleteSearch = (value: string) => {
+    setAthleteSearchText(value);
+    setCurrentPage(1); // Reset to first page when searching
+  };
+
+  const handleRankChange = (value: string) => {
+    setSelectedRank(value);
+    setCurrentPage(1); // Reset to first page when changing rank
+  };
 
   return (
     <main className="bg-white">
@@ -100,7 +98,7 @@ export default function PlayersTeamsPage() {
                 ? "bg-[#EE344D] text-white"
                 : "bg-white text-black border border-gray-300"
             }`}
-            onClick={() => setActiveTab("team")}
+            onClick={() => handleTabChange("team")}
           >
             Đội
           </button>
@@ -110,7 +108,7 @@ export default function PlayersTeamsPage() {
                 ? "bg-[#EE344D] text-white"
                 : "bg-white text-black border border-gray-300"
             }`}
-            onClick={() => setActiveTab("player")}
+            onClick={() => handleTabChange("player")}
           >
             Vận động viên
           </button>
@@ -127,6 +125,8 @@ export default function PlayersTeamsPage() {
               type="text"
               placeholder="Nhập tên đội để tìm kiếm"
               className="w-full p-[6px] border border-[#DFDFDF] rounded-sm bg-[#F3F3F3] placeholder-black text-black text-sm leading-[22px]"
+              value={searchText}
+              onChange={(e) => handleSearch(e.target.value)}
             />
           </div>
         ) : (
@@ -136,13 +136,24 @@ export default function PlayersTeamsPage() {
               <label className="block mb-2 font-roboto font-[600] text-sm sm:text-[16px] leading-[20px] sm:leading-[24px] text-black">
                 Hạng
               </label>
-              <select className="w-full p-[6px] pr-[6px] rounded bg-[#F3F3F3] text-black text-sm leading-[22px] border border-[#DFDFDF] appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2014%2014%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M3.5%205.25L7%208.75L10.5%205.25%22%20stroke%3D%22%23000000%22%20stroke-width%3D%221.16667%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[center_right_6px]">
+              <select
+                className="w-full p-[6px] pr-[6px] rounded bg-[#F3F3F3] text-black text-sm leading-[22px] border border-[#DFDFDF] appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2014%2014%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M3.5%205.25L7%208.75L10.5%205.25%22%20stroke%3D%22%23000000%22%20stroke-width%3D%221.16667%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[center_right_6px]"
+                value={selectedRank}
+                onChange={(e) => handleRankChange(e.target.value)}
+              >
                 <option value="">Tất cả</option>
-                <option value="A">Hạng A</option>
-                <option value="B">Hạng B</option>
-                <option value="C">Hạng C</option>
-                <option value="D">Hạng D</option>
-                <option value="E">Hạng E</option>
+                <option value="C1">C1</option>
+                <option value="C2">C2</option>
+                <option value="D1">D1</option>
+                <option value="D2">D2</option>
+                <option value="E1">E1</option>
+                <option value="E2">E2</option>
+                <option value="F1">F1</option>
+                <option value="F2">F2</option>
+                <option value="G1">G1</option>
+                <option value="G2">G2</option>
+                <option value="H1">H1</option>
+                <option value="H2">H2</option>
               </select>
             </div>
             <div className="flex-1">
@@ -153,6 +164,8 @@ export default function PlayersTeamsPage() {
                 type="text"
                 placeholder="Nhập tên vận động viên để tìm kiếm"
                 className="w-full p-[6px] border border-[#DFDFDF] rounded-sm bg-[#F3F3F3] placeholder-black text-black text-sm leading-[22px]"
+                value={athleteSearchText}
+                onChange={(e) => handleAthleteSearch(e.target.value)}
               />
             </div>
           </div>
@@ -190,83 +203,87 @@ export default function PlayersTeamsPage() {
                       Hạng
                     </th>
                     <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
-                      Điểm hạng
-                    </th>
-                    <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
-                      Tích luỹ
+                      Điểm
                     </th>
                   </>
                 )}
               </tr>
             </thead>
             <tbody>
-              {activeTab === "team"
-                ? teams.map((team, index) => (
-                    <tr
-                      key={team.id}
-                      className={`text-black font-roboto font-[400] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] h-[42px] ${
-                        index % 2 === 0 ? "bg-[#F3F3F3]" : "bg-[#D9D9D9]"
-                      }`}
-                    >
-                      <td className="px-2 sm:px-4">{team.id}</td>
-                      <td className="px-2 sm:px-4">
-                        <Link
-                          href={`/teams/${team.id}`}
-                          className="text-blue-600 hover:underline"
-                        >
-                          {team.name}
-                        </Link>
-                      </td>
-                      <td className="px-2 sm:px-4">{team.club}</td>
-                      <td className="px-2 sm:px-4">{team.contact}</td>
-                    </tr>
-                  ))
-                : players.map((player, index) => (
-                    <tr
-                      key={player.id}
-                      className={`text-black font-roboto font-[400] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] h-[42px] ${
-                        index % 2 === 0 ? "bg-[#F3F3F3]" : "bg-[#D9D9D9]"
-                      }`}
-                    >
-                      <td className="px-2 sm:px-4">{player.id}</td>
-                      <td className="px-2 sm:px-4">
-                        <Link
-                          href={`/players/${player.id}`}
-                          className="text-blue-600 hover:underline"
-                        >
-                          {player.name}
-                        </Link>
-                      </td>
-                      <td className="px-2 sm:px-4">{player.team}</td>
-                      <td className="px-2 sm:px-4">{player.rank}</td>
-                      <td className="px-2 sm:px-4">{player.rankPoints}</td>
-                      <td className="px-2 sm:px-4">{player.totalPoints}</td>
-                    </tr>
-                  ))}
+              {isLoading ? (
+                <tr>
+                  <td
+                    colSpan={activeTab === "team" ? 4 : 5}
+                    className="px-4 py-2 text-center"
+                  >
+                    Đang tải dữ liệu...
+                  </td>
+                </tr>
+              ) : activeTab === "team" ? (
+                teams.map((team, index) => (
+                  <tr
+                    key={team.id}
+                    className={`text-black font-roboto font-[400] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] h-[42px] ${
+                      index % 2 === 0 ? "bg-[#F3F3F3]" : "bg-[#D9D9D9]"
+                    }`}
+                  >
+                    <td className="px-2 sm:px-4">{team.stt}</td>
+                    <td className="px-2 sm:px-4">
+                      <Link
+                        href={`/teams/${team.id}`}
+                        className="text-blue-600 hover:underline"
+                      >
+                        {team.ten_doi}
+                      </Link>
+                    </td>
+                    <td className="px-2 sm:px-4">
+                      {team.doi_truong_ten} - {team.doi_truong_sdt}
+                    </td>
+                    <td className="px-2 sm:px-4">{team.dia_chi}</td>
+                  </tr>
+                ))
+              ) : (
+                athletes.map((athlete, index) => (
+                  <tr
+                    key={athlete.id}
+                    className={`text-black font-roboto font-[400] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] h-[42px] ${
+                      index % 2 === 0 ? "bg-[#F3F3F3]" : "bg-[#D9D9D9]"
+                    }`}
+                  >
+                    <td className="px-2 sm:px-4">{athlete.stt}</td>
+                    <td className="px-2 sm:px-4">
+                      <Link
+                        href={`/players/${athlete.id}`}
+                        className="text-blue-600 hover:underline"
+                      >
+                        {athlete.ten_vdv}
+                      </Link>
+                    </td>
+                    <td className="px-2 sm:px-4">{athlete.doi_bong_ten}</td>
+                    <td className="px-2 sm:px-4">{athlete.hang_vdv || "-"}</td>
+                    <td className="px-2 sm:px-4">{athlete.diem_vdv || "-"}</td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
 
         {/* Pagination */}
         <div className="flex justify-center sm:justify-end items-center gap-2 mt-4">
-          <span className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center bg-[#EE344D] text-white text-sm sm:text-base">
-            1
-          </span>
-          <span className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center hover:bg-gray-100 text-black text-sm sm:text-base">
-            2
-          </span>
-          <span className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center hover:bg-gray-100 text-black text-sm sm:text-base">
-            3
-          </span>
-          <span className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center hover:bg-gray-100 text-black text-sm sm:text-base">
-            4
-          </span>
-          <span className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center text-black text-sm sm:text-base">
-            ...
-          </span>
-          <span className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center hover:bg-gray-100 text-black text-sm sm:text-base">
-            »
-          </span>
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <button
+              key={page}
+              onClick={() => handlePageChange(page)}
+              className={`w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center ${
+                currentPage === page
+                  ? "bg-[#EE344D] text-white"
+                  : "hover:bg-gray-100 text-black"
+              } text-sm sm:text-base`}
+            >
+              {page}
+            </button>
+          ))}
         </div>
       </div>
     </main>

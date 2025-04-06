@@ -7,6 +7,7 @@ interface Player {
   rank: string;
   rankPoints: string;
   totalPoints: string;
+  avatarUrl?: string;
 }
 
 interface PlayerCardProps {
@@ -19,7 +20,7 @@ export default function PlayerCard({ player }: PlayerCardProps) {
       <div className="p-6 pb-4 bg-[#F3F3F3]">
         <div className="mb-4">
           <Image
-            src="/images/default-avatar.jpg"
+            src={player.avatarUrl || "/images/default-avatar.jpg"}
             alt={player.name}
             width={146}
             height={146}

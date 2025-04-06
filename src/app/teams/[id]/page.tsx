@@ -1,65 +1,87 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, use } from "react";
 import Link from "next/link";
+import { teamApi, Team, TeamMember } from "@/services/api";
 import PlayerCard from "@/app/components/PlayerCard";
 import MatchSchedule from "@/app/components/MatchSchedule";
 
-interface Player {
-  id: number;
-  name: string;
-  birthYear: string;
-  rank: string;
-  rankPoints: string;
-  totalPoints: string;
-}
-// { params }: { params: { id: string } }
-
-export default function TeamDetailPage() {
+export default function TeamDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const resolvedParams = use(params);
   const [selectedSeason, setSelectedSeason] = useState("Hà Nội SPL 2024");
+  const [team, setTeam] = useState<Team | null>(null);
+  const [members, setMembers] = useState<TeamMember[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [searchText, setSearchText] = useState("");
 
-  // Mock data - trong thực tế sẽ lấy từ API dựa vào params.id
-  const teamData = {
-    name: "An Thọ",
-    club: "An Thọ",
-    contact:
-      "Đình làng thôn - An Thọ - An Khánh - HD - HN . Bùi Văn Huấn . Sđt : 0978251762",
+  useEffect(() => {
+    const fetchTeamData = async () => {
+      try {
+        setIsLoading(true);
+        // Fetch team details
+        const teamData = await teamApi.getTeams(
+          1,
+          1,
+          undefined,
+          resolvedParams.id
+        );
+        if (teamData.objects.length > 0) {
+          setTeam(teamData.objects[0]);
+        }
+
+        // Fetch team members
+        const membersData = await teamApi.getTeamMembers(
+          resolvedParams.id,
+          currentPage,
+          20,
+          searchText
+        );
+        setMembers(membersData.objects);
+        setTotalPages(membersData.total_pages);
+      } catch (error) {
+        console.error("Error fetching team data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchTeamData();
+  }, [resolvedParams.id, currentPage, searchText]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
   };
 
-  const players: Player[] = [
-    {
-      id: 1,
-      name: "Hoàng Danh Nhân",
-      birthYear: "1963",
-      rank: "C1",
-      rankPoints: "+80",
-      totalPoints: "1800",
-    },
-    {
-      id: 2,
-      name: "Hoàng Danh Nhân",
-      birthYear: "1963",
-      rank: "C1",
-      rankPoints: "+80",
-      totalPoints: "1800",
-    },
-    {
-      id: 3,
-      name: "Hoàng Danh Nhân",
-      birthYear: "1963",
-      rank: "C1",
-      rankPoints: "+80",
-      totalPoints: "1800",
-    },
-    {
-      id: 4,
-      name: "Hoàng Danh Nhân",
-      birthYear: "1963",
-      rank: "C1",
-      rankPoints: "+80",
-      totalPoints: "1800",
-    },
-  ];
+  const handleSearch = (value: string) => {
+    setSearchText(value);
+    setCurrentPage(1);
+  };
+
+  if (isLoading) {
+    return (
+      <main className="bg-white min-h-screen">
+        <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
+          <div className="text-center">Đang tải dữ liệu...</div>
+        </div>
+      </main>
+    );
+  }
+
+  if (!team) {
+    return (
+      <main className="bg-white min-h-screen">
+        <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
+          <div className="text-center">Không tìm thấy thông tin đội</div>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="bg-white min-h-screen">
@@ -74,7 +96,7 @@ export default function TeamDetailPage() {
             Đội và vận động viên
           </Link>
           <span className="text-black">/</span>
-          <span className="text-black">{teamData.name}</span>
+          <span className="text-black">{team.ten_doi}</span>
         </div>
 
         {/* Title */}
@@ -86,11 +108,13 @@ export default function TeamDetailPage() {
         <div className="bg-[#F3F3F3] p-4 sm:p-6 rounded-sm mb-6 sm:mb-8">
           <div className="grid grid-cols-[100px_1fr] sm:grid-cols-[120px_1fr] gap-3 sm:gap-4 text-xs sm:text-sm">
             <div className="font-[600] text-black">Tên đội</div>
-            <div className="text-black">{teamData.name}</div>
+            <div className="text-black">{team.ten_doi}</div>
             <div className="font-[600] text-black">CLB Chủ Quản</div>
-            <div className="text-black">{teamData.club}</div>
+            <div className="text-black">
+              {team.doi_truong_ten} - {team.doi_truong_sdt}
+            </div>
             <div className="font-[600] text-black">Liên Hệ</div>
-            <div className="text-black">{teamData.contact}</div>
+            <div className="text-black">{team.dia_chi}</div>
           </div>
         </div>
 
@@ -116,10 +140,54 @@ export default function TeamDetailPage() {
             </select>
           </div>
 
+          {/* Search */}
+          <div className="mb-4 sm:mb-6">
+            <label className="block mb-2 font-roboto font-[600] text-sm sm:text-[16px] leading-[20px] sm:leading-[24px] text-black">
+              Tìm kiếm thành viên
+            </label>
+            <input
+              type="text"
+              placeholder="Nhập tên thành viên để tìm kiếm"
+              className="w-full p-[6px] border border-[#DFDFDF] rounded-sm bg-[#F3F3F3] placeholder-black text-black text-sm leading-[22px]"
+              value={searchText}
+              onChange={(e) => handleSearch(e.target.value)}
+            />
+          </div>
+
           {/* Players Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 sm:mb-8">
-            {players.map((player) => (
-              <PlayerCard key={player.id} player={player} />
+            {members.map((member) => (
+              <PlayerCard
+                key={member.id}
+                player={{
+                  id: parseInt(member.vdv_id.replace(/-/g, ""), 16),
+                  name: member.thanhvien_ten,
+                  birthYear: "", // Not available in API
+                  rank: member.vdv_hang,
+                  rankPoints: member.vdv_diem.toString(),
+                  totalPoints: member.vdv_diem.toString(),
+                  avatarUrl: member.thanhvien_avatar_url
+                    ? `https://hanoispl.com/static${member.thanhvien_avatar_url}`
+                    : undefined,
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Pagination */}
+          <div className="flex justify-center sm:justify-end items-center gap-2 mb-6">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => handlePageChange(page)}
+                className={`w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center ${
+                  currentPage === page
+                    ? "bg-[#EE344D] text-white"
+                    : "hover:bg-gray-100 text-black"
+                } text-sm sm:text-base`}
+              >
+                {page}
+              </button>
             ))}
           </div>
 
