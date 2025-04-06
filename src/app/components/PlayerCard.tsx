@@ -19,13 +19,15 @@ export default function PlayerCard({ player }: PlayerCardProps) {
     <div className="overflow-hidden rounded-lg w-[280px]">
       <div className="p-6 pb-4 bg-[#F3F3F3]">
         <div className="mb-4">
-          <Image
-            src={player.avatarUrl || "/images/default-avatar.jpg"}
-            alt={player.name}
-            width={146}
-            height={146}
-            className="rounded-full mx-auto"
-          />
+          <div className="w-[146px] h-[146px] rounded-full border-4 border-gray-300 mx-auto overflow-hidden">
+            <Image
+              src={player.avatarUrl || "/images/default-avatar.jpg"}
+              alt={player.name}
+              width={146}
+              height={146}
+              className="rounded-full"
+            />
+          </div>
         </div>
         <h3 className="font-['Roboto'] font-[600] text-[20px] leading-[28px] text-black mb-1 text-center">
           {player.name}
