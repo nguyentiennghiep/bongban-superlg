@@ -26,14 +26,14 @@ export default function TeamDetailPage({
       try {
         setIsLoading(true);
         // Fetch team details
-        const teamData = await teamApi.getTeams(
-          1,
-          1,
-          undefined,
-          resolvedParams.id
-        );
+        const teamData = await teamApi.getTeams();
         if ("objects" in teamData && teamData.objects.length > 0) {
-          setTeam(teamData.objects[0]);
+          const foundTeam = teamData.objects.find(
+            (team) => team.id === resolvedParams.id
+          );
+          if (foundTeam) {
+            setTeam(foundTeam);
+          }
         }
 
         // Fetch team members

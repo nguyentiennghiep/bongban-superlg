@@ -41,8 +41,7 @@ export default function PlayersTeamsPage() {
             )
           : data.objects;
         setAthletes(filteredAthletes);
-        const filteredTotal = Math.ceil(filteredAthletes.length / 20);
-        setTotalPages(filteredTotal);
+        setTotalPages(data.total_pages);
       }
     } catch (error) {
       console.error("Error fetching athletes:", error);
