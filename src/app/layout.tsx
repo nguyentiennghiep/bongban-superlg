@@ -12,7 +12,7 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: "Ping Pong Club",
+  title: "HanoiSpl",
   description: "Website về câu lạc bộ bóng bàn",
 };
 
@@ -21,7 +21,13 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={`${roboto.variable} font-sans antialiased`}>
+      <head>
+        <link rel="icon" href="/icons/Logo_HaNoiSPL.png" type="image/png" />
+      </head>
+      <body
+        className={`${roboto.variable} font-sans antialiased`}
+        suppressHydrationWarning
+      >
         <Header />
         <main className="min-h-screen bg-gray-100">{children}</main>
         <Footer />

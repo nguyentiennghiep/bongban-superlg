@@ -17,6 +17,7 @@ export interface Team {
   doi_pho_sdt: string;
   dia_chi: string;
   stt: number;
+  logo_url: string | null;
 }
 
 export interface Athlete {

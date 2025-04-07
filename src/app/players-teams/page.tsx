@@ -188,7 +188,7 @@ export default function PlayersTeamsPage() {
                       Tên đội
                     </th>
                     <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
-                      CLB Chủ quản
+                      Đội Trưởng
                     </th>
                     <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                       Liên hệ

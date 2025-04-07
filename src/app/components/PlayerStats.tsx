@@ -28,15 +28,16 @@ export default function PlayerStats({
   totalPoints,
   matches,
   winRate,
+  avatarUrl,
 }: PlayerStatsProps) {
   return (
     <div className="bg-[#F3F3F3] rounded-lg p-4 sm:p-8">
       <div className="grid grid-cols-1 sm:grid-cols-[175px_1fr] gap-4 sm:gap-8">
         {/* Left Column - Avatar and Name */}
-        <div>
+        <div className="w-[240px]">
           <div className="w-[120px] h-[120px] sm:w-[175px] sm:h-[175px] relative mb-4 mx-auto">
             <Image
-              src="/images/default-avatar.jpg"
+              src={avatarUrl ? avatarUrl : "/images/default-avatar.jpg"}
               alt={name}
               fill
               className="rounded-full object-cover"
@@ -51,7 +52,7 @@ export default function PlayerStats({
         </div>
 
         {/* Right Column - Stats */}
-        <div>
+        <div className="ml-[40px]">
           <h3 className="font-roboto font-[600] text-lg sm:text-[20px] leading-[24px] sm:leading-[28px] text-black mb-4">
             Thành tích cá nhân
           </h3>

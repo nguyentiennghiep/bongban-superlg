@@ -5,6 +5,7 @@ import Link from "next/link";
 import { teamApi, Team, TeamMember } from "@/services/api";
 import PlayerCard from "@/app/components/PlayerCard";
 import MatchSchedule from "@/app/components/MatchSchedule";
+import Image from "next/image";
 
 export default function TeamDetailPage({
   params,
@@ -108,15 +109,32 @@ export default function TeamDetailPage({
 
         {/* Team Info */}
         <div className="bg-[#F3F3F3] p-4 sm:p-6 rounded-sm mb-6 sm:mb-8">
-          <div className="grid grid-cols-[100px_1fr] sm:grid-cols-[120px_1fr] gap-3 sm:gap-4 text-xs sm:text-sm">
-            <div className="font-[600] text-black">Tên đội</div>
-            <div className="text-black">{team.ten_doi}</div>
-            <div className="font-[600] text-black">CLB Chủ Quản</div>
-            <div className="text-black">
-              {team.doi_truong_ten} - {team.doi_truong_sdt}
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
+            <div className="flex-1">
+              <div className="grid grid-cols-[100px_1fr] sm:grid-cols-[120px_1fr] gap-3 sm:gap-4 text-xs sm:text-sm">
+                <div className="font-[600] text-black">Tên đội</div>
+                <div className="text-black">{team.ten_doi}</div>
+                <div className="font-[600] text-black">Đội trưởng</div>
+                <div className="text-black">
+                  {team.doi_truong_ten} - {team.doi_truong_sdt}
+                </div>
+                <div className="font-[600] text-black">Sân nhà</div>
+                <div className="text-black">{team.dia_chi}</div>
+              </div>
             </div>
-            <div className="font-[600] text-black">Liên Hệ</div>
-            <div className="text-black">{team.dia_chi}</div>
+            <div className="flex items-center justify-center sm:justify-end">
+              <Image
+                src={
+                  team.logo_url
+                    ? `https://hanoispl.com/static${team.logo_url}`
+                    : "/images/default-team-logo.png"
+                }
+                alt={`Logo ${team.ten_doi}`}
+                width={120}
+                height={120}
+                className="rounded-full"
+              />
+            </div>
           </div>
         </div>
 

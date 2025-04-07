@@ -17,13 +17,13 @@ export default function Header() {
           <div className="flex items-center space-x-2 text-white">
             <Phone size={16} />
             <span className="font-roboto text-sm leading-[22px]">
-              +84 123 456 789
+              0965 661 888
             </span>
           </div>
           <div className="flex items-center space-x-2 text-white">
             <Mail size={16} />
             <span className="font-roboto text-sm leading-[22px]">
-              contact@example.com
+              bdhhanoispl@gmail.com
             </span>
           </div>
         </div>

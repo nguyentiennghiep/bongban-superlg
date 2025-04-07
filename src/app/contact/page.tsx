@@ -56,10 +56,9 @@ export default function ContactPage() {
           {/* Contact Info */}
           <div className="space-y-6 sm:space-y-8">
             <p className="font-roboto text-sm sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
-              Nếu bạn yêu thích bóng bàn và muốn tham gia cùng chúng tôi, đừng
-              ngần ngại liên hệ để biết thêm thông tin chi tiết. Hãy kết nối với
-              CLB Hà Nội SPL ngay hôm nay để cùng rèn luyện, thi đấu và phát
-              triển đam mê!
+              Nếu bạn yêu thích bóng bàn và muốn tham gia một sân chơi vui vẻ,
+              hấp dẫn, công bằng cho tất cả mọi người, đừng ngần ngại liên hệ
+              với chúng tôi.
             </p>
 
             <div className="space-y-4 sm:space-y-6">
@@ -81,7 +80,7 @@ export default function ContactPage() {
                     Hotline
                   </div>
                   <div className="font-roboto text-sm sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
-                    0987654321
+                    0965 661 888
                   </div>
                 </div>
               </div>
@@ -114,7 +113,7 @@ export default function ContactPage() {
                     Email
                   </div>
                   <div className="font-roboto text-sm sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
-                    info@hanoispl.com
+                    bdhhanoispl@gmail.com
                   </div>
                 </div>
               </div>
@@ -141,7 +140,7 @@ export default function ContactPage() {
                     Địa chỉ
                   </div>
                   <div className="font-roboto text-sm sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
-                    Số 0000 phố Phú Gia, Tây Hồ, Hà Nội
+                    Các CLB bóng bàn tại nhiều quận, huyện tại Thành phố Hà Nội.
                   </div>
                 </div>
               </div>
