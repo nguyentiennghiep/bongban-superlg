@@ -21,6 +21,27 @@ export default function TeamDetailPage({
   const [totalPages, setTotalPages] = useState(1);
   const [searchText, setSearchText] = useState("");
 
+  // Hàm sắp xếp theo hạng
+  const sortByRank = (a: TeamMember, b: TeamMember) => {
+    // Tách hạng thành chữ cái và số
+    const getRankParts = (rank: string) => {
+      const match = rank.match(/([A-Z])(\d+)/);
+      if (!match) return { letter: "", number: 0 };
+      return { letter: match[1], number: parseInt(match[2]) };
+    };
+
+    const rankA = getRankParts(a.vdv_hang);
+    const rankB = getRankParts(b.vdv_hang);
+
+    // So sánh chữ cái trước
+    if (rankA.letter !== rankB.letter) {
+      return rankA.letter.localeCompare(rankB.letter);
+    }
+
+    // Nếu chữ cái giống nhau, so sánh số
+    return rankA.number - rankB.number;
+  };
+
   useEffect(() => {
     const fetchTeamData = async () => {
       try {
@@ -44,7 +65,9 @@ export default function TeamDetailPage({
           searchText
         );
         if ("objects" in membersData) {
-          setMembers(membersData.objects);
+          // Sắp xếp members theo hạng trước khi set state
+          const sortedMembers = [...membersData.objects].sort(sortByRank);
+          setMembers(sortedMembers);
           setTotalPages(membersData.total_pages);
         }
       } catch (error) {
