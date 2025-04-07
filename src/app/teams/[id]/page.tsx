@@ -24,9 +24,10 @@ export default function TeamDetailPage({
   // Hàm sắp xếp theo hạng
   const sortByRank = (a: TeamMember, b: TeamMember) => {
     // Tách hạng thành chữ cái và số
-    const getRankParts = (rank: string) => {
+    const getRankParts = (rank: string | null | undefined) => {
+      if (!rank) return { letter: "Z", number: 999 }; // Đặt các hạng null/undefined ở cuối
       const match = rank.match(/([A-Z])(\d+)/);
-      if (!match) return { letter: "", number: 0 };
+      if (!match) return { letter: "Z", number: 999 }; // Đặt các hạng không đúng format ở cuối
       return { letter: match[1], number: parseInt(match[2]) };
     };
 
