@@ -33,14 +33,9 @@ export default function PlayersTeamsPage() {
   const fetchAthletes = async (page: number, search?: string) => {
     try {
       setIsLoading(true);
-      const data = await athleteApi.getAthletes(page, 20, search);
+      const data = await athleteApi.getAthletes(page, 20, search, selectedRank);
       if ("objects" in data) {
-        const filteredAthletes = selectedRank
-          ? data.objects.filter(
-              (athlete: Athlete) => athlete.hang_vdv === selectedRank
-            )
-          : data.objects;
-        setAthletes(filteredAthletes);
+        setAthletes(data.objects);
         setTotalPages(data.total_pages);
       }
     } catch (error) {
@@ -255,15 +250,15 @@ export default function PlayersTeamsPage() {
                     <td className="px-2 sm:px-4">{athlete.stt}</td>
                     <td className="px-2 sm:px-4">
                       <Link
-                        href={`/players/${athlete.id}`}
+                        href={`/players/${athlete.vdv_id}`}
                         className="text-blue-600 hover:underline"
                       >
-                        {athlete.ten_vdv}
+                        {athlete.vdv_ten}
                       </Link>
                     </td>
                     <td className="px-2 sm:px-4">{athlete.doi_bong_ten}</td>
-                    <td className="px-2 sm:px-4">{athlete.hang_vdv || "-"}</td>
-                    <td className="px-2 sm:px-4">{athlete.diem_vdv || "-"}</td>
+                    <td className="px-2 sm:px-4">{athlete.vdv_hang || "-"}</td>
+                    <td className="px-2 sm:px-4">{athlete.vdv_diem || "-"}</td>
                   </tr>
                 ))
               )}

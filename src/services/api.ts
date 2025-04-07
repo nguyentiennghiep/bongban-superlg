@@ -22,16 +22,22 @@ export interface Team {
 
 export interface Athlete {
   id: string;
-  ma_vdv: string;
-  ten_vdv: string;
-  ten_tieng_anh: string | null;
-  nam_sinh: string;
-  quoc_tich_ten: string;
-  avatar_url: string | null;
-  hang_vdv: string | null;
-  diem_vdv: number | null;
+  mua_giai_id: string;
+  mua_giai_ten: string;
   doi_bong_id: string;
   doi_bong_ten: string;
+  vdv_id: string;
+  vdv_ten: string;
+  vdv_hang: string;
+  diem_tich_luy: number;
+  vdv_diem: number;
+  vdv_avatar_url: string;
+  ghi_chu: string;
+  nam_sinh: string;
+  quoc_tich_id: string;
+  quoc_tich_ten: string;
+  so_cccd: string | null;
+  so_dien_thoai: string | null;
   stt: number;
 }
 
