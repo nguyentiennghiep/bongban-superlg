@@ -5,7 +5,7 @@ interface PlayerStatsProps {
   birthYear: string;
   rank: string;
   rankPoints: string;
-  totalPoints: string;
+  accumulatedPoints: string;
   matches: {
     date: string;
     round: string;
@@ -25,7 +25,7 @@ export default function PlayerStats({
   birthYear,
   rank,
   rankPoints,
-  totalPoints,
+  accumulatedPoints,
   matches,
   winRate,
   avatarUrl,
@@ -68,7 +68,7 @@ export default function PlayerStats({
             </div>
             <div className="grid grid-cols-[100px_1fr] items-center">
               <span className="font-roboto text-sm sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
-                Điểm tích lũy
+                Điểm ban đầu
               </span>
               <span className="font-roboto font-[600] text-sm sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
                 {rankPoints}
@@ -76,10 +76,20 @@ export default function PlayerStats({
             </div>
             <div className="grid grid-cols-[100px_1fr] items-center">
               <span className="font-roboto text-sm sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
+                Điểm tích lũy
+              </span>
+              <span className="font-roboto font-[600] text-sm sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
+                {accumulatedPoints}
+              </span>
+            </div>
+            <div className="grid grid-cols-[100px_1fr] items-center">
+              <span className="font-roboto text-sm sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
                 Tổng điểm
               </span>
               <span className="font-roboto font-[600] text-sm sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
-                {totalPoints}
+                {(
+                  parseInt(accumulatedPoints) + parseInt(rankPoints)
+                ).toString()}
               </span>
             </div>
           </div>

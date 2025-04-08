@@ -21,28 +21,6 @@ export default function TeamDetailPage({
   const [totalPages, setTotalPages] = useState(1);
   const [searchText, setSearchText] = useState("");
 
-  // Hàm sắp xếp theo hạng
-  const sortByRank = (a: TeamMember, b: TeamMember) => {
-    // Tách hạng thành chữ cái và số
-    const getRankParts = (rank: string | null | undefined) => {
-      if (!rank) return { letter: "Z", number: 999 }; // Đặt các hạng null/undefined ở cuối
-      const match = rank.match(/([A-Z])(\d+)/);
-      if (!match) return { letter: "Z", number: 999 }; // Đặt các hạng không đúng format ở cuối
-      return { letter: match[1], number: parseInt(match[2]) };
-    };
-
-    const rankA = getRankParts(a.vdv_hang);
-    const rankB = getRankParts(b.vdv_hang);
-
-    // So sánh chữ cái trước
-    if (rankA.letter !== rankB.letter) {
-      return rankA.letter.localeCompare(rankB.letter);
-    }
-
-    // Nếu chữ cái giống nhau, so sánh số
-    return rankA.number - rankB.number;
-  };
-
   useEffect(() => {
     const fetchTeamData = async () => {
       try {
@@ -66,9 +44,7 @@ export default function TeamDetailPage({
           searchText
         );
         if ("objects" in membersData) {
-          // Sắp xếp members theo hạng trước khi set state
-          const sortedMembers = [...membersData.objects].sort(sortByRank);
-          setMembers(sortedMembers);
+          setMembers(membersData.objects);
           setTotalPages(membersData.total_pages);
         }
       } catch (error) {
@@ -210,6 +186,7 @@ export default function TeamDetailPage({
                   rank: member.vdv_hang,
                   rankPoints: member.vdv_diem?.toString() || "0",
                   totalPoints: member.vdv_diem?.toString() || "0",
+                  accumulatedPoints: member.diem_tich_luy?.toString() || "0",
                   avatarUrl: member.thanhvien_avatar_url
                     ? `https://hanoispl.com/static${member.thanhvien_avatar_url}`
                     : undefined,

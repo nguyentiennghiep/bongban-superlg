@@ -8,6 +8,7 @@ interface Player {
   rank: string;
   rankPoints: string;
   totalPoints: string;
+  accumulatedPoints: string;
   avatarUrl?: string;
 }
 
@@ -54,10 +55,20 @@ export default function PlayerCard({ player }: PlayerCardProps) {
           <div className="px-6 py-3 flex justify-between items-center">
             <div className="flex-1 flex justify-between items-center border-b border-[#DFDFDF] pb-3">
               <span className="font-['Roboto'] font-normal text-[16px] leading-[24px] text-black">
-                Điểm tích lũy
+                Điểm ban đầu
               </span>
               <span className="font-['Roboto'] font-[600] text-[16px] leading-[24px] text-black text-right">
                 {player.rankPoints}
+              </span>
+            </div>
+          </div>
+          <div className="px-6 py-3 flex justify-between items-center">
+            <div className="flex-1 flex justify-between items-center border-b border-[#DFDFDF] pb-3">
+              <span className="font-['Roboto'] font-normal text-[16px] leading-[24px] text-black">
+                Điểm tích lũy
+              </span>
+              <span className="font-['Roboto'] font-[600] text-[16px] leading-[24px] text-black text-right">
+                {player.accumulatedPoints}
               </span>
             </div>
           </div>
@@ -67,7 +78,10 @@ export default function PlayerCard({ player }: PlayerCardProps) {
                 Tổng điểm
               </span>
               <span className="font-['Roboto'] font-[600] text-[16px] leading-[24px] text-black text-right">
-                {player.totalPoints}
+                {(
+                  parseInt(player.accumulatedPoints) +
+                  parseInt(player.rankPoints)
+                ).toString()}
               </span>
             </div>
           </div>

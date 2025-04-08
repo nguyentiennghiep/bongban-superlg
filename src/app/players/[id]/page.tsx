@@ -79,7 +79,7 @@ export default function PlayerDetailPage({
           birthYear={playerData.nam_sinh}
           rank={playerData.hang_vdv}
           rankPoints={playerData.diem_vdv?.toString() || "0"}
-          totalPoints={playerData.diem_vdv?.toString() || "0"}
+          accumulatedPoints={playerData.diem_tich_luy?.toString() || "0"}
           matches={[]} // TODO: Add match history API
           winRate={{
             total: 0,

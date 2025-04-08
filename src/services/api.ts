@@ -52,6 +52,7 @@ export interface TeamMember {
   vdv_id: string;
   vdv_hang: string;
   vdv_diem: number;
+  diem_tich_luy: number;
 }
 
 export interface AthleteDetail {
@@ -70,6 +71,7 @@ export interface AthleteDetail {
   diem_vdv: number;
   doi_bong_id: string;
   doi_bong_ten: string;
+  diem_tich_luy: number;
 }
 
 const fetchApi = async <T>(
