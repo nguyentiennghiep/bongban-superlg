@@ -2,7 +2,13 @@
 
 import { useState, useEffect, use } from "react";
 import Link from "next/link";
-import { teamApi, Team, TeamMember } from "@/services/api";
+import {
+  teamApi,
+  athleteApi,
+  Team,
+  TeamMember,
+  AthleteDetail,
+} from "@/services/api";
 import PlayerCard from "@/app/components/PlayerCard";
 import MatchSchedule from "@/app/components/MatchSchedule";
 import Image from "next/image";
@@ -20,6 +26,9 @@ export default function TeamDetailPage({
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchText, setSearchText] = useState("");
+  const [athleteDetails, setAthleteDetails] = useState<
+    Record<string, AthleteDetail>
+  >({});
 
   // Hàm sắp xếp theo hạng
   const sortByRank = (a: TeamMember, b: TeamMember) => {
@@ -43,6 +52,19 @@ export default function TeamDetailPage({
     return rankA.number - rankB.number;
   };
 
+  // Hàm lấy thông tin chi tiết vận động viên
+  const fetchAthleteDetails = async (athleteId: string) => {
+    try {
+      const response = await athleteApi.getAthleteDetail(athleteId);
+      setAthleteDetails((prev) => ({
+        ...prev,
+        [athleteId]: response,
+      }));
+    } catch (error) {
+      console.error("Error fetching athlete details:", error);
+    }
+  };
+
   useEffect(() => {
     const fetchTeamData = async () => {
       try {
@@ -51,7 +73,7 @@ export default function TeamDetailPage({
         const teamData = await teamApi.getTeams();
         if ("objects" in teamData && teamData.objects.length > 0) {
           const foundTeam = teamData.objects.find(
-            (team) => team.id === resolvedParams.id
+            (team: Team) => team.id === resolvedParams.id
           );
           if (foundTeam) {
             setTeam(foundTeam);
@@ -70,6 +92,13 @@ export default function TeamDetailPage({
           const sortedMembers = [...membersData.objects].sort(sortByRank);
           setMembers(sortedMembers);
           setTotalPages(membersData.total_pages);
+
+          // Fetch details for each athlete
+          sortedMembers.forEach((member) => {
+            if (member.vdv_id) {
+              fetchAthleteDetails(member.vdv_id);
+            }
+          });
         }
       } catch (error) {
         console.error("Error fetching team data:", error);
@@ -222,8 +251,8 @@ export default function TeamDetailPage({
                 player={{
                   id: member.vdv_id,
                   name: member.thanhvien_ten,
-                  birthYear: "", // Not available in API
-                  rank: member.vdv_hang,
+                  birthYear: athleteDetails[member.vdv_id]?.nam_sinh || "",
+                  rank: member.vdv_hang || "",
                   rankPoints: member.vdv_diem?.toString() || "0",
                   totalPoints: member.vdv_diem?.toString() || "0",
                   accumulatedPoints: member.diem_tich_luy?.toString() || "0",
