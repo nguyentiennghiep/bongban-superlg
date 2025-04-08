@@ -174,18 +174,27 @@ export const teamApi = {
 };
 
 export const athleteApi = {
-  getAthletes: (
+  getAthletes: async (
     page: number = 1,
     resultsPerPage: number = 20,
-    searchText?: string,
-    rank?: string
+    search?: string,
+    rank?: string,
+    teamId?: string,
+    seasonId?: string
   ) => {
-    return fetchApi<Athlete>("/get_athlete_of_team", {
-      page,
-      results_per_page: resultsPerPage,
-      ...(searchText && { text: searchText }),
+    const params = new URLSearchParams({
+      page: page.toString(),
+      results_per_page: resultsPerPage.toString(),
+      ...(search && { text: search }),
       ...(rank && { rank }),
+      ...(teamId && { doi_bong_id: teamId }),
+      ...(seasonId && { mua_giai_id: seasonId }),
     });
+
+    const response = await fetch(
+      `${BASE_URL}/get_athlete_of_team?${params.toString()}`
+    );
+    return response.json();
   },
   getAthleteDetail: async (id: string): Promise<AthleteDetail> => {
     const response = await fetchApi<AthleteDetail>(

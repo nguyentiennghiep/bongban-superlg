@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect, use } from "react";
+import { useState, useEffect, use, useCallback } from "react";
 import Link from "next/link";
+import debounce from "lodash/debounce";
 import {
   teamApi,
   athleteApi,
@@ -21,14 +22,31 @@ export default function TeamDetailPage({
   const resolvedParams = use(params);
   const [selectedSeason, setSelectedSeason] = useState("Hà Nội SPL 2024");
   const [team, setTeam] = useState<Team | null>(null);
-  const [members, setMembers] = useState<TeamMember[]>([]);
+  const [allMembers, setAllMembers] = useState<TeamMember[]>([]);
+  const [filteredMembers, setFilteredMembers] = useState<TeamMember[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchText, setSearchText] = useState("");
+  const [searchInput, setSearchInput] = useState("");
   const [athleteDetails, setAthleteDetails] = useState<
     Record<string, AthleteDetail>
   >({});
+
+  // Tạo hàm debounced search
+  const debouncedSearch = useCallback(
+    debounce((value: string) => {
+      setSearchText(value);
+      setCurrentPage(1);
+    }, 500),
+    []
+  );
+
+  // Hàm xử lý khi người dùng nhập text
+  const handleSearch = (value: string) => {
+    setSearchInput(value);
+    debouncedSearch(value);
+  };
 
   // Hàm sắp xếp theo hạng
   const sortByRank = (a: TeamMember, b: TeamMember) => {
@@ -80,18 +98,18 @@ export default function TeamDetailPage({
           }
         }
 
-        // Fetch team members
+        // Fetch all team members
         const membersData = await teamApi.getTeamMembers(
           resolvedParams.id,
-          currentPage,
-          20,
-          searchText
+          1,
+          1000, // Lấy tất cả thành viên
+          ""
         );
         if ("objects" in membersData) {
           // Sắp xếp members theo hạng trước khi set state
           const sortedMembers = [...membersData.objects].sort(sortByRank);
-          setMembers(sortedMembers);
-          setTotalPages(membersData.total_pages);
+          setAllMembers(sortedMembers);
+          setFilteredMembers(sortedMembers);
 
           // Fetch details for each athlete
           sortedMembers.forEach((member) => {
@@ -108,15 +126,36 @@ export default function TeamDetailPage({
     };
 
     fetchTeamData();
-  }, [resolvedParams.id, currentPage, searchText]);
+  }, [resolvedParams.id]);
+
+  // Effect để lọc members khi search text thay đổi
+  useEffect(() => {
+    if (!searchText) {
+      setFilteredMembers(allMembers);
+      return;
+    }
+
+    const filtered = allMembers.filter((member) =>
+      member.thanhvien_ten.toLowerCase().includes(searchText.toLowerCase())
+    );
+    setFilteredMembers(filtered);
+  }, [searchText, allMembers]);
+
+  // Tính toán số trang dựa trên số lượng members đã lọc
+  useEffect(() => {
+    const itemsPerPage = 20;
+    const total = Math.ceil(filteredMembers.length / itemsPerPage);
+    setTotalPages(total);
+  }, [filteredMembers]);
+
+  // Tính toán members cho trang hiện tại
+  const currentMembers = filteredMembers.slice(
+    (currentPage - 1) * 20,
+    currentPage * 20
+  );
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-  };
-
-  const handleSearch = (value: string) => {
-    setSearchText(value);
-    setCurrentPage(1);
   };
 
   if (isLoading) {
@@ -238,14 +277,14 @@ export default function TeamDetailPage({
               type="text"
               placeholder="Nhập tên thành viên để tìm kiếm"
               className="w-full p-[6px] border border-[#DFDFDF] rounded-sm bg-[#F3F3F3] placeholder-black text-black text-sm leading-[22px]"
-              value={searchText}
+              value={searchInput}
               onChange={(e) => handleSearch(e.target.value)}
             />
           </div>
 
           {/* Players Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 sm:mb-8">
-            {members.map((member) => (
+            {currentMembers.map((member) => (
               <PlayerCard
                 key={member.id}
                 player={{
