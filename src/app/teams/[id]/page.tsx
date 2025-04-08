@@ -144,9 +144,25 @@ export default function TeamDetailPage({
                 </div>
                 <div className="font-[600] text-black">Sân nhà</div>
                 <div className="text-black">{team.dia_chi}</div>
+                {team.dia_chi_map && (
+                  <>
+                    <div className="font-[600] text-black"></div>
+                    <div className="w-full h-[200px] sm:h-[300px]">
+                      <div
+                        className="w-full h-full"
+                        dangerouslySetInnerHTML={{
+                          __html: team.dia_chi_map.replace(
+                            'width="600" height="450"',
+                            'width="100%" height="100%"'
+                          ),
+                        }}
+                      />
+                    </div>
+                  </>
+                )}
               </div>
             </div>
-            <div className="flex items-center justify-center sm:justify-end">
+            <div className="flex items-start justify-center sm:justify-end">
               <Image
                 src={
                   team.logo_url

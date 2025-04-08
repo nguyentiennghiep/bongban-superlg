@@ -11,13 +11,23 @@ export interface Team {
   id: string;
   ma_doi: string;
   ten_doi: string;
+  ten_tieng_anh: string | null;
+  thongtin_timkiem: string;
+  doi_truong_id: string;
   doi_truong_ten: string;
   doi_truong_sdt: string;
-  doi_pho_ten: string;
-  doi_pho_sdt: string;
-  dia_chi: string;
-  stt: number;
+  doi_pho_id: string | null;
+  doi_pho_ten: string | null;
+  doi_pho_sdt: string | null;
+  huan_luyen_vien: string | null;
   logo_url: string | null;
+  banner_url: string | null;
+  mo_ta: string | null;
+  soluong_thanhvien: number;
+  soluong_vdv: number;
+  dia_chi: string;
+  dia_chi_map: string | null;
+  stt: number;
 }
 
 export interface Athlete {
