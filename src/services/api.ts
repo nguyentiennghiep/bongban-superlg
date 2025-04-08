@@ -92,18 +92,61 @@ const fetchApi = async <T>(
 };
 
 export const teamApi = {
-  getTeams: (
-    page: number = 1,
-    resultsPerPage: number = 20,
+  getTeams: async (
+    page?: number,
+    resultsPerPage?: number,
     searchText?: string,
     id?: string
   ) => {
-    return fetchApi<Team>("/get_team_list", {
-      page,
-      results_per_page: resultsPerPage,
-      ...(searchText && { text: searchText }),
-      ...(id && { id }),
+    // Nếu có id hoặc page được chỉ định, chỉ lấy một trang
+    if (id || page !== undefined) {
+      const params: {
+        page?: number;
+        results_per_page?: number;
+        text?: string;
+        id?: string;
+      } = {};
+
+      if (page !== undefined) params.page = page;
+      if (resultsPerPage !== undefined)
+        params.results_per_page = resultsPerPage;
+      if (searchText) params.text = searchText;
+      if (id) params.id = id;
+
+      return fetchApi<Team>("/get_team_list", params);
+    }
+
+    // Nếu không có tham số, lấy tất cả dữ liệu
+    const firstPage = await fetchApi<Team>("/get_team_list", {
+      page: 1,
+      results_per_page: 25,
     });
+
+    if (!("total_pages" in firstPage)) {
+      return firstPage;
+    }
+
+    const totalPages = firstPage.total_pages;
+    const allTeams: Team[] = [...firstPage.objects];
+
+    // Lấy các trang còn lại
+    for (let i = 2; i <= totalPages; i++) {
+      const nextPage = await fetchApi<Team>("/get_team_list", {
+        page: i,
+        results_per_page: 25,
+      });
+
+      if ("objects" in nextPage) {
+        allTeams.push(...nextPage.objects);
+      }
+    }
+
+    return {
+      objects: allTeams,
+      num_results: allTeams.length,
+      page: 1,
+      total_pages: 1,
+    };
   },
   getTeamMembers: (
     teamId: string,
