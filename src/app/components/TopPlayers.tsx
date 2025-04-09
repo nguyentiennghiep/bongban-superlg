@@ -1,8 +1,32 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { roundApi, Round } from "@/services/api";
 
 export default function TopPlayers() {
   const [activeTab, setActiveTab] = useState("series-a");
+  const [seasons, setSeasons] = useState<Round[]>([]);
+  const [selectedSeason, setSelectedSeason] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSeasons = async () => {
+      try {
+        const response = await roundApi.getRounds();
+        if ("objects" in response) {
+          setSeasons(response.objects);
+          if (response.objects.length > 0) {
+            setSelectedSeason(response.objects[0].mua_giai_ten);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching seasons:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchSeasons();
+  }, []);
 
   return (
     <section className="container mx-auto px-6 py-12">
@@ -19,8 +43,20 @@ export default function TopPlayers() {
           <label className="block font-semibold text-base leading-6 mb-2 text-black">
             Mùa giải
           </label>
-          <select className="w-full p-[6px] pr-[6px] rounded bg-[#F3F3F3] text-black text-sm leading-[22px] border border-[#DFDFDF] appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2014%2014%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M3.5%205.25L7%208.75L10.5%205.25%22%20stroke%3D%22%23000000%22%20stroke-width%3D%221.16667%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[center_right_6px]">
-            <option value="">Hà Nội SPL 2024</option>
+          <select
+            value={selectedSeason}
+            onChange={(e) => setSelectedSeason(e.target.value)}
+            className="w-full p-[6px] pr-[6px] rounded bg-[#F3F3F3] text-black text-sm leading-[22px] border border-[#DFDFDF] appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2014%2014%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M3.5%205.25L7%208.75L10.5%205.25%22%20stroke%3D%22%23000000%22%20stroke-width%3D%221.16667%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[center_right_6px]"
+          >
+            {seasons.length > 0 ? (
+              seasons.map((season) => (
+                <option key={season.id} value={season.mua_giai_ten}>
+                  {season.mua_giai_ten}
+                </option>
+              ))
+            ) : (
+              <option value="">Đang tải...</option>
+            )}
           </select>
         </div>
         <div>
@@ -60,81 +96,31 @@ export default function TopPlayers() {
       </div>
 
       {/* Players Table */}
-      <div className="overflow-x-auto bg-white shadow-md">
-        <table className="w-full">
-          <thead>
-            <tr className="bg-black text-white text-left h-[42px]">
-              <th className="px-4 w-[100px] font-[600] text-[14px] leading-[22px] font-roboto whitespace-nowrap">
-                Xếp hạng
-              </th>
-              <th className="px-4 font-[600] text-[14px] leading-[22px] font-roboto">
-                Tên
-              </th>
-              <th className="px-4 font-[600] text-[14px] leading-[22px] font-roboto">
-                Hạng
-              </th>
-              <th className="px-4 font-[600] text-[14px] leading-[22px] font-roboto">
-                Điểm Tích Lũy
-              </th>
-              <th className="px-4 font-[600] text-[14px] leading-[22px] font-roboto">
-                Điểm Tích Lũy Tuần
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {[
-              {
-                rank: 1,
-                name: "Nguyen Minh Hùng",
-                level: "D",
-                points: "34.70",
-                weeklyPoints: "184.70",
-              },
-              {
-                rank: 2,
-                name: "Trịnh Xuân Hoàng Sơn",
-                level: "C",
-                points: "40.80",
-                weeklyPoints: "148.00",
-              },
-              {
-                rank: 3,
-                name: "Trịnh Đình Nghĩa",
-                level: "D",
-                points: "10.20",
-                weeklyPoints: "135.10",
-              },
-              {
-                rank: 4,
-                name: "Nguyễn Văn Vũ",
-                level: "D",
-                points: "18.80",
-                weeklyPoints: "99.60",
-              },
-              {
-                rank: 5,
-                name: "Phạm Đăng An",
-                level: "E",
-                points: "14.10",
-                weeklyPoints: "95.60",
-              },
-            ].map((player, index) => (
-              <tr
-                key={index}
-                className={`text-black font-roboto font-[400] text-[14px] leading-[22px] h-[42px] ${
-                  index % 2 === 1 ? "bg-[#FFE5E5]" : ""
-                }`}
-              >
-                <td className="px-4">{player.rank}</td>
-                <td className="px-4">{player.name}</td>
-                <td className="px-4">{player.level}</td>
-                <td className="px-4">{player.points}</td>
-                <td className="px-4">{player.weeklyPoints}</td>
+      {isLoading ? (
+        <div className="text-center">Đang tải dữ liệu...</div>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="bg-[#F3F3F3]">
+                <th className="p-3 text-left">Hạng</th>
+                <th className="p-3 text-left">Tên</th>
+                <th className="p-3 text-left">Đội</th>
+                <th className="p-3 text-left">Điểm</th>
+                <th className="p-3 text-left">Chi tiết</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {/* TODO: Add API call to fetch top players */}
+              <tr>
+                <td colSpan={5} className="p-3 text-center">
+                  Không có dữ liệu
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      )}
     </section>
   );
 }
