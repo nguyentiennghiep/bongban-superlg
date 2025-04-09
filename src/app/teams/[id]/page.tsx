@@ -6,9 +6,11 @@ import debounce from "lodash/debounce";
 import {
   teamApi,
   athleteApi,
+  roundApi,
   Team,
   TeamMember,
   AthleteDetail,
+  Round,
 } from "@/services/api";
 import PlayerCard from "@/app/components/PlayerCard";
 import MatchSchedule from "@/app/components/MatchSchedule";
@@ -20,7 +22,8 @@ export default function TeamDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const resolvedParams = use(params);
-  const [selectedSeason, setSelectedSeason] = useState("Hà Nội SPL 2024");
+  const [selectedSeason, setSelectedSeason] = useState("");
+  const [seasons, setSeasons] = useState<Round[]>([]);
   const [team, setTeam] = useState<Team | null>(null);
   const [allMembers, setAllMembers] = useState<TeamMember[]>([]);
   const [filteredMembers, setFilteredMembers] = useState<TeamMember[]>([]);
@@ -82,6 +85,26 @@ export default function TeamDetailPage({
       console.error("Error fetching athlete details:", error);
     }
   };
+
+  // Fetch seasons
+  useEffect(() => {
+    const fetchSeasons = async () => {
+      try {
+        const response = await roundApi.getRounds();
+        if ("objects" in response) {
+          setSeasons(response.objects);
+          // Set the first season as default if available
+          if (response.objects.length > 0) {
+            setSelectedSeason(response.objects[0].mua_giai_ten);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching seasons:", error);
+      }
+    };
+
+    fetchSeasons();
+  }, []);
 
   useEffect(() => {
     const fetchTeamData = async () => {
@@ -262,9 +285,17 @@ export default function TeamDetailPage({
             <select
               value={selectedSeason}
               onChange={(e) => setSelectedSeason(e.target.value)}
-              className="w-full sm:w-[200px] p-[6px] pr-[6px] rounded bg-[#F3F3F3] text-black text-sm leading-[22px] border border-[#DFDFDF] appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2014%2014%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M3.5%205.25L7%208.75L10.5%205.25%22%20stroke%3D%22%23000000%22%20stroke-width%3D%221.16667%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[center_right_6px]"
+              className="w-full sm:w-[300px] p-[6px] pr-[6px] rounded bg-[#F3F3F3] text-black text-sm leading-[22px] border border-[#DFDFDF] appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2014%2014%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M3.5%205.25L7%208.75L10.5%205.25%22%20stroke%3D%22%23000000%22%20stroke-width%3D%221.16667%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[center_right_6px]"
             >
-              <option value="Hà Nội SPL 2024">Hà Nội SPL 2024</option>
+              {seasons.length > 0 ? (
+                seasons.map((season) => (
+                  <option key={season.id} value={season.mua_giai_ten}>
+                    {season.mua_giai_ten}
+                  </option>
+                ))
+              ) : (
+                <option value="">Đang tải...</option>
+              )}
             </select>
           </div>
 
