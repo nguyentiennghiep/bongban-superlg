@@ -234,7 +234,7 @@ export default function TeamDetailPage({
               <Image
                 src={
                   team.logo_url
-                    ? `https://hanoispl.com/static${team.logo_url}`
+                    ? `https://admin.hanoispl.com/static${team.logo_url}`
                     : "/images/default-team-logo.png"
                 }
                 alt={`Logo ${team.ten_doi}`}
@@ -296,7 +296,7 @@ export default function TeamDetailPage({
                   totalPoints: member.vdv_diem?.toString() || "0",
                   accumulatedPoints: member.diem_tich_luy?.toString() || "0",
                   avatarUrl: member.thanhvien_avatar_url
-                    ? `https://hanoispl.com/static${member.thanhvien_avatar_url}`
+                    ? `https://admin.hanoispl.com/static${member.thanhvien_avatar_url}`
                     : undefined,
                 }}
               />

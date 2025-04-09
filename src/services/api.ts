@@ -1,4 +1,4 @@
-const BASE_URL = "https://hanoispl.com/public/api";
+const BASE_URL = "https://admin.hanoispl.com/public/api";
 
 interface ApiResponse<T> {
   objects: T[];

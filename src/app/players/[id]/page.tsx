@@ -89,7 +89,7 @@ export default function PlayerDetailPage({
           }}
           avatarUrl={
             playerData.avatar_url
-              ? `https://hanoispl.com/static${playerData.avatar_url}`
+              ? `https://admin.hanoispl.com/static${playerData.avatar_url}`
               : undefined
           }
         />
