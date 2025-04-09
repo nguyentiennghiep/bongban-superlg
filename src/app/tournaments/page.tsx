@@ -1,6 +1,8 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { roundApi, Round } from "@/services/api";
 
 interface Match {
   id: number;
@@ -11,64 +13,30 @@ interface Match {
 }
 
 export default function TournamentsPage() {
-  const matches: Match[] = [
-    {
-      id: 1,
-      date: "11/5/2025 - 16h30",
-      homeTeam: "Bàn Rồng Lửa",
-      awayTeam: "Rồng Xanh",
-      round: "Vòng Bảng 2",
-    },
-    {
-      id: 2,
-      date: "11/5/2025 - 16h30",
-      homeTeam: "Cơn Lốc Xoáy",
-      awayTeam: "Sấm Xoáy",
-      round: "Vòng Bảng 2",
-    },
-    {
-      id: 3,
-      date: "11/5/2025 - 16h30",
-      homeTeam: "Đội Hổ Vằn",
-      awayTeam: "Hổ Võ",
-      round: "Vòng Bảng 2",
-    },
-    {
-      id: 4,
-      date: "11/5/2025 - 16h30",
-      homeTeam: "Sấm Sét Ping Pong",
-      awayTeam: "Bóng Ma",
-      round: "Vòng Bảng 2",
-    },
-    {
-      id: 5,
-      date: "11/5/2025 - 16h30",
-      homeTeam: "Bóng Bàn Sao Băng",
-      awayTeam: "Lửa Việt",
-      round: "Vòng Bảng 2",
-    },
-    {
-      id: 6,
-      date: "11/5/2025 - 16h30",
-      homeTeam: "Vũ Điệu Xanh",
-      awayTeam: "Ánh Chớp",
-      round: "Vòng Bảng 2",
-    },
-    {
-      id: 7,
-      date: "11/5/2025 - 16h30",
-      homeTeam: "Kiếm Thủ Bóng Bàn",
-      awayTeam: "Bàn Thép",
-      round: "Vòng Bảng 2",
-    },
-    {
-      id: 8,
-      date: "11/5/2025 - 16h30",
-      homeTeam: "Bóng Bàn Thiên Thần",
-      awayTeam: "Sao Mai",
-      round: "Vòng Bảng 2",
-    },
-  ];
+  const [matches, setMatches] = useState<Match[]>([]);
+  const [seasons, setSeasons] = useState<Round[]>([]);
+  const [selectedSeason, setSelectedSeason] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSeasons = async () => {
+      try {
+        const response = await roundApi.getRounds();
+        if ("objects" in response) {
+          setSeasons(response.objects);
+          if (response.objects.length > 0) {
+            setSelectedSeason(response.objects[0].mua_giai_ten);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching seasons:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchSeasons();
+  }, []);
 
   return (
     <main className="bg-white min-h-screen">
@@ -93,8 +61,20 @@ export default function TournamentsPage() {
             <label className="block mb-2 font-roboto font-[600] text-sm sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
               Mùa Giải
             </label>
-            <select className="w-full p-[6px] pr-[6px] rounded bg-[#F3F3F3] text-black text-sm leading-[22px] border border-[#DFDFDF] appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2014%2014%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M3.5%205.25L7%208.75L10.5%205.25%22%20stroke%3D%22%23000000%22%20stroke-width%3D%221.16667%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[center_right_6px]">
-              <option>Hà Nội SPL 2024</option>
+            <select
+              value={selectedSeason}
+              onChange={(e) => setSelectedSeason(e.target.value)}
+              className="w-full min-w-[300px] p-[6px] pr-[6px] rounded bg-[#F3F3F3] text-black text-sm leading-[22px] border border-[#DFDFDF] appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2014%2014%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M3.5%205.25L7%208.75L10.5%205.25%22%20stroke%3D%22%23000000%22%20stroke-width%3D%221.16667%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[center_right_6px]"
+            >
+              {seasons.length > 0 ? (
+                seasons.map((season) => (
+                  <option key={season.id} value={season.mua_giai_ten}>
+                    {season.mua_giai_ten}
+                  </option>
+                ))
+              ) : (
+                <option value="">Đang tải...</option>
+              )}
             </select>
           </div>
           <div>
@@ -147,31 +127,47 @@ export default function TournamentsPage() {
               </tr>
             </thead>
             <tbody>
-              {matches.map((match, index) => (
-                <tr
-                  key={match.id}
-                  className={index % 2 === 0 ? "bg-[#F3F3F3]" : "bg-[#D9D9D9]"}
-                >
-                  <td className="py-2 sm:py-3 px-2 sm:px-4 font-roboto text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
-                    {match.id}
-                  </td>
-                  <td className="py-2 sm:py-3 px-2 sm:px-4 font-roboto text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
-                    {match.date}
-                  </td>
-                  <td className="py-2 sm:py-3 px-2 sm:px-4 font-roboto text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
-                    {match.homeTeam}
-                  </td>
-                  <td className="py-2 sm:py-3 px-2 font-roboto text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] text-black text-center">
-                    VS
-                  </td>
-                  <td className="py-2 sm:py-3 px-2 sm:px-4 font-roboto text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
-                    {match.awayTeam}
-                  </td>
-                  <td className="py-2 sm:py-3 px-2 sm:px-4 font-roboto text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
-                    {match.round}
+              {isLoading ? (
+                <tr>
+                  <td colSpan={6} className="py-4 text-center">
+                    Đang tải dữ liệu...
                   </td>
                 </tr>
-              ))}
+              ) : matches.length > 0 ? (
+                matches.map((match, index) => (
+                  <tr
+                    key={match.id}
+                    className={
+                      index % 2 === 0 ? "bg-[#F3F3F3]" : "bg-[#D9D9D9]"
+                    }
+                  >
+                    <td className="py-2 sm:py-3 px-2 sm:px-4 font-roboto text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
+                      {match.id}
+                    </td>
+                    <td className="py-2 sm:py-3 px-2 sm:px-4 font-roboto text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
+                      {match.date}
+                    </td>
+                    <td className="py-2 sm:py-3 px-2 sm:px-4 font-roboto text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
+                      {match.homeTeam}
+                    </td>
+                    <td className="py-2 sm:py-3 px-2 font-roboto text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] text-black text-center">
+                      VS
+                    </td>
+                    <td className="py-2 sm:py-3 px-2 sm:px-4 font-roboto text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
+                      {match.awayTeam}
+                    </td>
+                    <td className="py-2 sm:py-3 px-2 sm:px-4 font-roboto text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
+                      {match.round}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={6} className="py-4 text-center">
+                    Không có trận đấu nào
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
