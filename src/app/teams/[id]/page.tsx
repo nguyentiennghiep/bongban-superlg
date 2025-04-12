@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, use, useCallback } from "react";
-import Link from "next/link";
 import debounce from "lodash/debounce";
 import {
   teamApi,
@@ -12,9 +11,12 @@ import {
   AthleteDetail,
   Round,
 } from "@/services/api";
-import PlayerCard from "@/app/components/PlayerCard";
 import MatchSchedule from "@/app/components/MatchSchedule";
-import Image from "next/image";
+import TeamBreadcrumb from "./components/TeamBreadcrumb";
+import TeamInfo from "./components/TeamInfo";
+import TeamMembers from "./components/TeamMembers";
+import TeamMembersSearch from "./components/TeamMembersSearch";
+import TeamMembersPagination from "./components/TeamMembersPagination";
 
 export default function TeamDetailPage({
   params,
@@ -204,70 +206,14 @@ export default function TeamDetailPage({
   return (
     <main className="bg-white min-h-screen">
       <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
-        {/* Breadcrumb */}
-        <div className="flex items-center gap-2 mb-4 sm:mb-6 text-xs sm:text-sm">
-          <Link href="/" className="text-black">
-            Trang chủ
-          </Link>
-          <span className="text-black">/</span>
-          <Link href="/players-teams" className="text-black">
-            Đội và vận động viên
-          </Link>
-          <span className="text-black">/</span>
-          <span className="text-black">{team.ten_doi}</span>
-        </div>
+        <TeamBreadcrumb teamName={team.ten_doi} />
 
         {/* Title */}
         <h1 className="text-center font-roboto font-[600] text-2xl sm:text-[38px] leading-[32px] sm:leading-[46px] mb-4 sm:mb-6 text-black">
           Thông tin đội
         </h1>
 
-        {/* Team Info */}
-        <div className="bg-[#F3F3F3] p-4 sm:p-6 rounded-sm mb-6 sm:mb-8">
-          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
-            <div className="flex-1">
-              <div className="grid grid-cols-[100px_1fr] sm:grid-cols-[120px_1fr] gap-3 sm:gap-4 text-xs sm:text-sm">
-                <div className="font-[600] text-black">Tên đội</div>
-                <div className="text-black">{team.ten_doi}</div>
-                <div className="font-[600] text-black">Đội trưởng</div>
-                <div className="text-black">
-                  {team.doi_truong_ten} - {team.doi_truong_sdt}
-                </div>
-                <div className="font-[600] text-black">Sân nhà</div>
-                <div className="text-black">{team.dia_chi}</div>
-                {team.dia_chi_map && (
-                  <>
-                    <div className="font-[600] text-black"></div>
-                    <div className="w-full h-[200px] sm:h-[300px]">
-                      <div
-                        className="w-full h-full"
-                        dangerouslySetInnerHTML={{
-                          __html: team.dia_chi_map.replace(
-                            'width="600" height="450"',
-                            'width="100%" height="100%"'
-                          ),
-                        }}
-                      />
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
-            <div className="flex items-start justify-center sm:justify-end">
-              <Image
-                src={
-                  team.logo_url
-                    ? `https://admin.hanoispl.com/static${team.logo_url}`
-                    : "/images/default-team-logo.png"
-                }
-                alt={`Logo ${team.ten_doi}`}
-                width={120}
-                height={120}
-                className="rounded-full"
-              />
-            </div>
-          </div>
-        </div>
+        <TeamInfo team={team} />
 
         {/* Members Section */}
         <div>
@@ -299,57 +245,21 @@ export default function TeamDetailPage({
             </select>
           </div>
 
-          {/* Search */}
-          <div className="mb-4 sm:mb-6">
-            <label className="block mb-2 font-roboto font-[600] text-sm sm:text-[16px] leading-[20px] sm:leading-[24px] text-black">
-              Tìm kiếm thành viên
-            </label>
-            <input
-              type="text"
-              placeholder="Nhập tên thành viên để tìm kiếm"
-              className="w-full p-[6px] border border-[#DFDFDF] rounded-sm bg-[#F3F3F3] placeholder-black text-black text-sm leading-[22px]"
-              value={searchInput}
-              onChange={(e) => handleSearch(e.target.value)}
-            />
-          </div>
+          <TeamMembersSearch
+            searchInput={searchInput}
+            onSearch={handleSearch}
+          />
 
-          {/* Players Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 sm:mb-8">
-            {currentMembers.map((member) => (
-              <PlayerCard
-                key={member.id}
-                player={{
-                  id: member.vdv_id,
-                  name: member.thanhvien_ten,
-                  birthYear: athleteDetails[member.vdv_id]?.nam_sinh || "",
-                  rank: member.vdv_hang || "",
-                  rankPoints: member.vdv_diem?.toString() || "0",
-                  totalPoints: member.vdv_diem?.toString() || "0",
-                  accumulatedPoints: member.diem_tich_luy?.toString() || "0",
-                  avatarUrl: member.thanhvien_avatar_url
-                    ? `https://admin.hanoispl.com/static${member.thanhvien_avatar_url}`
-                    : undefined,
-                }}
-              />
-            ))}
-          </div>
+          <TeamMembers
+            members={currentMembers}
+            athleteDetails={athleteDetails}
+          />
 
-          {/* Pagination */}
-          <div className="flex justify-center sm:justify-end items-center gap-2 mb-6">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <button
-                key={page}
-                onClick={() => handlePageChange(page)}
-                className={`w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center ${
-                  currentPage === page
-                    ? "bg-[#EE344D] text-white"
-                    : "hover:bg-gray-100 text-black"
-                } text-sm sm:text-base`}
-              >
-                {page}
-              </button>
-            ))}
-          </div>
+          <TeamMembersPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
 
           {/* Match Schedule */}
           <MatchSchedule />
