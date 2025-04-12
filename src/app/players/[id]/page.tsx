@@ -102,7 +102,7 @@ export default function PlayerDetailPage({
           rank={playerData.hang_vdv}
           rankPoints={playerData.diem_vdv?.toString() || "0"}
           accumulatedPoints={playerData.diem_tich_luy?.toString() || "0"}
-          matches={[]} // TODO: Add match history API
+          matches={[]}
           winRate={{
             total: 0,
             wins: 0,
@@ -130,7 +130,7 @@ export default function PlayerDetailPage({
             <select
               value={selectedSeason}
               onChange={(e) => setSelectedSeason(e.target.value)}
-              className="w-full min-w-[300px] p-[6px] pr-[6px] rounded bg-white text-black text-sm leading-[22px] border border-[#DFDFDF] appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2014%2014%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M3.5%205.25L7%208.75L10.5%205.25%22%20stroke%3D%22%23000000%22%20stroke-width%3D%221.16667%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[center_right_6px] mb-4"
+              className="w-full p-[6px] pr-[6px] rounded bg-white text-black text-sm leading-[22px] border border-[#DFDFDF] appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2014%2014%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M3.5%205.25L7%208.75L10.5%205.25%22%20stroke%3D%22%23000000%22%20stroke-width%3D%221.16667%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[center_right_6px] mb-4"
             >
               {seasons.length > 0 ? (
                 seasons.map((season) => (
@@ -180,61 +180,11 @@ export default function PlayerDetailPage({
                 </tr>
               </thead>
               <tbody>
-                {Array(10)
-                  .fill(null)
-                  .map((_, index) => (
-                    <tr
-                      key={index}
-                      className={
-                        index % 2 === 0 ? "bg-[#F3F3F3]" : "bg-[#D9D9D9]"
-                      }
-                    >
-                      <td className="py-2 sm:py-3 px-2 sm:px-4 font-roboto text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
-                        {index + 1}
-                      </td>
-                      <td className="py-2 sm:py-3 px-2 sm:px-4 font-roboto text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
-                        11/08/2024
-                      </td>
-                      <td className="py-2 sm:py-3 px-2 sm:px-4 font-roboto text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
-                        Uông Ngọc Thành
-                        <div className="text-[#666666]">(-64.50)</div>
-                      </td>
-                      <td className="py-2 sm:py-3 px-2 sm:px-4 font-roboto text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
-                        Lương Đình Quang
-                        <div className="text-[#666666]">(-7.10)</div>
-                      </td>
-                      <td className="py-2 sm:py-3 px-2 sm:px-4 font-roboto text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
-                        1-3
-                      </td>
-                      <td className="py-2 sm:py-3 px-2 sm:px-4 font-roboto text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
-                        Nguyễn Đắc Long
-                        <div className="text-[#666666]">(2.40)</div>
-                      </td>
-                      <td className="py-2 sm:py-3 px-2 sm:px-4 font-roboto text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
-                        Trịnh Hoàng Việt
-                        <div className="text-[#666666]">(-86.00)</div>
-                      </td>
-                      <td className="py-2 sm:py-3 px-2 sm:px-4 font-roboto text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
-                        -4.80 | 4.80
-                      </td>
-                      <td className="py-2 sm:py-3 px-2 sm:px-4 text-center">
-                        <a
-                          href="#"
-                          className="text-[#0066CC] hover:underline font-roboto text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px]"
-                        >
-                          Chi tiết
-                        </a>
-                      </td>
-                      <td className="py-2 sm:py-3 px-2 sm:px-4 text-center">
-                        <a
-                          href="#"
-                          className="text-[#0066CC] hover:underline font-roboto text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px]"
-                        >
-                          Xem video
-                        </a>
-                      </td>
-                    </tr>
-                  ))}
+                <tr>
+                  <td colSpan={10} className="py-4 text-center text-gray-500">
+                    Không có dữ liệu
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
