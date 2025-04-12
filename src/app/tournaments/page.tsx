@@ -13,6 +13,7 @@ interface Match {
 }
 
 export default function TournamentsPage() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [matches, setMatches] = useState<Match[]>([]);
   const [seasons, setSeasons] = useState<Round[]>([]);
   const [selectedSeason, setSelectedSeason] = useState("");

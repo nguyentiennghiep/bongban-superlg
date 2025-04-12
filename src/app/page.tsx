@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Link from "next/link";
 import Ranking from "./components/Ranking";
 import TopPlayers from "./components/TopPlayers";

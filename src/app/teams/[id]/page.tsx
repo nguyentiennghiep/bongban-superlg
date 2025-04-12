@@ -36,7 +36,7 @@ export default function TeamDetailPage({
     Record<string, AthleteDetail>
   >({});
 
-  // Tạo hàm debounced search
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedSearch = useCallback(
     debounce((value: string) => {
       setSearchText(value);
