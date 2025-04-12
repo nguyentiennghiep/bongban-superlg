@@ -77,14 +77,26 @@ export default function MatchSchedule() {
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead>
-              <tr className="bg-[#F3F3F3]">
-                <th className="p-3 text-left">Ngày</th>
-                <th className="p-3 text-left">Vòng</th>
-                <th className="p-3 text-left">Đội nhà</th>
-                <th className="p-3 text-left">Đội khách</th>
-                <th className="p-3 text-left">Tỷ số</th>
-                <th className="p-3 text-left">Chi tiết</th>
+            <thead className="bg-black text-white text-left h-[42px]">
+              <tr>
+                <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                  Ngày
+                </th>
+                <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                  Vòng
+                </th>
+                <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                  Đội nhà
+                </th>
+                <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                  Đội khách
+                </th>
+                <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                  Tỷ số
+                </th>
+                <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                  Chi tiết
+                </th>
               </tr>
             </thead>
             <tbody>

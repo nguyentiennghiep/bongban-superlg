@@ -89,16 +89,32 @@ export default function Ranking() {
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead>
-              <tr className="bg-[#F3F3F3]">
-                <th className="p-3 text-left">Hạng</th>
-                <th className="p-3 text-left">Đội</th>
-                <th className="p-3 text-left">Trận</th>
-                <th className="p-3 text-left">Thắng</th>
-                <th className="p-3 text-left">Hòa</th>
-                <th className="p-3 text-left">Thua</th>
-                <th className="p-3 text-left">Hiệu số</th>
-                <th className="p-3 text-left">Điểm</th>
+            <thead className="bg-black text-white text-left h-[42px]">
+              <tr>
+                <th className="px-2 sm:px-4 w-12 sm:w-16 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                  Hạng
+                </th>
+                <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                  Đội
+                </th>
+                <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                  Trận
+                </th>
+                <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                  Thắng
+                </th>
+                <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                  Hòa
+                </th>
+                <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                  Thua
+                </th>
+                <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                  Hiệu số
+                </th>
+                <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                  Điểm
+                </th>
               </tr>
             </thead>
             <tbody>
