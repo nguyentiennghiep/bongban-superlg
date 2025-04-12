@@ -4,8 +4,9 @@ export default function NewsEvents() {
       <h2 className="text-2xl sm:text-[32px] font-bold mb-6 sm:mb-8 text-black">
         Tin tức & sự kiện
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-        {/* Featured News */}
+
+      {/* Comment out skeleton loading */}
+      {/*<div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
         <div className="space-y-4">
           <div className="relative h-[250px] sm:h-[400px] rounded-lg overflow-hidden group">
             <div className="w-full h-full bg-gray-200 animate-pulse"></div>
@@ -17,7 +18,6 @@ export default function NewsEvents() {
           </div>
         </div>
 
-        {/* News List */}
         <div className="space-y-4">
           {[1, 2, 3].map((item) => (
             <div
@@ -32,6 +32,13 @@ export default function NewsEvents() {
             </div>
           ))}
         </div>
+      </div>*/}
+
+      {/* No news message */}
+      <div className="text-center py-8 sm:py-12">
+        <p className="text-gray-500 text-sm sm:text-base">
+          Không có thông tin về tin tức và sự kiện
+        </p>
       </div>
     </section>
   );
