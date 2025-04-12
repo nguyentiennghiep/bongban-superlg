@@ -52,6 +52,14 @@ export default function PlayerDetailPage({
     fetchSeasons();
   }, []);
 
+  const getCurrentSeasonStats = () => {
+    if (!playerData) return null;
+    const seasonInfo = playerData.mua_giai_tham_gia?.find(
+      (season) => season.mua_giai_ten === selectedSeason
+    );
+    return seasonInfo;
+  };
+
   if (isLoading) {
     return (
       <main className="bg-white min-h-screen">
@@ -99,9 +107,17 @@ export default function PlayerDetailPage({
         <PlayerStats
           name={playerData.ten_vdv}
           birthYear={playerData.nam_sinh}
-          rank={playerData.hang_vdv}
-          rankPoints={playerData.diem_vdv?.toString() || "0"}
-          accumulatedPoints={playerData.diem_tich_luy?.toString() || "0"}
+          rank={getCurrentSeasonStats()?.hang_vdv || playerData.hang_vdv}
+          rankPoints={
+            getCurrentSeasonStats()?.diem_tham_gia?.toString() ||
+            playerData.diem_vdv?.toString() ||
+            "0"
+          }
+          accumulatedPoints={
+            getCurrentSeasonStats()?.diem_tich_luy?.toString() ||
+            playerData.diem_tich_luy?.toString() ||
+            "0"
+          }
           matches={[]}
           winRate={{
             total: 0,
@@ -116,32 +132,34 @@ export default function PlayerDetailPage({
           }
         />
 
+        {/* Season Filter */}
+        <div className="mb-4 sm:mb-6">
+          <label className="block mb-2 font-roboto font-[600] text-sm sm:text-[16px] leading-[20px] sm:leading-[24px] text-black">
+            Mùa Giải
+          </label>
+          <select
+            value={selectedSeason}
+            onChange={(e) => setSelectedSeason(e.target.value)}
+            className="w-full sm:w-[300px] p-[6px] pr-[6px] rounded bg-[#F3F3F3] text-black text-sm leading-[22px] border border-[#DFDFDF] appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2014%2014%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M3.5%205.25L7%208.75L10.5%205.25%22%20stroke%3D%22%23000000%22%20stroke-width%3D%221.16667%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[center_right_6px]"
+          >
+            {seasons.length > 0 ? (
+              seasons.map((season) => (
+                <option key={season.id} value={season.mua_giai_ten}>
+                  {season.mua_giai_ten}
+                </option>
+              ))
+            ) : (
+              <option value="">Đang tải...</option>
+            )}
+          </select>
+        </div>
+
         {/* Match History Section */}
         <div className="mt-6 sm:mt-8">
           <div className="bg-[#EE344D] rounded-xl h-[40px] sm:h-[56px] flex items-center px-3 sm:px-4 mb-4 sm:mb-6">
             <h2 className="text-white font-semibold text-xl sm:text-[30px] leading-[28px] sm:leading-[38px]">
               Lịch sử trận đấu
             </h2>
-          </div>
-          <div className="mb-4 sm:mb-6">
-            <label className="block mb-2 font-roboto font-[600] text-sm sm:text-[16px] leading-[20px] sm:leading-[24px] text-black">
-              Năm
-            </label>
-            <select
-              value={selectedSeason}
-              onChange={(e) => setSelectedSeason(e.target.value)}
-              className="w-full p-[6px] pr-[6px] rounded bg-white text-black text-sm leading-[22px] border border-[#DFDFDF] appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2014%2014%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M3.5%205.25L7%208.75L10.5%205.25%22%20stroke%3D%22%23000000%22%20stroke-width%3D%221.16667%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[center_right_6px] mb-4"
-            >
-              {seasons.length > 0 ? (
-                seasons.map((season) => (
-                  <option key={season.id} value={season.mua_giai_ten}>
-                    {season.mua_giai_ten}
-                  </option>
-                ))
-              ) : (
-                <option value="">Đang tải...</option>
-              )}
-            </select>
           </div>
           <div className="overflow-x-auto rounded-lg shadow-md">
             <table className="w-full">

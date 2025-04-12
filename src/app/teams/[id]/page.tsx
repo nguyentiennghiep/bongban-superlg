@@ -253,6 +253,7 @@ export default function TeamDetailPage({
           <TeamMembers
             members={currentMembers}
             athleteDetails={athleteDetails}
+            selectedSeason={selectedSeason}
           />
 
           <TeamMembersPagination

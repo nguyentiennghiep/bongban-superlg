@@ -79,9 +79,16 @@ export interface AthleteDetail {
   avatar_url: string | null;
   hang_vdv: string;
   diem_vdv: number;
+  diem_tich_luy: number;
   doi_bong_id: string;
   doi_bong_ten: string;
-  diem_tich_luy: number;
+  mua_giai_tham_gia: Array<{
+    mua_giai_id: string;
+    mua_giai_ten: string;
+    diem_tham_gia: number;
+    diem_tich_luy: number;
+    hang_vdv: string;
+  }>;
 }
 
 export interface Round {
