@@ -12,6 +12,19 @@ import Image from "next/image";
 export default function NewsDetailPage() {
   return (
     <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12">
+      <div className="max-w-4xl mx-auto">
+        <div className="bg-white rounded-lg overflow-hidden">
+          <div className="relative h-[250px] sm:h-[400px]">
+            <div className="w-full h-full bg-gray-200 animate-pulse"></div>
+          </div>
+          <div className="p-6 sm:p-8">
+            <div className="h-8 bg-gray-200 rounded animate-pulse mb-4"></div>
+            <div className="h-4 bg-gray-200 rounded animate-pulse mb-2"></div>
+            <div className="h-4 bg-gray-200 rounded animate-pulse mb-2"></div>
+            <div className="h-4 bg-gray-200 rounded animate-pulse w-1/3"></div>
+          </div>
+        </div>
+      </div>
       <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8">
         Chi tiết tin tức
       </h1>

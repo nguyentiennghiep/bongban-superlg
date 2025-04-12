@@ -73,54 +73,28 @@ export default function HomePage() {
           {/* Featured News */}
           <div className="space-y-4">
             <div className="relative h-[250px] sm:h-[400px] rounded-lg overflow-hidden group">
-              <Link href="/news/1">
-                <Image
-                  src="/images/news-1.jpg"
-                  alt="Điều lệ giải bóng bàn"
-                  fill
-                  className="object-cover transition-transform group-hover:scale-105"
-                />
-              </Link>
+              <div className="w-full h-full bg-gray-200 animate-pulse"></div>
             </div>
             <div className="bg-white rounded-lg p-4 sm:p-6">
-              <h3 className="text-lg sm:text-xl font-semibold mb-2 text-black">
-                Điều lệ giải bóng bàn Hà Nội Superleague mùa giải 2025
-              </h3>
-              <p className="text-sm text-gray-600">
-                DỰ THẢO ĐIỀU LỆ GIẢI BÓNG BÀN HÀ NỘI SUPERLEAGUE 2025
-              </p>
-              <p className="text-sm text-gray-500 mt-2">
-                Đăng vào lúc 2025-03-19 19:17:26
-              </p>
-              <span className="inline-block mt-3 text-[#00A3FF] hover:underline">
-                Xem thêm
-              </span>
+              <div className="h-6 bg-gray-200 rounded animate-pulse mb-2"></div>
+              <div className="h-4 bg-gray-200 rounded animate-pulse mb-2"></div>
+              <div className="h-4 bg-gray-200 rounded animate-pulse w-1/3"></div>
             </div>
           </div>
 
           {/* News List */}
           <div className="space-y-4">
             {[1, 2, 3].map((item) => (
-              <Link
+              <div
                 key={item}
-                href={`/news/${item}`}
-                className="block bg-[#F3F3F3] rounded-lg overflow-hidden hover:bg-gray-100 transition-colors"
+                className="block bg-[#F3F3F3] rounded-lg overflow-hidden"
               >
                 <div className="p-4 sm:p-6">
-                  <h3 className="text-lg sm:text-xl font-semibold mb-2 text-black">
-                    Điều lệ giải bóng bàn Hà Nội Superleague mùa giải 2025
-                  </h3>
-                  <p className="text-sm text-gray-600">
-                    DỰ THẢO ĐIỀU LỆ GIẢI BÓNG BÀN HÀ NỘI SUPERLEAGUE 2025
-                  </p>
-                  <p className="text-sm text-gray-500 mt-2">
-                    Đăng vào lúc 2025-03-19 19:17:26
-                  </p>
-                  <span className="inline-block mt-3 text-[#00A3FF] hover:underline">
-                    Xem thêm
-                  </span>
+                  <div className="h-6 bg-gray-200 rounded animate-pulse mb-2"></div>
+                  <div className="h-4 bg-gray-200 rounded animate-pulse mb-2"></div>
+                  <div className="h-4 bg-gray-200 rounded animate-pulse w-1/3"></div>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         </div>

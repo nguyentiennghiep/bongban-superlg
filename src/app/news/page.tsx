@@ -1,144 +1,52 @@
 "use client";
 
-import Link from "next/link";
-import NewsItem from "../components/NewsItem";
-
-const newsData = [
-  {
-    id: 1,
-    image: "/images/news-1.jpg",
-    title: "Điều lệ giải bóng bàn Hà Nội Superleague mùa giải 2025",
-    date: "Đăng vào lúc 2025-03-19 19:17:26",
-    description: "DỰ THẢO ĐIỀU LỆ GIẢI BÓNG BÀN HÀ NỘI SUPERLEAGUE 2025",
-  },
-  {
-    id: 2,
-    image: "/images/news-2.jpg",
-    title: "Điều lệ giải bóng bàn Hà Nội Superleague mùa giải 2025",
-    date: "Đăng vào lúc 2025-03-19 19:17:26",
-    description: "DỰ THẢO ĐIỀU LỆ GIẢI BÓNG BÀN HÀ NỘI SUPERLEAGUE 2025",
-  },
-  {
-    id: 3,
-    image: "/images/news-3.jpg",
-    title: "Điều lệ giải bóng bàn Hà Nội Superleague mùa giải 2025",
-    date: "Đăng vào lúc 2025-03-19 19:17:26",
-    description: "DỰ THẢO ĐIỀU LỆ GIẢI BÓNG BÀN HÀ NỘI SUPERLEAGUE 2025",
-  },
-  {
-    id: 4,
-    image: "/images/news-4.jpg",
-    title: "Điều lệ giải bóng bàn Hà Nội Superleague mùa giải 2025",
-    date: "Đăng vào lúc 2025-03-19 19:17:26",
-    description: "DỰ THẢO ĐIỀU LỆ GIẢI BÓNG BÀN HÀ NỘI SUPERLEAGUE 2025",
-  },
-  {
-    id: 5,
-    image: "/images/news-2.jpg",
-    title: "Điều lệ giải bóng bàn Hà Nội Superleague mùa giải 2025",
-    date: "Đăng vào lúc 2025-03-19 19:17:26",
-    description: "DỰ THẢO ĐIỀU LỆ GIẢI BÓNG BÀN HÀ NỘI SUPERLEAGUE 2025",
-  },
-  {
-    id: 6,
-    image: "/images/news-3.jpg",
-    title: "Điều lệ giải bóng bàn Hà Nội Superleague mùa giải 2025",
-    date: "Đăng vào lúc 2025-03-19 19:17:26",
-    description: "DỰ THẢO ĐIỀU LỆ GIẢI BÓNG BÀN HÀ NỘI SUPERLEAGUE 2025",
-  },
-  {
-    id: 7,
-    image: "/images/news-4.jpg",
-    title: "Điều lệ giải bóng bàn Hà Nội Superleague mùa giải 2025",
-    date: "Đăng vào lúc 2025-03-19 19:17:26",
-    description: "DỰ THẢO ĐIỀU LỆ GIẢI BÓNG BÀN HÀ NỘI SUPERLEAGUE 2025",
-  },
-];
+import { useState, useEffect } from "react";
 
 export default function NewsPage() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // TODO: Fetch news data from API
+    setIsLoading(false);
+  }, []);
+
+  if (isLoading) {
+    return (
+      <main className="bg-white min-h-screen">
+        <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {[1, 2, 3, 4, 5, 6].map((index) => (
+              <div key={index} className="bg-white rounded-lg overflow-hidden">
+                <div className="relative h-[200px]">
+                  <div className="w-full h-full bg-gray-200 animate-pulse"></div>
+                </div>
+                <div className="p-4 sm:p-6">
+                  <div className="h-6 bg-gray-200 rounded animate-pulse mb-4"></div>
+                  <div className="h-4 bg-gray-200 rounded animate-pulse mb-2"></div>
+                  <div className="h-4 bg-gray-200 rounded animate-pulse mb-2"></div>
+                  <div className="h-4 bg-gray-200 rounded animate-pulse w-1/3"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="bg-white min-h-screen">
-      <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
-        {/* Page Title */}
+      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <h1 className="text-xl sm:text-[24px] font-[600] text-black text-center mb-6 sm:mb-8">
           Tin tức & sự kiện
         </h1>
-
-        {/* Featured News */}
-        <div className="mb-6 sm:mb-8">
-          <NewsItem {...newsData[0]} featured />
-        </div>
-
-        {/* News List */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          {newsData.slice(1).map((news) => (
-            <NewsItem key={news.id} {...news} />
-          ))}
-        </div>
-
-        {/* Pagination */}
-        <div className="flex justify-center items-center mt-6 sm:mt-8 gap-2">
-          <Link
-            href="/news?page=1"
-            className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded border border-[#DFDFDF] text-[#666666] hover:border-[#FF1654] hover:text-[#FF1654]"
-          >
-            <div className="w-4 h-4 sm:w-5 sm:h-5">
-              <svg viewBox="0 0 16 16" fill="none">
-                <path
-                  d="M9.99998 13.2799L5.65331 8.93324C5.13998 8.41991 5.13998 7.57991 5.65331 7.06657L9.99998 2.71991"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeMiterlimit="10"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
-          </Link>
-          <Link
-            href="/news?page=1"
-            className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded bg-[#FF1654] text-white text-sm sm:text-base"
-          >
-            1
-          </Link>
-          <Link
-            href="/news?page=2"
-            className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded border border-[#DFDFDF] text-[#666666] hover:border-[#FF1654] hover:text-[#FF1654] text-sm sm:text-base"
-          >
-            2
-          </Link>
-          <Link
-            href="/news?page=3"
-            className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded border border-[#DFDFDF] text-[#666666] hover:border-[#FF1654] hover:text-[#FF1654] text-sm sm:text-base"
-          >
-            3
-          </Link>
-          <span className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-[#666666] text-sm sm:text-base">
-            ...
-          </span>
-          <Link
-            href="/news?page=10"
-            className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded border border-[#DFDFDF] text-[#666666] hover:border-[#FF1654] hover:text-[#FF1654] text-sm sm:text-base"
-          >
-            10
-          </Link>
-          <Link
-            href="/news?page=2"
-            className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded border border-[#DFDFDF] text-[#666666] hover:border-[#FF1654] hover:text-[#FF1654]"
-          >
-            <div className="w-4 h-4 sm:w-5 sm:h-5">
-              <svg viewBox="0 0 16 16" fill="none">
-                <path
-                  d="M6 13.2799L10.3467 8.93324C10.86 8.41991 10.86 7.57991 10.3467 7.06657L6 2.71991"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeMiterlimit="10"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
-          </Link>
+        <div className="flex flex-col items-center justify-center py-12">
+          <div className="text-center">
+            <p className="text-gray-500 text-lg mb-4">
+              Chưa có tin tức và sự kiện
+            </p>
+            <p className="text-gray-400 text-sm">Vui lòng quay lại sau</p>
+          </div>
         </div>
       </div>
     </main>
