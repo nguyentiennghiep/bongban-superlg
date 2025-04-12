@@ -13,7 +13,7 @@ export default function TeamMembers({
   selectedSeason,
 }: TeamMembersProps) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
+    <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-4 mb-6 sm:mb-8">
       {members.map((member) => {
         const athleteDetail = athleteDetails[member.vdv_id];
         const seasonInfo = athleteDetail?.mua_giai_tham_gia?.find(
