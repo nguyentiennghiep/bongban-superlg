@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X, Phone, Mail } from "lucide-react";
@@ -8,6 +8,11 @@ import { usePathname } from "next/navigation";
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
+
+  // Close menu when pathname changes
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
 
   return (
     <>
@@ -43,11 +48,13 @@ export default function Header() {
 
         {/* Navigation Menu */}
         <nav
-          className={`absolute md:static top-full left-0 right-0 flex w-full items-start justify-end bg-white/80 backdrop-blur-md md:bg-transparent md:flex text-base font-semibold shadow-md md:shadow-none transition-all duration-300 ease-in-out z-50 ${
-            menuOpen ? "flex flex-col" : "hidden"
+          className={`absolute md:static top-full left-0 right-0 flex w-full items-start justify-end bg-white/80 backdrop-blur-md md:bg-transparent md:flex text-base font-semibold shadow-md md:shadow-none transition-all duration-300 ease-in-out z-50 transform ${
+            menuOpen
+              ? "flex flex-col translate-y-0 opacity-100"
+              : "hidden md:flex md:translate-y-0 md:opacity-100 -translate-y-full opacity-0"
           }`}
         >
-          <ul className="flex flex-col md:flex-row md:space-x-8 lg:space-x-12 w-full md:w-auto pr-4 md:pr-8 lg:pr-12">
+          <ul className="flex flex-col md:flex-row md:space-x-8 lg:space-x-12 w-full md:w-auto pr-4 md:pr-8 lg:pr-12 transition-transform duration-300 ease-in-out">
             <li className="w-full md:w-auto">
               <Link
                 href="/"
