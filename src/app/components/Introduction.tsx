@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Introduction() {
   return (
@@ -6,19 +7,25 @@ export default function Introduction() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-center">
         <div className="space-y-4">
           <h2 className="text-black text-2xl sm:text-3xl font-bold mb-4">
-            Giới thiệu về chúng tôi
+            Giải Bóng Bàn Hà Nội Super League
           </h2>
           <p className="text-gray-700 leading-relaxed text-sm sm:text-base">
-            Câu lạc bộ bóng bàn HANOI SUPERLEAGUE là nơi giao lưu, rèn luyện và
-            phát triển kỹ năng bóng bàn dành cho mọi lứa tuổi và trình độ. Với
-            môi trường năng động, trang thiết bị hiện đại và đội ngũ huấn luyện
-            viên giàu kinh nghiệm.
+            Hanoi Super League (Hanoi SPL) là sân chơi bóng bàn minh bạch, công
+            bằng dành cho cộng đồng vận động viên phong trào tại Thủ đô Hà Nội.
+            Giải đấu được xây dựng dựa trên triết lý cốt lõi: "Đoàn kết - Công
+            bằng - Phát triển".
           </p>
           <p className="text-gray-700 leading-relaxed text-sm sm:text-base">
-            CLB không chỉ giúp nâng cao kỹ thuật mà còn tạo cơ hội kết nối cộng
-            đồng đam mê môn thể thao này. Hãy tham gia cùng chúng tôi để cùng
-            rèn luyện sức khỏe và chinh phục những thử thách mới!
+            Với hệ thống phân hạng khoa học, thể thức thi đấu chuyên nghiệp và
+            giải thưởng hấp dẫn, Hanoi SPL cam kết mang đến môi trường thi đấu
+            chất lượng cao cho tất cả người chơi.
           </p>
+          <Link
+            href="/about"
+            className="inline-block mt-4 text-blue-600 hover:text-blue-800 font-medium"
+          >
+            Xem thêm về chúng tôi →
+          </Link>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="relative h-[200px] sm:h-[300px] rounded-lg overflow-hidden">
