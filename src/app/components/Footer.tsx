@@ -76,16 +76,16 @@ export default function Footer() {
           <Link href="/about" className="hover:text-[#EE344D]">
             Giới thiệu
           </Link>
-          <Link href="/rules" className="hover:text-[#EE344D]">
+          <Link href="/executive-board" className="hover:text-[#EE344D]">
             Ban điều hành
           </Link>
           <Link href="/news" className="hover:text-[#EE344D]">
             Tin tức
           </Link>
-          <Link href="/players" className="hover:text-[#EE344D]">
+          <Link href="/players-teams" className="hover:text-[#EE344D]">
             Đội bóng và vận động viên
           </Link>
-          <Link href="/tournament" className="hover:text-[#EE344D]">
+          <Link href="/tournaments" className="hover:text-[#EE344D]">
             Giải đấu
           </Link>
           <Link href="/contact" className="hover:text-[#EE344D]">
