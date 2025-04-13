@@ -164,7 +164,7 @@ export default function NewsPage() {
                     </p>
                     <div className="flex justify-between items-center text-sm text-gray-500">
                       <span>{post.tac_gia}</span>
-                      <span className="text-[#FF1654] hover:underline">
+                      <span className="text-[#FF1654] group-hover:underline">
                         Xem thêm
                       </span>
                     </div>

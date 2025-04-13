@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Post, postApi } from "@/services/api";
 
 export default function NewsEvents() {
@@ -84,7 +85,7 @@ export default function NewsEvents() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
           {/* Featured post */}
           {posts.length > 0 && (
-            <div className="space-y-4">
+            <Link href={`/news/${posts[0].id}`} className="space-y-4 block">
               <div className="relative h-[250px] sm:h-[400px] rounded-lg overflow-hidden group">
                 {posts[0].image_thumbnail ? (
                   <Image
@@ -100,7 +101,7 @@ export default function NewsEvents() {
                 )}
               </div>
               <div className="bg-white rounded-lg p-4 sm:p-6">
-                <h3 className="text-xl font-bold mb-2 text-black">
+                <h3 className="text-xl font-bold mb-2 text-black group-hover:text-[#FF1654] transition-colors">
                   {posts[0].title}
                 </h3>
                 <p className="text-gray-600 mb-2 line-clamp-2">
@@ -111,18 +112,19 @@ export default function NewsEvents() {
                   <span>{formatDate(posts[0].approved_time)}</span>
                 </div>
               </div>
-            </div>
+            </Link>
           )}
 
           {/* Other posts */}
           <div className="space-y-4">
             {posts.slice(1).map((post) => (
-              <div
+              <Link
                 key={post.id}
+                href={`/news/${post.id}`}
                 className="block bg-[#F3F3F3] rounded-lg overflow-hidden hover:bg-gray-100 transition-colors"
               >
                 <div className="p-4 sm:p-6">
-                  <h3 className="text-lg font-bold mb-2 text-black">
+                  <h3 className="text-lg font-bold mb-2 text-black group-hover:text-[#FF1654] transition-colors">
                     {post.title}
                   </h3>
                   <p className="text-gray-600 mb-2 line-clamp-2">
@@ -133,7 +135,7 @@ export default function NewsEvents() {
                     <span>{formatDate(post.approved_time)}</span>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
