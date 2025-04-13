@@ -104,6 +104,16 @@ export interface Round {
   stt: number;
 }
 
+export interface Post {
+  id: string;
+  title: string;
+  description: string;
+  content: string;
+  image_thumbnail: string | null;
+  tac_gia: string;
+  approved_time: number;
+}
+
 const fetchApi = async <T>(
   endpoint: string,
   params: Record<string, string | number> = {}
@@ -246,6 +256,55 @@ export const roundApi = {
       page: 1,
       total_pages: 1,
     };
+  },
+};
+
+export const postApi = {
+  getPosts: async (
+    page: number = 1,
+    resultsPerPage: number = 20,
+    searchText: string = ""
+  ): Promise<ApiResponse<Post>> => {
+    const response = await fetchApi<Post>("/get_post_by_category", {
+      text: searchText,
+      page,
+      results_per_page: resultsPerPage,
+    });
+
+    // Ensure we return an ApiResponse<Post>
+    if ("objects" in response) {
+      return response as ApiResponse<Post>;
+    }
+
+    // If it's not an ApiResponse, create one
+    return {
+      objects: [response as Post],
+      num_results: 1,
+      page: 1,
+      total_pages: 1,
+    };
+  },
+
+  getPostById: async (id: string): Promise<Post> => {
+    const response = await fetchApi<Post>("/get_detail_post", {
+      id,
+      page: 1,
+      results_per_page: 20,
+      text: "",
+    });
+
+    // If the response is an array, return the first item
+    if (Array.isArray(response)) {
+      return response[0];
+    }
+
+    // If it's an ApiResponse, return the first object
+    if ("objects" in response && response.objects.length > 0) {
+      return response.objects[0];
+    }
+
+    // Otherwise, assume it's a single Post object
+    return response as Post;
   },
 };
 
