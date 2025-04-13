@@ -12,8 +12,8 @@ export default function Introduction() {
           <p className="text-gray-700 leading-relaxed text-sm sm:text-base">
             Hanoi Super League (Hanoi SPL) là sân chơi bóng bàn minh bạch, công
             bằng dành cho cộng đồng vận động viên phong trào tại Thủ đô Hà Nội.
-            Giải đấu được xây dựng dựa trên triết lý cốt lõi: "Đoàn kết - Công
-            bằng - Phát triển".
+            Giải đấu được xây dựng dựa trên triết lý cốt lõi: &ldquo;Đoàn kết -
+            Công bằng - Phát triển&rdquo;.
           </p>
           <p className="text-gray-700 leading-relaxed text-sm sm:text-base">
             Với hệ thống phân hạng khoa học, thể thức thi đấu chuyên nghiệp và
