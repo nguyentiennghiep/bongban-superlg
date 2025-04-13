@@ -36,7 +36,7 @@ export default function Ranking() {
       </div>
 
       {/* Filters */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <div>
           <label className="block font-semibold text-base leading-6 mb-2 text-black">
             Mùa giải
@@ -55,14 +55,6 @@ export default function Ranking() {
             ) : (
               <option value="">Đang tải...</option>
             )}
-          </select>
-        </div>
-        <div>
-          <label className="block font-semibold text-base leading-6 mb-2 text-black">
-            Hạng đấu
-          </label>
-          <select className="w-full p-[6px] pr-[6px] rounded bg-[#F3F3F3] text-black text-sm leading-[22px] border border-[#DFDFDF] appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2014%2014%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M3.5%205.25L7%208.75L10.5%205.25%22%20stroke%3D%22%23000000%22%20stroke-width%3D%221.16667%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[center_right_6px]">
-            <option value="">Series A</option>
           </select>
         </div>
         <div>
