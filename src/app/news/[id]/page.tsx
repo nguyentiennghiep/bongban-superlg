@@ -109,7 +109,7 @@ export default function NewsDetailPage({
                     </h1>
                     {post.image_thumbnail && (
                       <div className="mb-4">
-                        <div className="relative h-[450px]">
+                        <div className="relative h-[250px] sm:h-[350px] md:h-[400px]">
                           <Image
                             src={`https://admin.hanoispl.com/static${post.image_thumbnail}`}
                             alt={post.title}
@@ -141,7 +141,7 @@ export default function NewsDetailPage({
                       <div key={relatedPost.id} className="group">
                         {relatedPost.image_thumbnail && (
                           <div className="mb-3">
-                            <div className="relative h-[225px]">
+                            <div className="relative h-[150px] sm:h-[200px]">
                               <Image
                                 src={`https://admin.hanoispl.com/static${relatedPost.image_thumbnail}`}
                                 alt={relatedPost.title}
