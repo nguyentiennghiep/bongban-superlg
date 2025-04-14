@@ -109,13 +109,15 @@ export default function NewsDetailPage({
                     </h1>
                     {post.image_thumbnail && (
                       <div className="mb-4">
-                        <Image
-                          src={post.image_thumbnail}
-                          alt={post.title}
-                          width={800}
-                          height={450}
-                          className="w-full rounded-lg"
-                        />
+                        <div className="relative h-[450px]">
+                          <Image
+                            src={`https://admin.hanoispl.com/static${post.image_thumbnail}`}
+                            alt={post.title}
+                            fill
+                            className="w-full rounded-lg object-fit"
+                            priority
+                          />
+                        </div>
                       </div>
                     )}
                     <div
@@ -139,13 +141,14 @@ export default function NewsDetailPage({
                       <div key={relatedPost.id} className="group">
                         {relatedPost.image_thumbnail && (
                           <div className="mb-3">
-                            <Image
-                              src={relatedPost.image_thumbnail}
-                              alt={relatedPost.title}
-                              width={400}
-                              height={225}
-                              className="w-full rounded-lg"
-                            />
+                            <div className="relative h-[225px]">
+                              <Image
+                                src={`https://admin.hanoispl.com/static${relatedPost.image_thumbnail}`}
+                                alt={relatedPost.title}
+                                fill
+                                className="w-full rounded-lg object-fit"
+                              />
+                            </div>
                           </div>
                         )}
                         <div className="mb-2">

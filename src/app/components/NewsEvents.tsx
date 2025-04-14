@@ -14,7 +14,7 @@ export default function NewsEvents() {
     const fetchPosts = async () => {
       try {
         setLoading(true);
-        const data = await postApi.getPosts(1, 20, "");
+        const data = await postApi.getPosts(1, 4, "");
         setPosts(data.objects || []);
       } catch (err) {
         console.error("Error fetching posts:", err);
@@ -89,7 +89,7 @@ export default function NewsEvents() {
               <div className="relative h-[250px] sm:h-[400px] rounded-lg overflow-hidden group">
                 {posts[0].image_thumbnail ? (
                   <Image
-                    src={posts[0].image_thumbnail}
+                    src={`https://admin.hanoispl.com/static${posts[0].image_thumbnail}`}
                     alt={posts[0].title}
                     fill
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -117,7 +117,7 @@ export default function NewsEvents() {
 
           {/* Other posts */}
           <div className="space-y-4">
-            {posts.slice(1).map((post) => (
+            {posts.slice(1, 4).map((post) => (
               <Link
                 key={post.id}
                 href={`/news/${post.id}`}

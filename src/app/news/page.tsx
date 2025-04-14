@@ -139,10 +139,10 @@ export default function NewsPage() {
                   <div className="relative h-[200px]">
                     {post.image_thumbnail ? (
                       <Image
-                        src={post.image_thumbnail}
+                        src={`https://admin.hanoispl.com/static${post.image_thumbnail}`}
                         alt={post.title}
                         fill
-                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        className="object-fit transition-transform duration-300 group-hover:scale-105"
                       />
                     ) : (
                       <div className="w-full h-full bg-gray-200 flex items-center justify-center">
