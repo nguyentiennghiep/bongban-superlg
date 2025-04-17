@@ -13,7 +13,7 @@ const roboto = Roboto({
 
 export const metadata: Metadata = {
   title: "HanoiSpl",
-  description: "Website về câu lạc bộ bóng bàn",
+  description: "Website chính thức của Giải bóng bàn Hanoi Super League",
 };
 
 export default function RootLayout({
