@@ -19,7 +19,7 @@ export default function Footer() {
         {/* Social Links */}
         <div className="flex justify-center gap-4 mb-8">
           <Link
-            href="https://facebook.com"
+            href="https://www.facebook.com/people/Hanoi-Super-League-Victas-tour/61574585212158/"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -43,19 +43,7 @@ export default function Footer() {
             />
           </Link>
           <Link
-            href="https://linkedin.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              src="/icons/linkedin.png"
-              alt="LinkedIn"
-              width={24}
-              height={24}
-            />
-          </Link>
-          <Link
-            href="https://youtube.com"
+            href="https://www.youtube.com/@HaNoiSuperLeagueVictastour"
             target="_blank"
             rel="noopener noreferrer"
           >

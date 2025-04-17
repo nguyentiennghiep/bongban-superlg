@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/icons/Logo_HaNoiSPL.png" type="image/png" />
+        <link rel="icon" href="/favicon.svg" type="image/x-icon" />
       </head>
       <body
         className={`${roboto.variable} font-sans antialiased`}
