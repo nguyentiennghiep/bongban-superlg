@@ -223,8 +223,8 @@ export default function AboutPage() {
               </h3>
               <p className="text-[14px] leading-[22px] text-[#333333] mb-4">
                 Hanoi Super League ứng dụng công nghệ thông tin hiện đại trong
-                quản lý giải đấu thông qua website chính thức
-                https://hanoispl.com, nơi cập nhật thường xuyên:
+                quản lý giải đấu thông qua website chính thức https://hnspl.vn/,
+                nơi cập nhật thường xuyên:
               </p>
               <ul className="list-disc pl-5 text-[14px] leading-[22px] text-[#333333]">
                 <li className="mb-2">Kết quả thi đấu và bảng xếp hạng</li>

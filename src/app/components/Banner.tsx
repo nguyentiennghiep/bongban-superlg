@@ -3,11 +3,21 @@ import Image from "next/image";
 export default function Banner() {
   return (
     <div className="relative w-full h-[300px] sm:h-[440px]">
+      {/* Mobile Image */}
+      <Image
+        src="/background-top-mobile.jpg"
+        alt="Banner Bóng Bàn Mobile"
+        fill
+        className="object-contain sm:hidden"
+        priority
+        quality={100}
+      />
+      {/* Desktop Image */}
       <Image
         src="/background-top.jpg"
-        alt="Banner Bóng Bàn"
+        alt="Banner Bóng Bàn Desktop"
         fill
-        className="object-contain"
+        className="object-contain hidden sm:block"
         priority
         quality={100}
       />
