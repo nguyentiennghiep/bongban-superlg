@@ -11,18 +11,21 @@ const slides = [
   {
     id: 1,
     image: "/slides/slide1.jpg",
+    mobileImage: "/slides/slide1.jpg",
     alt: "Slide 1",
     url: "#", // Replace with actual URL
   },
   {
     id: 2,
     image: "/slides/slide2.jpg",
+    mobileImage: "/slides/slide2.jpg",
     alt: "Slide 2",
     url: "https://www.victas.com/en_gb/", // Replace with actual URL
   },
   {
     id: 3,
     image: "/slides/slide3.jpg",
+    mobileImage: "/slides/slide3.jpg",
     alt: "Slide 3",
     url: "https://www.victas.com/en_gb/", // Replace with actual URL
   },
@@ -30,7 +33,7 @@ const slides = [
 
 export default function Banner() {
   return (
-    <div className="relative w-full h-[300px] sm:h-[440px]">
+    <div className="relative w-full h-[120px] sm:h-[440px]">
       <Swiper
         modules={[Autoplay, Navigation, Pagination]}
         spaceBetween={0}
@@ -38,22 +41,36 @@ export default function Banner() {
         navigation
         pagination={{ clickable: true }}
         autoplay={{
-          delay: 3000,
+          delay: 2000,
           disableOnInteraction: false,
           pauseOnMouseEnter: true,
         }}
         loop={true}
-        speed={800}
+        speed={500}
         className="w-full h-full"
       >
         {slides.map((slide) => (
           <SwiperSlide key={slide.id}>
             <Link href={slide.url} className="block w-full h-full">
+              {/* Mobile Image */}
+              {slide.mobileImage && (
+                <Image
+                  src={slide.mobileImage}
+                  alt={`${slide.alt} Mobile`}
+                  fill
+                  className="object-cover sm:hidden"
+                  priority={slide.id === 1}
+                  quality={100}
+                />
+              )}
+              {/* Desktop Image */}
               <Image
                 src={slide.image}
                 alt={slide.alt}
                 fill
-                className="object-cover"
+                className={`object-cover ${
+                  slide.mobileImage ? "hidden sm:block" : ""
+                }`}
                 priority={slide.id === 1}
                 quality={100}
               />
