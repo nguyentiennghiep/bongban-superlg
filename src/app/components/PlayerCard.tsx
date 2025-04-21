@@ -21,13 +21,13 @@ export default function PlayerCard({ player }: PlayerCardProps) {
     <div className="overflow-hidden rounded-lg w-full">
       <div className="p-2 sm:p-6 pb-2 sm:pb-4 bg-[#F3F3F3]">
         <div className="mb-2 sm:mb-4">
-          <div className="w-[80px] h-[80px] sm:w-[146px] sm:h-[146px] rounded-full border-2 sm:border-4 border-gray-300 mx-auto overflow-hidden">
+          <div className="relative w-[80px] h-[80px] sm:w-[146px] sm:h-[146px] rounded-full border-2 sm:border-4 border-gray-300 mx-auto overflow-hidden">
             <Image
               src={player.avatarUrl || "/images/default-avatar.jpg"}
               alt={player.name}
-              width={146}
-              height={146}
-              className="rounded-full"
+              fill
+              sizes="(max-width: 640px) 80px, 146px"
+              className="object-cover"
             />
           </div>
         </div>
