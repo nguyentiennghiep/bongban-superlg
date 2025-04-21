@@ -33,7 +33,44 @@ const slides = [
 
 export default function Banner() {
   return (
-    <div className="relative w-full h-[120px] sm:h-[440px]">
+    <div className="relative w-full h-[120px] sm:h-[440px] group">
+      <style jsx global>{`
+        .swiper-button-next,
+        .swiper-button-prev {
+          width: 30px !important;
+          height: 30px !important;
+          background-color: rgba(255, 255, 255, 0.8);
+          border-radius: 50%;
+          color: #000 !important;
+          transition: all 0.3s ease;
+          opacity: 0;
+        }
+
+        .group:hover .swiper-button-next,
+        .group:hover .swiper-button-prev {
+          opacity: 1;
+        }
+
+        .swiper-button-next:hover,
+        .swiper-button-prev:hover {
+          background-color: rgba(255, 255, 255, 1);
+        }
+
+        .swiper-button-next::after,
+        .swiper-button-prev::after {
+          font-size: 12px !important;
+          font-weight: bold;
+        }
+
+        .swiper-pagination-bullet {
+          background: white !important;
+          opacity: 0.6 !important;
+        }
+
+        .swiper-pagination-bullet-active {
+          opacity: 1 !important;
+        }
+      `}</style>
       <Swiper
         modules={[Autoplay, Navigation, Pagination]}
         spaceBetween={0}
