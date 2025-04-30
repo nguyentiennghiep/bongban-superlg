@@ -7,7 +7,7 @@ export default function Breadcrumb() {
         Trang chủ
       </Link>
       <span className="text-black">/</span>
-      <span className="text-black">Giải đấu</span>
+      <span className="text-black">Lịch thi đấu</span>
     </div>
   );
 }

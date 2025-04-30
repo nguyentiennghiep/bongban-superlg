@@ -257,7 +257,13 @@ export default function PlayersTeamsPage() {
                       </Link>
                     </td>
                     <td className="px-2 sm:px-4">
-                      {team.doi_truong_ten} - {team.doi_truong_sdt}
+                      {team.doi_truong_ten} -{" "}
+                      <a
+                        href={`tel:${team.doi_truong_sdt}`}
+                        className="text-blue-600 hover:text-blue-800 underline"
+                      >
+                        {team.doi_truong_sdt}
+                      </a>
                     </td>
                     <td className="px-2 sm:px-4">{team.dia_chi}</td>
                   </tr>

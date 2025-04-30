@@ -118,7 +118,7 @@ export default function Header() {
                     : "text-[#212529]"
                 }`}
               >
-                Giải đấu
+                Lịch thi đấu
               </Link>
             </li>
             <li className="w-full md:w-auto">
