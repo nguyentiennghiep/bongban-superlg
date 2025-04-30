@@ -122,7 +122,7 @@ export default function TopPlayers() {
       </div> */}
 
       {/* Filters */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <div>
           <label className="block font-semibold text-base leading-6 mb-2 text-black">
             Mùa giải

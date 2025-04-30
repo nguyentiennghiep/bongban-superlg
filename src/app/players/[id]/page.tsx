@@ -2,7 +2,13 @@
 
 import { useState, useEffect, use } from "react";
 import Link from "next/link";
-import { athleteApi, roundApi, AthleteDetail, Round } from "@/services/api";
+import {
+  athleteApi,
+  roundApi,
+  AthleteDetail,
+  Round,
+  AthleteMatchHistoryResponse,
+} from "@/services/api";
 import PlayerStats from "@/app/components/PlayerStats";
 
 export default function PlayerDetailPage({
@@ -15,6 +21,9 @@ export default function PlayerDetailPage({
   const [isLoading, setIsLoading] = useState(true);
   const [seasons, setSeasons] = useState<Round[]>([]);
   const [selectedSeason, setSelectedSeason] = useState("");
+  const [matchHistory, setMatchHistory] =
+    useState<AthleteMatchHistoryResponse | null>(null);
+  const [isLoadingHistory, setIsLoadingHistory] = useState(false);
 
   useEffect(() => {
     const fetchPlayerData = async () => {
@@ -41,7 +50,7 @@ export default function PlayerDetailPage({
           setSeasons(response.objects);
           // Set the first season as default if available
           if (response.objects.length > 0) {
-            setSelectedSeason(response.objects[0].mua_giai_ten);
+            setSelectedSeason(response.objects[0].mua_giai_id);
           }
         }
       } catch (error) {
@@ -52,12 +61,43 @@ export default function PlayerDetailPage({
     fetchSeasons();
   }, []);
 
+  // Fetch match history when season changes
+  useEffect(() => {
+    const fetchMatchHistory = async () => {
+      if (!selectedSeason) return;
+
+      setIsLoadingHistory(true);
+      try {
+        const data = await athleteApi.getAthleteMatchHistory(
+          selectedSeason,
+          resolvedParams.id
+        );
+        setMatchHistory(data);
+      } catch (error) {
+        console.error("Error fetching match history:", error);
+        setMatchHistory(null);
+      } finally {
+        setIsLoadingHistory(false);
+      }
+    };
+
+    fetchMatchHistory();
+  }, [selectedSeason, resolvedParams.id]);
+
   const getCurrentSeasonStats = () => {
     if (!playerData) return null;
     const seasonInfo = playerData.mua_giai_tham_gia?.find(
-      (season) => season.mua_giai_ten === selectedSeason
+      (season) => season.mua_giai_id === selectedSeason
     );
     return seasonInfo;
+  };
+
+  const formatDate = (dateNumber: number) => {
+    const dateStr = dateNumber.toString();
+    const year = dateStr.substring(0, 4);
+    const month = dateStr.substring(4, 6);
+    const day = dateStr.substring(6, 8);
+    return `${day}/${month}/${year}`;
   };
 
   if (isLoading) {
@@ -120,10 +160,14 @@ export default function PlayerDetailPage({
           }
           matches={[]}
           winRate={{
-            total: 0,
-            wins: 0,
-            losses: 0,
-            percentage: 0,
+            total: matchHistory?.tong_quan.tong_so_tran || 0,
+            wins: matchHistory?.tong_quan.so_tran_thang || 0,
+            losses: matchHistory?.tong_quan.so_tran_thua || 0,
+            percentage: matchHistory?.tong_quan.tong_so_tran
+              ? (matchHistory.tong_quan.so_tran_thang /
+                  matchHistory.tong_quan.tong_so_tran) *
+                100
+              : 0,
           }}
           avatarUrl={
             playerData.avatar_url
@@ -144,7 +188,7 @@ export default function PlayerDetailPage({
           >
             {seasons.length > 0 ? (
               seasons.map((season) => (
-                <option key={season.id} value={season.mua_giai_ten}>
+                <option key={season.id} value={season.mua_giai_id}>
                   {season.mua_giai_ten}
                 </option>
               ))
@@ -161,51 +205,67 @@ export default function PlayerDetailPage({
               Lịch sử trận đấu
             </h2>
           </div>
-          <div className="overflow-x-auto rounded-lg shadow-md">
-            <table className="w-full">
-              <thead className="bg-black text-white">
-                <tr>
-                  <th className="py-2 sm:py-3 px-2 sm:px-4 text-left font-roboto font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px]">
-                    STT
-                  </th>
-                  <th className="py-2 sm:py-3 px-2 sm:px-4 text-left font-roboto font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px]">
-                    Ngày thi đấu
-                  </th>
-                  <th className="py-2 sm:py-3 px-2 sm:px-4 text-left font-roboto font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px]">
-                    VĐV Nhà 2
-                  </th>
-                  <th className="py-2 sm:py-3 px-2 sm:px-4 text-left font-roboto font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px]">
-                    VĐV Nhà 1
-                  </th>
-                  <th className="py-2 sm:py-3 px-2 sm:px-4 text-left font-roboto font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px]">
-                    Kết quả
-                  </th>
-                  <th className="py-2 sm:py-3 px-2 sm:px-4 text-left font-roboto font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px]">
-                    VĐV Khách 1
-                  </th>
-                  <th className="py-2 sm:py-3 px-2 sm:px-4 text-left font-roboto font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px]">
-                    VĐV Khách 2
-                  </th>
-                  <th className="py-2 sm:py-3 px-2 sm:px-4 text-left font-roboto font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px]">
-                    Điểm
-                  </th>
-                  <th className="py-2 sm:py-3 px-2 sm:px-4 text-center font-roboto font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px]">
-                    Trận
-                  </th>
-                  <th className="py-2 sm:py-3 px-2 sm:px-4 text-center font-roboto font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px]">
-                    Video
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td colSpan={10} className="py-4 text-center text-gray-500">
-                    Không có dữ liệu
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          {isLoadingHistory ? (
+            <div className="text-center">Đang tải dữ liệu...</div>
+          ) : !matchHistory ? (
+            <div className="text-center text-gray-500">
+              Không lấy được dữ liệu
+            </div>
+          ) : matchHistory.lich_su.length === 0 ? (
+            <div className="text-center text-gray-500">Không có dữ liệu</div>
+          ) : (
+            <div className="overflow-x-auto rounded-lg shadow-md">
+              <table className="w-full">
+                <thead className="bg-black text-white">
+                  <tr>
+                    <th className="py-2 sm:py-3 px-2 sm:px-4 text-left font-roboto font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px]">
+                      STT
+                    </th>
+                    <th className="py-2 sm:py-3 px-2 sm:px-4 text-left font-roboto font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px]">
+                      Ngày thi đấu
+                    </th>
+                    <th className="py-2 sm:py-3 px-2 sm:px-4 text-left font-roboto font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px]">
+                      Đội nhà
+                    </th>
+                    <th className="py-2 sm:py-3 px-2 sm:px-4 text-left font-roboto font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px]">
+                      Đội khách
+                    </th>
+                    <th className="py-2 sm:py-3 px-2 sm:px-4 text-left font-roboto font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px]">
+                      Kết quả
+                    </th>
+                    <th className="py-2 sm:py-3 px-2 sm:px-4 text-left font-roboto font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px]">
+                      Tỉ số set
+                    </th>
+                    <th className="py-2 sm:py-3 px-2 sm:px-4 text-left font-roboto font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px]">
+                      Tổng điểm
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {matchHistory?.lich_su.map((match, index) => (
+                    <tr
+                      key={match.tran_dau_id}
+                      className={`text-black font-roboto font-[400] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] h-[42px] ${
+                        index % 2 === 0 ? "bg-[#F3F3F3]" : "bg-[#D9D9D9]"
+                      }`}
+                    >
+                      <td className="px-2 sm:px-4">{index + 1}</td>
+                      <td className="px-2 sm:px-4">
+                        {formatDate(match.ngay_thi_dau)} {match.gio_thi_dau}
+                      </td>
+                      <td className="px-2 sm:px-4">{match.doi_a_ten}</td>
+                      <td className="px-2 sm:px-4">{match.doi_b_ten}</td>
+                      <td className="px-2 sm:px-4">{match.ket_qua_tran_dau}</td>
+                      <td className="px-2 sm:px-4">{match.tiso_setdau}</td>
+                      <td className="px-2 sm:px-4">
+                        {match.tongdiem_toanbo_setdau}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
     </main>

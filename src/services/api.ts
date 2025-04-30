@@ -199,6 +199,52 @@ export interface MatchScheduleResponse {
   results_per_page: number;
 }
 
+export interface AthleteMatchHistory {
+  tran_dau_id: string;
+  doi_a_ten: string;
+  doi_b_ten: string;
+  gio_thi_dau: string;
+  ngay_thi_dau: number;
+  doi_a_bo_cuoc: boolean | null;
+  doi_b_bo_cuoc: boolean | null;
+  ket_qua_tran_dau: string;
+  tiso_setdau: string;
+  tongdiem_toanbo_setdau: string;
+  doi_chien_thang_tran_dau: string;
+  trandauthamgia: Array<{
+    tran_dau_id: string;
+    tran_so: number;
+    loai_dau: number;
+    doi_tham_gia: string;
+    diem_truoc_tran: number;
+    diem_sau_tran: number;
+    ket_qua_chitiet: Array<{
+      a: number;
+      b: number;
+    }>;
+    doi_chien_thang: string;
+    ket_qua: string;
+    dong_doi: string | null;
+    doi_thu: string[];
+  }>;
+}
+
+export interface AthleteMatchHistoryResponse {
+  tong_quan: {
+    vdv_ten: string;
+    vdv_hang: string;
+    diem_tich_luy: number;
+    so_tran_thang: number;
+    so_tran_thua: number;
+    tong_so_tran: number;
+  };
+  lich_su: AthleteMatchHistory[];
+  total: number;
+  total_pages: number;
+  page: number;
+  results_per_page: number;
+}
+
 const fetchApi = async <T>(
   endpoint: string,
   params: Record<string, string | number> = {}
@@ -316,6 +362,20 @@ export const athleteApi = {
       `/get_detail_athlete?id=${id}`
     );
     return response as AthleteDetail;
+  },
+  getAthleteMatchHistory: async (
+    mua_giai_id: string,
+    vdv_id: string,
+    page: number = 1,
+    resultsPerPage: number = 20
+  ): Promise<AthleteMatchHistoryResponse> => {
+    const response = await fetch(
+      `${BASE_URL}/lich_su_van_dong_vien?mua_giai_id=${mua_giai_id}&vdv_id=${vdv_id}&page=${page}&results_per_page=${resultsPerPage}`
+    );
+    if (!response.ok) {
+      throw new Error(`API call failed: ${response.statusText}`);
+    }
+    return response.json();
   },
 };
 
