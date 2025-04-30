@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { teamApi, athleteApi, Team, Athlete } from "@/services/api";
+import Image from "next/image";
 
 export default function PlayersTeamsPage() {
   const [activeTab, setActiveTab] = useState<"team" | "player">("team");
@@ -179,6 +180,9 @@ export default function PlayersTeamsPage() {
                 </th>
                 {activeTab === "team" ? (
                   <>
+                    <th className="px-2 sm:px-4 w-12 sm:w-16 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                      Logo
+                    </th>
                     <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                       Tên đội
                     </th>
@@ -196,6 +200,9 @@ export default function PlayersTeamsPage() {
                     </th>
                     <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                       Đội
+                    </th>
+                    <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                      Tuổi
                     </th>
                     <th className="px-2 sm:px-4 w-16 sm:w-24 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                       Hạng
@@ -226,6 +233,21 @@ export default function PlayersTeamsPage() {
                     }`}
                   >
                     <td className="px-2 sm:px-4">{team.stt}</td>
+                    <td className="px-2 sm:px-4">
+                      {team.logo_url && (
+                        <Image
+                          src={`https://admin.hanoispl.com/static${team.logo_url}`}
+                          alt={team.ten_doi}
+                          width={32}
+                          height={32}
+                          className="rounded-full object-cover w-8 h-8"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.style.display = "none";
+                          }}
+                        />
+                      )}
+                    </td>
                     <td className="px-2 sm:px-4">
                       <Link
                         href={`/teams/${team.id}`}
@@ -258,6 +280,9 @@ export default function PlayersTeamsPage() {
                       </Link>
                     </td>
                     <td className="px-2 sm:px-4">{athlete.doi_bong_ten}</td>
+                    <td className="px-2 sm:px-4">
+                      {new Date().getFullYear() - parseInt(athlete.nam_sinh)}
+                    </td>
                     <td className="px-2 sm:px-4">{athlete.vdv_hang || "-"}</td>
                     <td className="px-2 sm:px-4">{athlete.vdv_diem || "-"}</td>
                   </tr>

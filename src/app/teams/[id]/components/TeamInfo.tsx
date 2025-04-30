@@ -15,7 +15,13 @@ export default function TeamInfo({ team }: TeamInfoProps) {
             <div className="text-black">{team.ten_doi}</div>
             <div className="font-[600] text-black">Đội trưởng</div>
             <div className="text-black">
-              {team.doi_truong_ten} - {team.doi_truong_sdt}
+              {team.doi_truong_ten} -{" "}
+              <a
+                href={`tel:${team.doi_truong_sdt}`}
+                className="text-blue-600 hover:text-blue-800 underline"
+              >
+                {team.doi_truong_sdt}
+              </a>
             </div>
             <div className="font-[600] text-black">Sân nhà</div>
             <div className="text-black">{team.dia_chi}</div>

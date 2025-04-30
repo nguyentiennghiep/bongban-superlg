@@ -11,12 +11,12 @@ import {
   AthleteDetail,
   Round,
 } from "@/services/api";
-import MatchSchedule from "@/app/components/MatchSchedule";
 import TeamBreadcrumb from "./components/TeamBreadcrumb";
 import TeamInfo from "./components/TeamInfo";
 import TeamMembers from "./components/TeamMembers";
 import TeamMembersSearch from "./components/TeamMembersSearch";
 import TeamMembersPagination from "./components/TeamMembersPagination";
+import TeamMatchHistory from "./components/TeamMatchHistory";
 
 export default function TeamDetailPage({
   params,
@@ -97,7 +97,7 @@ export default function TeamDetailPage({
           setSeasons(response.objects);
           // Set the first season as default if available
           if (response.objects.length > 0) {
-            setSelectedSeason(response.objects[0].mua_giai_ten);
+            setSelectedSeason(response.objects[0].mua_giai_id);
           }
         }
       } catch (error) {
@@ -262,8 +262,11 @@ export default function TeamDetailPage({
             onPageChange={handlePageChange}
           />
 
-          {/* Match Schedule */}
-          <MatchSchedule />
+          {/* Team Match History */}
+          <TeamMatchHistory
+            teamId={resolvedParams.id}
+            selectedSeason={selectedSeason}
+          />
         </div>
       </div>
     </main>

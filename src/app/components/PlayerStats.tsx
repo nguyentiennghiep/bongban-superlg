@@ -112,7 +112,7 @@ export default function PlayerStats({
               </span>
               <span className="font-roboto font-[600] text-sm sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
                 {(
-                  parseInt(accumulatedPoints) + parseInt(rankPoints)
+                  parseFloat(accumulatedPoints) + parseFloat(rankPoints)
                 ).toString()}
               </span>
             </div>
@@ -190,7 +190,7 @@ export default function PlayerStats({
                       Tỷ lệ % (thắng)
                     </div>
                     <div className="font-roboto font-[600] text-xl sm:text-[30px] leading-[24px] sm:leading-[38px] text-black">
-                      {winRate.percentage}%
+                      {Math.round(winRate.percentage * 100) / 100}%
                     </div>
                   </div>
                 </div>
