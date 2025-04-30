@@ -136,6 +136,24 @@ export interface TeamRanking {
   tong_so_tran: number;
 }
 
+export interface AthleteRanking {
+  id: string;
+  mua_giai_id: string;
+  mua_giai_ten: string;
+  doi_bong_id: string;
+  doi_bong_ten: string;
+  vdv_id: string;
+  vdv_ten: string;
+  vdv_hang: string;
+  diem_tich_luy: number;
+  vdv_diem: number;
+  vdv_avatar_url: string;
+  ghi_chu: string;
+  so_tran_thang: number;
+  so_tran_thua: number;
+  tong_so_tran: number;
+}
+
 const fetchApi = async <T>(
   endpoint: string,
   params: Record<string, string | number> = {}
@@ -350,6 +368,31 @@ export const rankingApi = {
     // If it's not an ApiResponse, create one
     return {
       objects: [response as TeamRanking],
+      num_results: 1,
+      page: 1,
+      total_pages: 1,
+    };
+  },
+
+  getAthleteRankings: async (
+    seasonId: string,
+    page: number = 1,
+    resultsPerPage: number = 20
+  ): Promise<ApiResponse<AthleteRanking>> => {
+    const response = await fetchApi<AthleteRanking>("/xep_hang_van_dong_vien", {
+      mua_giai_id: seasonId,
+      page,
+      results_per_page: resultsPerPage,
+    });
+
+    // Ensure we return an ApiResponse<AthleteRanking>
+    if ("objects" in response) {
+      return response as ApiResponse<AthleteRanking>;
+    }
+
+    // If it's not an ApiResponse, create one
+    return {
+      objects: [response as AthleteRanking],
       num_results: 1,
       page: 1,
       total_pages: 1,

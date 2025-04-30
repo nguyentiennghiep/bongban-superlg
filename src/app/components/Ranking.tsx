@@ -2,8 +2,10 @@
 import { useState, useEffect } from "react";
 import { roundApi, Round, rankingApi, TeamRanking } from "@/services/api";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function Ranking() {
+  const router = useRouter();
   const [seasons, setSeasons] = useState<Round[]>([]);
   const [selectedSeason, setSelectedSeason] = useState("");
   const [rankings, setRankings] = useState<TeamRanking[]>([]);
@@ -64,6 +66,10 @@ export default function Ranking() {
     setCurrentPage(page);
   };
 
+  const handleRowClick = (teamId: string) => {
+    router.push(`/teams/${teamId}`);
+  };
+
   const renderPagination = () => {
     return (
       <div className="flex justify-center sm:justify-end items-center gap-2 mt-4">
@@ -114,7 +120,7 @@ export default function Ranking() {
             )}
           </select>
         </div>
-        {/* Temporarily hidden filters - will be used later */}
+        {/* Temporarily hidden round filter - will be used later */}
         {/* <div>
           <label className="block font-semibold text-base leading-6 mb-2 text-black">
             Vòng đấu
@@ -122,8 +128,9 @@ export default function Ranking() {
           <select className="w-full p-[6px] pr-[6px] rounded bg-[#F3F3F3] text-black text-sm leading-[22px] border border-[#DFDFDF] appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2014%2014%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M3.5%205.25L7%208.75L10.5%205.25%22%20stroke%3D%22%23000000%22%20stroke-width%3D%221.16667%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[center_right_6px]">
             <option value="">Tất cả</option>
           </select>
-        </div>
-        <div>
+        </div> */}
+        {/* Temporarily hidden group filter - will be used later */}
+        {/* <div>
           <label className="block font-semibold text-base leading-6 mb-2 text-black">
             Bảng
           </label>
@@ -149,8 +156,8 @@ export default function Ranking() {
         <>
           <div className="overflow-x-auto bg-white shadow-md rounded-lg">
             <table className="w-full">
-              <thead className="bg-black text-white text-left h-[42px]">
-                <tr>
+              <thead>
+                <tr className="bg-black text-white text-left h-[42px]">
                   <th className="px-2 sm:px-4 w-12 sm:w-16 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                     Hạng
                   </th>
@@ -183,21 +190,25 @@ export default function Ranking() {
               <tbody>
                 {rankings.length > 0 ? (
                   rankings.map((team, index) => (
-                    <tr key={team.id} className="border-b border-gray-200">
-                      <td className="px-2 sm:px-4 py-3 text-black">
+                    <tr
+                      key={team.id}
+                      onClick={() => handleRowClick(team.doi_bong_id)}
+                      className={`text-black font-roboto font-[400] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] h-[42px] cursor-pointer hover:bg-gray-200 ${
+                        index % 2 === 0 ? "bg-[#F3F3F3]" : "bg-[#D9D9D9]"
+                      }`}
+                    >
+                      <td className="px-2 sm:px-4">
                         {(currentPage - 1) * 20 + index + 1}
                       </td>
-                      <td className="px-2 sm:px-4 py-3 text-black">
-                        {team.doi_bong_ten}
-                      </td>
-                      <td className="px-2 sm:px-4 py-3 text-black">
+                      <td className="px-2 sm:px-4">{team.doi_bong_ten}</td>
+                      <td className="px-2 sm:px-4">
                         {team.doi_bong_logo_url && (
                           <Image
                             src={`https://admin.hanoispl.com/static${team.doi_bong_logo_url}`}
                             alt={team.doi_bong_ten}
                             width={32}
                             height={32}
-                            className="rounded-full"
+                            className="rounded-full object-cover w-8 h-8"
                             onError={(e) => {
                               const target = e.target as HTMLImageElement;
                               target.style.display = "none";
@@ -205,29 +216,23 @@ export default function Ranking() {
                           />
                         )}
                       </td>
-                      <td className="px-2 sm:px-4 py-3 text-black">
-                        {team.tong_so_tran}
-                      </td>
-                      <td className="px-2 sm:px-4 py-3 text-black">
-                        {team.so_tran_thang}
-                      </td>
-                      <td className="px-2 sm:px-4 py-3 text-black">
+                      <td className="px-2 sm:px-4">{team.tong_so_tran}</td>
+                      <td className="px-2 sm:px-4">{team.so_tran_thang}</td>
+                      <td className="px-2 sm:px-4">
                         {team.tong_so_tran -
                           team.so_tran_thang -
                           team.so_tran_thua}
                       </td>
-                      <td className="px-2 sm:px-4 py-3 text-black">
-                        {team.so_tran_thua}
-                      </td>
-                      <td className="px-2 sm:px-4 py-3 text-black">0</td>
-                      <td className="px-2 sm:px-4 py-3 text-black font-semibold">
+                      <td className="px-2 sm:px-4">{team.so_tran_thua}</td>
+                      <td className="px-2 sm:px-4">0</td>
+                      <td className="px-2 sm:px-4 font-semibold">
                         {team.diem_mua_giai}
                       </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={8} className="p-3 text-center">
+                    <td colSpan={9} className="p-3 text-center">
                       Không có dữ liệu
                     </td>
                   </tr>
