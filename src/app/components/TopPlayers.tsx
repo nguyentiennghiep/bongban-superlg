@@ -231,17 +231,19 @@ export default function TopPlayers() {
                       <td className="px-2 sm:px-4">
                         <div className="flex items-center gap-2">
                           {player.vdv_avatar_url && (
-                            <Image
-                              src={`https://admin.hanoispl.com/static${player.vdv_avatar_url}`}
-                              alt={player.vdv_ten}
-                              width={32}
-                              height={32}
-                              className="rounded-full object-cover w-8 h-8"
-                              onError={(e) => {
-                                const target = e.target as HTMLImageElement;
-                                target.style.display = "none";
-                              }}
-                            />
+                            <div className="relative w-8 h-8 rounded-full overflow-hidden">
+                              <Image
+                                src={`https://admin.hanoispl.com/static${player.vdv_avatar_url}`}
+                                alt={player.vdv_ten}
+                                fill
+                                sizes="32px"
+                                className="object-cover"
+                                onError={(e) => {
+                                  const target = e.target as HTMLImageElement;
+                                  target.style.display = "none";
+                                }}
+                              />
+                            </div>
                           )}
                           {player.vdv_ten}
                         </div>
