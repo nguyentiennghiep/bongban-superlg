@@ -114,6 +114,28 @@ export interface Post {
   approved_time: number;
 }
 
+export interface TeamRanking {
+  id: string;
+  mua_giai_id: string;
+  mua_giai_ten: string;
+  doi_bong_id: string;
+  doi_bong_ten: string;
+  ten_doi_theo_muagiai: string | null;
+  doi_bong_logo_url: string | null;
+  doi_bong_banner_url: string | null;
+  soluong_vdv: number;
+  doi_truong_id: string | null;
+  doi_truong_ten: string | null;
+  huan_luyen_vien: string | null;
+  sodienthoai: string | null;
+  email: string | null;
+  ten_doi: string;
+  diem_mua_giai: number;
+  so_tran_thang: number;
+  so_tran_thua: number;
+  tong_so_tran: number;
+}
+
 const fetchApi = async <T>(
   endpoint: string,
   params: Record<string, string | number> = {}
@@ -305,6 +327,33 @@ export const postApi = {
 
     // Otherwise, assume it's a single Post object
     return response as Post;
+  },
+};
+
+export const rankingApi = {
+  getTeamRankings: async (
+    seasonId: string,
+    page: number = 1,
+    resultsPerPage: number = 20
+  ): Promise<ApiResponse<TeamRanking>> => {
+    const response = await fetchApi<TeamRanking>("/xep_hang_doi_bong", {
+      mua_giai_id: seasonId,
+      page,
+      results_per_page: resultsPerPage,
+    });
+
+    // Ensure we return an ApiResponse<TeamRanking>
+    if ("objects" in response) {
+      return response as ApiResponse<TeamRanking>;
+    }
+
+    // If it's not an ApiResponse, create one
+    return {
+      objects: [response as TeamRanking],
+      num_results: 1,
+      page: 1,
+      total_pages: 1,
+    };
   },
 };
 

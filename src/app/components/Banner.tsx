@@ -103,11 +103,7 @@ export default function Banner() {
                 </div>
               )} */}
               {/* Desktop Image */}
-              <div
-                className={`relative w-full pt-[30.56%] ${
-                  slide.mobileImage ? "hidden sm:block" : ""
-                }`}
-              >
+              <div className={`relative w-full pt-[30.56%]`}>
                 <Image
                   src={slide.image}
                   alt={slide.alt}

@@ -1,11 +1,15 @@
 "use client";
 import { useState, useEffect } from "react";
-import { roundApi, Round } from "@/services/api";
+import { roundApi, Round, rankingApi, TeamRanking } from "@/services/api";
+import Image from "next/image";
 
 export default function Ranking() {
   const [seasons, setSeasons] = useState<Round[]>([]);
   const [selectedSeason, setSelectedSeason] = useState("");
+  const [rankings, setRankings] = useState<TeamRanking[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     const fetchSeasons = async () => {
@@ -14,7 +18,7 @@ export default function Ranking() {
         if ("objects" in response) {
           setSeasons(response.objects);
           if (response.objects.length > 0) {
-            setSelectedSeason(response.objects[0].mua_giai_ten);
+            setSelectedSeason(response.objects[0].mua_giai_id);
           }
         }
       } catch (error) {
@@ -26,6 +30,59 @@ export default function Ranking() {
 
     fetchSeasons();
   }, []);
+
+  useEffect(() => {
+    const fetchRankings = async () => {
+      if (!selectedSeason) return;
+
+      setIsLoading(true);
+      try {
+        const response = await rankingApi.getTeamRankings(
+          selectedSeason,
+          currentPage
+        );
+        if ("objects" in response) {
+          setRankings(response.objects);
+          setTotalPages(response.total_pages);
+        }
+      } catch (error) {
+        console.error("Error fetching rankings:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchRankings();
+  }, [selectedSeason, currentPage]);
+
+  const getSelectedSeasonName = () => {
+    const season = seasons.find((s) => s.mua_giai_id === selectedSeason);
+    return season ? season.mua_giai_ten : "";
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const renderPagination = () => {
+    return (
+      <div className="flex justify-center sm:justify-end items-center gap-2 mt-4">
+        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+          <button
+            key={page}
+            onClick={() => handlePageChange(page)}
+            className={`w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center ${
+              currentPage === page
+                ? "bg-[#EE344D] text-white"
+                : "hover:bg-gray-100 text-black"
+            } text-sm sm:text-base`}
+          >
+            {page}
+          </button>
+        ))}
+      </div>
+    );
+  };
 
   return (
     <section className="container mx-auto px-6 py-12">
@@ -48,7 +105,7 @@ export default function Ranking() {
           >
             {seasons.length > 0 ? (
               seasons.map((season) => (
-                <option key={season.id} value={season.mua_giai_ten}>
+                <option key={season.id} value={season.mua_giai_id}>
                   {season.mua_giai_ten}
                 </option>
               ))
@@ -57,7 +114,8 @@ export default function Ranking() {
             )}
           </select>
         </div>
-        <div>
+        {/* Temporarily hidden filters - will be used later */}
+        {/* <div>
           <label className="block font-semibold text-base leading-6 mb-2 text-black">
             Vòng đấu
           </label>
@@ -72,53 +130,113 @@ export default function Ranking() {
           <select className="w-full p-[6px] pr-[6px] rounded bg-[#F3F3F3] text-black text-sm leading-[22px] border border-[#DFDFDF] appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2014%2014%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M3.5%205.25L7%208.75L10.5%205.25%22%20stroke%3D%22%23000000%22%20stroke-width%3D%221.16667%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[center_right_6px]">
             <option value="">Tất cả</option>
           </select>
-        </div>
+        </div> */}
       </div>
+
+      {/* Season Name */}
+      {selectedSeason && (
+        <div className="mb-6">
+          <h3 className="text-xl font-semibold text-black">
+            {getSelectedSeasonName()}
+          </h3>
+        </div>
+      )}
 
       {/* Ranking Table */}
       {isLoading ? (
         <div className="text-center">Đang tải dữ liệu...</div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-black text-white text-left h-[42px]">
-              <tr>
-                <th className="px-2 sm:px-4 w-12 sm:w-16 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
-                  Hạng
-                </th>
-                <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
-                  Đội
-                </th>
-                <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
-                  Trận
-                </th>
-                <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
-                  Thắng
-                </th>
-                <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
-                  Hòa
-                </th>
-                <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
-                  Thua
-                </th>
-                <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
-                  Hiệu số
-                </th>
-                <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
-                  Điểm
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* TODO: Add API call to fetch rankings */}
-              <tr>
-                <td colSpan={8} className="p-3 text-center">
-                  Không có dữ liệu
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <>
+          <div className="overflow-x-auto bg-white shadow-md rounded-lg">
+            <table className="w-full">
+              <thead className="bg-black text-white text-left h-[42px]">
+                <tr>
+                  <th className="px-2 sm:px-4 w-12 sm:w-16 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                    Hạng
+                  </th>
+                  <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                    Đội
+                  </th>
+                  <th className="px-2 sm:px-4 w-12 sm:w-16 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                    Logo
+                  </th>
+                  <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                    Trận
+                  </th>
+                  <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                    Thắng
+                  </th>
+                  <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                    Hòa
+                  </th>
+                  <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                    Thua
+                  </th>
+                  <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                    Hiệu số
+                  </th>
+                  <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                    Điểm
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {rankings.length > 0 ? (
+                  rankings.map((team, index) => (
+                    <tr key={team.id} className="border-b border-gray-200">
+                      <td className="px-2 sm:px-4 py-3 text-black">
+                        {(currentPage - 1) * 20 + index + 1}
+                      </td>
+                      <td className="px-2 sm:px-4 py-3 text-black">
+                        {team.doi_bong_ten}
+                      </td>
+                      <td className="px-2 sm:px-4 py-3 text-black">
+                        {team.doi_bong_logo_url && (
+                          <Image
+                            src={`https://admin.hanoispl.com/static${team.doi_bong_logo_url}`}
+                            alt={team.doi_bong_ten}
+                            width={32}
+                            height={32}
+                            className="rounded-full"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = "none";
+                            }}
+                          />
+                        )}
+                      </td>
+                      <td className="px-2 sm:px-4 py-3 text-black">
+                        {team.tong_so_tran}
+                      </td>
+                      <td className="px-2 sm:px-4 py-3 text-black">
+                        {team.so_tran_thang}
+                      </td>
+                      <td className="px-2 sm:px-4 py-3 text-black">
+                        {team.tong_so_tran -
+                          team.so_tran_thang -
+                          team.so_tran_thua}
+                      </td>
+                      <td className="px-2 sm:px-4 py-3 text-black">
+                        {team.so_tran_thua}
+                      </td>
+                      <td className="px-2 sm:px-4 py-3 text-black">0</td>
+                      <td className="px-2 sm:px-4 py-3 text-black font-semibold">
+                        {team.diem_mua_giai}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={8} className="p-3 text-center">
+                      Không có dữ liệu
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+          {totalPages > 1 && renderPagination()}
+        </>
       )}
     </section>
   );
