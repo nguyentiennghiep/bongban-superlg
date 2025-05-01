@@ -175,14 +175,14 @@ export default function PlayersTeamsPage() {
           <table className="w-full">
             <thead>
               <tr className="bg-black text-white text-left h-[42px]">
-                <th className="px-2 sm:px-4 w-12 sm:w-16 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                <th
+                  className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto"
+                  style={{ width: "40px", minWidth: "40px", maxWidth: "40px" }}
+                >
                   STT
                 </th>
                 {activeTab === "team" ? (
                   <>
-                    <th className="px-2 sm:px-4 w-12 sm:w-16 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
-                      Logo
-                    </th>
                     <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                       Tên đội
                     </th>
@@ -232,29 +232,40 @@ export default function PlayersTeamsPage() {
                       index % 2 === 0 ? "bg-[#F3F3F3]" : "bg-[#D9D9D9]"
                     }`}
                   >
-                    <td className="px-2 sm:px-4">{team.stt}</td>
-                    <td className="px-2 sm:px-4">
-                      {team.logo_url && (
-                        <Image
-                          src={`https://admin.hanoispl.com/static${team.logo_url}`}
-                          alt={team.ten_doi}
-                          width={32}
-                          height={32}
-                          className="rounded-full object-cover w-8 h-8"
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement;
-                            target.style.display = "none";
-                          }}
-                        />
-                      )}
+                    <td
+                      className="px-2 sm:px-4"
+                      style={{
+                        width: "40px",
+                        minWidth: "40px",
+                        maxWidth: "40px",
+                      }}
+                    >
+                      {team.stt}
                     </td>
                     <td className="px-2 sm:px-4">
-                      <Link
-                        href={`/teams/${team.id}`}
-                        className="text-blue-600 hover:underline"
-                      >
-                        {team.ten_doi}
-                      </Link>
+                      <div className="flex items-center gap-2">
+                        {team.logo_url && (
+                          <div className="relative w-8 h-8 rounded-full overflow-hidden">
+                            <Image
+                              src={`https://admin.hanoispl.com/static${team.logo_url}`}
+                              alt={team.ten_doi}
+                              fill
+                              sizes="32px"
+                              className="object-cover"
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.style.display = "none";
+                              }}
+                            />
+                          </div>
+                        )}
+                        <Link
+                          href={`/teams/${team.id}`}
+                          className="text-blue-600 hover:underline"
+                        >
+                          {team.ten_doi}
+                        </Link>
+                      </div>
                     </td>
                     <td className="px-2 sm:px-4">
                       {team.doi_truong_ten} -{" "}
@@ -276,7 +287,16 @@ export default function PlayersTeamsPage() {
                       index % 2 === 0 ? "bg-[#F3F3F3]" : "bg-[#D9D9D9]"
                     }`}
                   >
-                    <td className="px-2 sm:px-4">{athlete.stt}</td>
+                    <td
+                      className="px-2 sm:px-4"
+                      style={{
+                        width: "40px",
+                        minWidth: "40px",
+                        maxWidth: "40px",
+                      }}
+                    >
+                      {athlete.stt}
+                    </td>
                     <td className="px-2 sm:px-4">
                       <Link
                         href={`/players/${athlete.vdv_id}`}

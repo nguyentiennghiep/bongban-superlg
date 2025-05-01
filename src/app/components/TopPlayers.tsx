@@ -114,7 +114,10 @@ export default function TopPlayers() {
           <table className="w-full">
             <thead>
               <tr className="bg-black text-white text-left h-[42px]">
-                <th className="px-2 sm:px-4 w-12 sm:w-16 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                <th
+                  className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto"
+                  style={{ width: "40px", minWidth: "40px", maxWidth: "40px" }}
+                >
                   STT
                 </th>
                 <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
@@ -141,7 +144,16 @@ export default function TopPlayers() {
                       index % 2 === 0 ? "bg-[#F3F3F3]" : "bg-[#D9D9D9]"
                     }`}
                   >
-                    <td className="px-2 sm:px-4">{index + 1}</td>
+                    <td
+                      className="px-2 sm:px-4"
+                      style={{
+                        width: "40px",
+                        minWidth: "40px",
+                        maxWidth: "40px",
+                      }}
+                    >
+                      {index + 1}
+                    </td>
                     <td className="px-2 sm:px-4">
                       <div className="flex items-center gap-2">
                         {player.vdv_avatar_url && (

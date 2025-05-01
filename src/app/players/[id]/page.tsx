@@ -219,7 +219,14 @@ export default function PlayerDetailPage({
               <table className="w-full">
                 <thead className="bg-black text-white">
                   <tr>
-                    <th className="py-2 sm:py-3 px-2 sm:px-4 text-left font-roboto font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px]">
+                    <th
+                      className="py-2 sm:py-3 px-2 sm:px-4 text-left font-roboto font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px]"
+                      style={{
+                        width: "40px",
+                        minWidth: "40px",
+                        maxWidth: "40px",
+                      }}
+                    >
                       STT
                     </th>
                     <th className="py-2 sm:py-3 px-2 sm:px-4 text-left font-roboto font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px]">
@@ -250,7 +257,16 @@ export default function PlayerDetailPage({
                         index % 2 === 0 ? "bg-[#F3F3F3]" : "bg-[#D9D9D9]"
                       }`}
                     >
-                      <td className="px-2 sm:px-4">{index + 1}</td>
+                      <td
+                        className="px-2 sm:px-4"
+                        style={{
+                          width: "40px",
+                          minWidth: "40px",
+                          maxWidth: "40px",
+                        }}
+                      >
+                        {index + 1}
+                      </td>
                       <td className="px-2 sm:px-4">
                         {formatDate(match.ngay_thi_dau)} {match.gio_thi_dau}
                       </td>
