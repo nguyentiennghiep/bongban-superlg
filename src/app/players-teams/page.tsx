@@ -320,19 +320,65 @@ export default function PlayersTeamsPage() {
 
         {/* Pagination */}
         <div className="flex justify-center sm:justify-end items-center gap-2 mt-4">
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+          {currentPage > 1 && (
             <button
-              key={page}
-              onClick={() => handlePageChange(page)}
-              className={`w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center ${
-                currentPage === page
-                  ? "bg-[#EE344D] text-white"
-                  : "hover:bg-gray-100 text-black"
-              } text-sm sm:text-base`}
+              onClick={() => handlePageChange(currentPage - 1)}
+              className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 text-black text-sm sm:text-base"
             >
-              {page}
+              ‹
             </button>
-          ))}
+          )}
+
+          {currentPage > 2 && (
+            <button
+              onClick={() => handlePageChange(1)}
+              className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 text-black text-sm sm:text-base"
+            >
+              1
+            </button>
+          )}
+
+          {currentPage > 3 && <span className="text-black">...</span>}
+
+          {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+            const page =
+              Math.max(1, Math.min(currentPage - 2, totalPages - 4)) + i;
+            return page <= totalPages ? (
+              <button
+                key={page}
+                onClick={() => handlePageChange(page)}
+                className={`w-8 h-8 flex items-center justify-center ${
+                  currentPage === page
+                    ? "bg-[#EE344D] text-white"
+                    : "hover:bg-gray-100 text-black"
+                } text-sm sm:text-base`}
+              >
+                {page}
+              </button>
+            ) : null;
+          })}
+
+          {currentPage < totalPages - 2 && (
+            <span className="text-black">...</span>
+          )}
+
+          {currentPage < totalPages - 1 && (
+            <button
+              onClick={() => handlePageChange(totalPages)}
+              className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 text-black text-sm sm:text-base"
+            >
+              {totalPages}
+            </button>
+          )}
+
+          {currentPage < totalPages && (
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 text-black text-sm sm:text-base"
+            >
+              ›
+            </button>
+          )}
         </div>
       </div>
     </main>
