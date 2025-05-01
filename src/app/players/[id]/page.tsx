@@ -174,6 +174,7 @@ export default function PlayerDetailPage({
               ? `https://admin.hanoispl.com/static${playerData.avatar_url}`
               : undefined
           }
+          notes={getCurrentSeasonStats()?.ghi_chu || ""}
         />
 
         {/* Season Filter */}

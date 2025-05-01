@@ -20,6 +20,7 @@ interface PlayerStatsProps {
     percentage: number;
   };
   avatarUrl?: string;
+  notes?: string;
 }
 
 export default function PlayerStats({
@@ -31,6 +32,7 @@ export default function PlayerStats({
   matches,
   winRate,
   avatarUrl,
+  notes,
 }: PlayerStatsProps) {
   const [seasons, setSeasons] = useState<Round[]>([]);
   const [selectedSeason, setSelectedSeason] = useState("");
@@ -116,6 +118,16 @@ export default function PlayerStats({
                 ).toString()}
               </span>
             </div>
+            {notes && (
+              <div className="grid grid-cols-[120px_1fr] sm:grid-cols-[100px_1fr] items-center">
+                <span className="font-roboto text-sm sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
+                  Ghi chú
+                </span>
+                <span className="font-roboto font-[600] text-sm sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
+                  {notes}
+                </span>
+              </div>
+            )}
           </div>
 
           <div className="mt-4 sm:mt-6">

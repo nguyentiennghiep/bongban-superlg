@@ -88,6 +88,7 @@ export interface AthleteDetail {
     diem_tham_gia: number;
     diem_tich_luy: number;
     hang_vdv: string;
+    ghi_chu?: string;
   }>;
 }
 
