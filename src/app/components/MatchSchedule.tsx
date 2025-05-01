@@ -165,7 +165,7 @@ export default function MatchSchedule() {
                     Tỷ số
                   </th>
                   <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
-                    Tổng điểm toàn bộ set đấu
+                    Đường đi
                   </th>
                 </tr>
               </thead>
@@ -186,7 +186,20 @@ export default function MatchSchedule() {
                       <td className="px-2 sm:px-4">{match.doi_b_ten}</td>
                       <td className="px-2 sm:px-4">{match.ket_qua || "-"}</td>
                       <td className="px-2 sm:px-4">
-                        {match.tongdiem_toanbo_setdau || "-"}
+                        <a
+                          href={
+                            match.map_san_dau.includes("iframe")
+                              ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                                  match.diachi_thi_dau
+                                )}`
+                              : match.map_san_dau
+                          }
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:text-blue-800 underline"
+                        >
+                          Xem đường đi
+                        </a>
                       </td>
                     </tr>
                   ))

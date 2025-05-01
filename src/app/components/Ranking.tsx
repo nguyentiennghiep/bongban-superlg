@@ -11,7 +11,7 @@ export default function Ranking() {
   const [rankings, setRankings] = useState<TeamRanking[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const teamsPerPage = 10;
 
   useEffect(() => {
     const fetchSeasons = async () => {
@@ -41,11 +41,27 @@ export default function Ranking() {
       try {
         const response = await rankingApi.getTeamRankings(
           selectedSeason,
-          currentPage
+          1,
+          1000
         );
         if ("objects" in response) {
-          setRankings(response.objects);
-          setTotalPages(response.total_pages);
+          // Filter out teams with zero wins and losses
+          const filteredTeams = response.objects.filter(
+            (team) => team.so_tran_thang !== 0 || team.so_tran_thua !== 0
+          );
+
+          // Sort teams by criteria
+          const sortedTeams = filteredTeams.sort((a, b) => {
+            // TC1: Sort by points
+            if (a.diem_mua_giai !== b.diem_mua_giai) {
+              return b.diem_mua_giai - a.diem_mua_giai;
+            }
+            // TC2: Sort by win-loss difference
+            const aWinLossDiff = a.so_tran_thang - a.so_tran_thua;
+            const bWinLossDiff = b.so_tran_thang - b.so_tran_thua;
+            return bWinLossDiff - aWinLossDiff;
+          });
+          setRankings(sortedTeams);
         }
       } catch (error) {
         console.error("Error fetching rankings:", error);
@@ -55,22 +71,25 @@ export default function Ranking() {
     };
 
     fetchRankings();
-  }, [selectedSeason, currentPage]);
+  }, [selectedSeason]);
 
   const getSelectedSeasonName = () => {
     const season = seasons.find((s) => s.mua_giai_id === selectedSeason);
     return season ? season.mua_giai_ten : "";
   };
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
-
   const handleRowClick = (teamId: string) => {
     router.push(`/teams/${teamId}`);
   };
 
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
   const renderPagination = () => {
+    const totalPages = Math.ceil(rankings.length / teamsPerPage);
+    if (totalPages <= 1) return null;
+
     return (
       <div className="flex justify-center sm:justify-end items-center gap-2 mt-4">
         {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
@@ -88,6 +107,12 @@ export default function Ranking() {
         ))}
       </div>
     );
+  };
+
+  const getCurrentPageTeams = () => {
+    const startIndex = (currentPage - 1) * teamsPerPage;
+    const endIndex = startIndex + teamsPerPage;
+    return rankings.slice(startIndex, endIndex);
   };
 
   return (
@@ -159,37 +184,25 @@ export default function Ranking() {
               <thead>
                 <tr className="bg-black text-white text-left h-[42px]">
                   <th className="px-2 sm:px-4 w-12 sm:w-16 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
-                    Hạng
+                    STT
                   </th>
                   <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                     Đội
                   </th>
-                  <th className="px-2 sm:px-4 w-12 sm:w-16 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
-                    Logo
-                  </th>
                   <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
-                    Trận
+                    Điểm
                   </th>
                   <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                     Thắng
                   </th>
                   <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
-                    Hòa
-                  </th>
-                  <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                     Thua
-                  </th>
-                  <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
-                    Hiệu số
-                  </th>
-                  <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
-                    Điểm
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {rankings.length > 0 ? (
-                  rankings.map((team, index) => (
+                  getCurrentPageTeams().map((team, index) => (
                     <tr
                       key={team.id}
                       onClick={() => handleRowClick(team.doi_bong_id)}
@@ -198,41 +211,38 @@ export default function Ranking() {
                       }`}
                     >
                       <td className="px-2 sm:px-4">
-                        {(currentPage - 1) * 20 + index + 1}
+                        {(currentPage - 1) * teamsPerPage + index + 1}
                       </td>
-                      <td className="px-2 sm:px-4">{team.doi_bong_ten}</td>
                       <td className="px-2 sm:px-4">
-                        {team.doi_bong_logo_url && (
-                          <Image
-                            src={`https://admin.hanoispl.com/static${team.doi_bong_logo_url}`}
-                            alt={team.doi_bong_ten}
-                            width={32}
-                            height={32}
-                            className="rounded-full object-cover w-8 h-8"
-                            onError={(e) => {
-                              const target = e.target as HTMLImageElement;
-                              target.style.display = "none";
-                            }}
-                          />
-                        )}
+                        <div className="flex items-center gap-2">
+                          {team.doi_bong_logo_url && (
+                            <div className="relative w-8 h-8 rounded-full overflow-hidden">
+                              <Image
+                                src={`https://admin.hanoispl.com/static${team.doi_bong_logo_url}`}
+                                alt={team.doi_bong_ten}
+                                fill
+                                sizes="32px"
+                                className="object-cover"
+                                onError={(e) => {
+                                  const target = e.target as HTMLImageElement;
+                                  target.style.display = "none";
+                                }}
+                              />
+                            </div>
+                          )}
+                          {team.doi_bong_ten}
+                        </div>
                       </td>
-                      <td className="px-2 sm:px-4">{team.tong_so_tran}</td>
-                      <td className="px-2 sm:px-4">{team.so_tran_thang}</td>
-                      <td className="px-2 sm:px-4">
-                        {team.tong_so_tran -
-                          team.so_tran_thang -
-                          team.so_tran_thua}
-                      </td>
-                      <td className="px-2 sm:px-4">{team.so_tran_thua}</td>
-                      <td className="px-2 sm:px-4">0</td>
                       <td className="px-2 sm:px-4 font-semibold">
                         {team.diem_mua_giai}
                       </td>
+                      <td className="px-2 sm:px-4">{team.so_tran_thang}</td>
+                      <td className="px-2 sm:px-4">{team.so_tran_thua}</td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={9} className="p-3 text-center">
+                    <td colSpan={7} className="p-3 text-center">
                       Không có dữ liệu
                     </td>
                   </tr>
@@ -240,7 +250,7 @@ export default function Ranking() {
               </tbody>
             </table>
           </div>
-          {totalPages > 1 && renderPagination()}
+          {renderPagination()}
         </>
       )}
     </section>
