@@ -74,7 +74,7 @@ export default function TopPlayers() {
   };
 
   return (
-    <section className="container mx-auto px-6 py-12">
+    <section className="container mx-auto px-4 sm:px-6 py-6 sm:py-10">
       {/* Title with red background */}
       <div className="bg-[#EE344D] rounded-xl p-4 mb-6">
         <h2 className="text-white font-semibold text-[30px] leading-[38px]">
@@ -116,9 +116,9 @@ export default function TopPlayers() {
               <tr className="bg-black text-white text-left h-[42px]">
                 <th
                   className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto"
-                  style={{ width: "40px", minWidth: "40px", maxWidth: "40px" }}
+                  style={{ width: "20px", minWidth: "20px", maxWidth: "20px" }}
                 >
-                  STT
+                  #
                 </th>
                 <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                   Tên
@@ -147,9 +147,9 @@ export default function TopPlayers() {
                     <td
                       className="px-2 sm:px-4"
                       style={{
-                        width: "40px",
-                        minWidth: "40px",
-                        maxWidth: "40px",
+                        width: "20px",
+                        minWidth: "20px",
+                        maxWidth: "20px",
                       }}
                     >
                       {index + 1}
@@ -157,7 +157,7 @@ export default function TopPlayers() {
                     <td className="px-2 sm:px-4">
                       <div className="flex items-center gap-2">
                         {player.vdv_avatar_url && (
-                          <div className="relative w-8 h-8 rounded-full overflow-hidden">
+                          <div className="relative w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
                             <Image
                               src={`https://admin.hanoispl.com/static${player.vdv_avatar_url}`}
                               alt={player.vdv_ten}

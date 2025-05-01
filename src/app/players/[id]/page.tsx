@@ -222,12 +222,12 @@ export default function PlayerDetailPage({
                     <th
                       className="py-2 sm:py-3 px-2 sm:px-4 text-left font-roboto font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px]"
                       style={{
-                        width: "40px",
-                        minWidth: "40px",
-                        maxWidth: "40px",
+                        width: "20px",
+                        minWidth: "20px",
+                        maxWidth: "20px",
                       }}
                     >
-                      STT
+                      #
                     </th>
                     <th className="py-2 sm:py-3 px-2 sm:px-4 text-left font-roboto font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px]">
                       Ngày thi đấu
@@ -260,9 +260,9 @@ export default function PlayerDetailPage({
                       <td
                         className="px-2 sm:px-4"
                         style={{
-                          width: "40px",
-                          minWidth: "40px",
-                          maxWidth: "40px",
+                          width: "20px",
+                          minWidth: "20px",
+                          maxWidth: "20px",
                         }}
                       >
                         {index + 1}

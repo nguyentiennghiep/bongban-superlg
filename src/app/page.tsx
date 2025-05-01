@@ -14,12 +14,12 @@ export default function HomePage() {
       <NewsEvents />
 
       {/* Xếp hạng */}
-      <div className="px-4 sm:px-6">
+      <div className="container mx-auto px-4 sm:px-6">
         <Ranking />
       </div>
 
       {/* Các cây vợt có phong độ tốt nhất */}
-      <div className="px-4 sm:px-6">
+      <div className="container mx-auto px-4 sm:px-6">
         <TopPlayers />
       </div>
 

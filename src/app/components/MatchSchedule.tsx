@@ -90,10 +90,10 @@ export default function MatchSchedule() {
   };
 
   return (
-    <section className="container mx-auto py-12 min-h-[800px]">
+    <section className="container mx-auto px-4 sm:px-6 py-6 sm:py-10">
       <div className="bg-[#EE344D] rounded-xl p-4 mb-6">
         <h2 className="text-white font-semibold text-[30px] leading-[38px]">
-          Trận đấu
+          Lịch thi đấu tuần kế tiếp
         </h2>
       </div>
 

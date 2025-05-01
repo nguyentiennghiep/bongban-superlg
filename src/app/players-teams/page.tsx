@@ -177,9 +177,9 @@ export default function PlayersTeamsPage() {
               <tr className="bg-black text-white text-left h-[42px]">
                 <th
                   className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto"
-                  style={{ width: "40px", minWidth: "40px", maxWidth: "40px" }}
+                  style={{ width: "20px", minWidth: "20px", maxWidth: "20px" }}
                 >
-                  STT
+                  #
                 </th>
                 {activeTab === "team" ? (
                   <>
@@ -235,9 +235,9 @@ export default function PlayersTeamsPage() {
                     <td
                       className="px-2 sm:px-4"
                       style={{
-                        width: "40px",
-                        minWidth: "40px",
-                        maxWidth: "40px",
+                        width: "20px",
+                        minWidth: "20px",
+                        maxWidth: "20px",
                       }}
                     >
                       {team.stt}
@@ -245,7 +245,7 @@ export default function PlayersTeamsPage() {
                     <td className="px-2 sm:px-4">
                       <div className="flex items-center gap-2">
                         {team.logo_url && (
-                          <div className="relative w-8 h-8 rounded-full overflow-hidden">
+                          <div className="relative w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
                             <Image
                               src={`https://admin.hanoispl.com/static${team.logo_url}`}
                               alt={team.ten_doi}
@@ -290,9 +290,9 @@ export default function PlayersTeamsPage() {
                     <td
                       className="px-2 sm:px-4"
                       style={{
-                        width: "40px",
-                        minWidth: "40px",
-                        maxWidth: "40px",
+                        width: "20px",
+                        minWidth: "20px",
+                        maxWidth: "20px",
                       }}
                     >
                       {athlete.stt}
