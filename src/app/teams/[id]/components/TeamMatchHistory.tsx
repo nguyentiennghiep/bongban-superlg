@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { matchScheduleApi, MatchSchedule } from "@/services/api";
+import { matchScheduleApi, MatchSchedule } from "@/services";
 
 interface TeamMatchHistoryProps {
   teamId: string;

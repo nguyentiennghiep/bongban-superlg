@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { roundApi, Round } from "@/services/api";
+import { roundApi, Round } from "@/services";
 
 interface PlayerStatsProps {
   name: string;

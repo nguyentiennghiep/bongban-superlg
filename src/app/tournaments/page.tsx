@@ -1,12 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import {
-  roundApi,
-  Round,
-  matchScheduleApi,
-  MatchSchedule,
-} from "@/services/api";
+import { roundApi, Round, matchScheduleApi, MatchSchedule } from "@/services";
 import Breadcrumb from "./components/Breadcrumb";
 import TournamentFilters from "./components/TournamentFilters";
 import MatchesTable from "./components/MatchesTable";

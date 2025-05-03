@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { teamApi, athleteApi, Team, Athlete } from "@/services/api";
+import { teamApi, athleteApi, Team, Athlete } from "@/services";
 import Image from "next/image";
 
 export default function PlayersTeamsPage() {

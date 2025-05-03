@@ -5,7 +5,7 @@ import {
   Round,
   matchScheduleApi,
   type MatchSchedule,
-} from "@/services/api";
+} from "@/services";
 
 export default function MatchSchedule() {
   const [matches, setMatches] = useState<MatchSchedule[]>([]);

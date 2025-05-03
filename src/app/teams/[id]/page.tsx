@@ -10,7 +10,7 @@ import {
   TeamMember,
   AthleteDetail,
   Round,
-} from "@/services/api";
+} from "@/services";
 import TeamBreadcrumb from "./components/TeamBreadcrumb";
 import TeamInfo from "./components/TeamInfo";
 import TeamMembers from "./components/TeamMembers";

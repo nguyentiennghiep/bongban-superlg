@@ -1,4 +1,4 @@
-import { Round } from "@/services/api";
+import { Round } from "@/services";
 
 interface TournamentFiltersProps {
   seasons: Round[];

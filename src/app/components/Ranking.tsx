@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { roundApi, Round, rankingApi, TeamRanking } from "@/services/api";
+import { roundApi, Round, rankingApi, TeamRanking } from "@/services";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 

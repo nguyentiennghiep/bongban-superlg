@@ -8,7 +8,7 @@ import {
   AthleteDetail,
   Round,
   AthleteMatchHistoryResponse,
-} from "@/services/api";
+} from "@/services";
 import PlayerStats from "@/app/components/PlayerStats";
 import MatchDetailModal from "@/app/components/MatchDetailModal";
 import { MatchDetail } from "@/app/components/MatchDetailModal";

@@ -1,4 +1,4 @@
-import { MatchSchedule } from "@/services/api";
+import { MatchSchedule } from "@/services";
 
 interface MatchesTableProps {
   matches: MatchSchedule[];

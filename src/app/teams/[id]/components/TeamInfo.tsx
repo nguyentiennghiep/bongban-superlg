@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Team } from "@/services/api";
+import { Team } from "@/services";
 
 interface TeamInfoProps {
   team: Team;

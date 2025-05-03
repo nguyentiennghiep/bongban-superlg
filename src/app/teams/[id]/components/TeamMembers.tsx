@@ -1,4 +1,4 @@
-import { TeamMember, AthleteDetail } from "@/services/api";
+import { TeamMember, AthleteDetail } from "@/services";
 import PlayerCard from "@/app/components/PlayerCard";
 
 interface TeamMembersProps {
