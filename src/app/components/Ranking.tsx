@@ -118,8 +118,8 @@ export default function Ranking() {
   return (
     <section className="container mx-auto px-4 sm:px-6 py-6 sm:py-10">
       <div className="bg-[#EE344D] rounded-xl p-4 mb-6">
-        <h2 className="text-white font-semibold text-[30px] leading-[38px]">
-          Xếp Hạng
+        <h2 className="text-white font-semibold text-xl sm:text-[30px] leading-[28px] sm:leading-[38px]">
+          Xếp hạng
         </h2>
       </div>
 
