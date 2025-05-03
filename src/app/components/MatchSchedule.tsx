@@ -6,11 +6,14 @@ import {
   matchScheduleApi,
   type MatchSchedule,
 } from "@/services";
+import TournamentFilters from "@/app/tournaments/components/TournamentFilters";
 
 export default function MatchSchedule() {
   const [matches, setMatches] = useState<MatchSchedule[]>([]);
   const [seasons, setSeasons] = useState<Round[]>([]);
   const [selectedSeason, setSelectedSeason] = useState("");
+  const [selectedRound, setSelectedRound] = useState("");
+  const [selectedGroup, setSelectedGroup] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -41,7 +44,10 @@ export default function MatchSchedule() {
       try {
         const response = await matchScheduleApi.getMatchSchedules(
           selectedSeason,
-          currentPage
+          currentPage,
+          10,
+          selectedRound,
+          selectedGroup
         );
         if ("objects" in response) {
           setMatches(response.objects);
@@ -55,7 +61,7 @@ export default function MatchSchedule() {
     };
 
     fetchMatches();
-  }, [selectedSeason, currentPage]);
+  }, [selectedSeason, selectedRound, selectedGroup, currentPage]);
 
   const formatDate = (dateNumber: number) => {
     const dateStr = dateNumber.toString();
@@ -70,21 +76,112 @@ export default function MatchSchedule() {
   };
 
   const renderPagination = () => {
+    const pages = [];
+
+    // Add previous button
+    if (currentPage > 1) {
+      pages.push(
+        <button
+          key="prev-page"
+          onClick={() => handlePageChange(currentPage - 1)}
+          className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 text-black text-sm sm:text-base rounded"
+        >
+          ‹
+        </button>
+      );
+    }
+
+    // Add first page
+    if (currentPage > 2) {
+      pages.push(
+        <button
+          key="first-page"
+          onClick={() => handlePageChange(1)}
+          className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 text-black text-sm sm:text-base rounded"
+        >
+          1
+        </button>
+      );
+    }
+
+    // Add ellipsis if needed
+    if (currentPage > 3) {
+      pages.push(
+        <span key="start-ellipsis" className="text-black px-2">
+          ...
+        </span>
+      );
+    }
+
+    // Add page numbers
+    let startPage = Math.max(1, currentPage - 1);
+    let endPage = Math.min(totalPages, currentPage + 1);
+
+    if (totalPages <= 3) {
+      startPage = 1;
+      endPage = totalPages;
+    } else if (currentPage <= 2) {
+      startPage = 1;
+      endPage = 3;
+    } else if (currentPage >= totalPages - 1) {
+      startPage = totalPages - 2;
+      endPage = totalPages;
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(
+        <button
+          key={`page-${i}`}
+          onClick={() => handlePageChange(i)}
+          className={`w-8 h-8 flex items-center justify-center ${
+            currentPage === i
+              ? "bg-[#EE344D] text-white"
+              : "hover:bg-gray-100 text-black"
+          } text-sm sm:text-base rounded`}
+        >
+          {i}
+        </button>
+      );
+    }
+
+    // Add ellipsis if needed
+    if (currentPage < totalPages - 2) {
+      pages.push(
+        <span key="end-ellipsis" className="text-black px-2">
+          ...
+        </span>
+      );
+    }
+
+    // Add last page
+    if (currentPage < totalPages - 1) {
+      pages.push(
+        <button
+          key="last-page"
+          onClick={() => handlePageChange(totalPages)}
+          className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 text-black text-sm sm:text-base rounded"
+        >
+          {totalPages}
+        </button>
+      );
+    }
+
+    // Add next button
+    if (currentPage < totalPages) {
+      pages.push(
+        <button
+          key="next-page"
+          onClick={() => handlePageChange(currentPage + 1)}
+          className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 text-black text-sm sm:text-base rounded"
+        >
+          ›
+        </button>
+      );
+    }
+
     return (
-      <div className="flex justify-center sm:justify-end items-center gap-2 mt-4">
-        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-          <button
-            key={page}
-            onClick={() => handlePageChange(page)}
-            className={`w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center ${
-              currentPage === page
-                ? "bg-[#EE344D] text-white"
-                : "hover:bg-gray-100 text-black"
-            } text-sm sm:text-base`}
-          >
-            {page}
-          </button>
-        ))}
+      <div className="flex justify-center sm:justify-end items-center gap-1 mt-4">
+        {pages}
       </div>
     );
   };
@@ -97,49 +194,25 @@ export default function MatchSchedule() {
         </h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <div>
-          <label className="block font-semibold text-base leading-6 mb-2 text-black">
-            Mùa Giải
-          </label>
-          <select
-            value={selectedSeason}
-            onChange={(e) => {
-              setSelectedSeason(e.target.value);
-              setCurrentPage(1);
-            }}
-            className="w-full p-[6px] pr-[6px] rounded bg-[#F3F3F3] text-black text-sm leading-[22px] border border-[#DFDFDF] appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2014%2014%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M3.5%205.25L7%208.75L10.5%205.25%22%20stroke%3D%22%23000000%22%20stroke-width%3D%221.16667%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[center_right_6px]"
-          >
-            {seasons.length > 0 ? (
-              seasons.map((season) => (
-                <option key={season.id} value={season.mua_giai_id}>
-                  {season.mua_giai_ten}
-                </option>
-              ))
-            ) : (
-              <option value="">Đang tải...</option>
-            )}
-          </select>
-        </div>
-        {/* Temporarily hidden round filter - will be used later */}
-        {/* <div>
-          <label className="block font-semibold text-base leading-6 mb-2 text-black">
-            Vòng đấu
-          </label>
-          <select className="w-full p-[6px] pr-[6px] rounded bg-[#F3F3F3] text-black text-sm leading-[22px] border border-[#DFDFDF] appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2014%2014%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M3.5%205.25L7%208.75L10.5%205.25%22%20stroke%3D%22%23000000%22%20stroke-width%3D%221.16667%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[center_right_6px]">
-            <option value="">Tất cả</option>
-          </select>
-        </div> */}
-        {/* Temporarily hidden group filter - will be used later */}
-        {/* <div>
-          <label className="block font-semibold text-base leading-6 mb-2 text-black">
-            Bảng
-          </label>
-          <select className="w-full p-[6px] pr-[6px] rounded bg-[#F3F3F3] text-black text-sm leading-[22px] border border-[#DFDFDF] appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2014%2014%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M3.5%205.25L7%208.75L10.5%205.25%22%20stroke%3D%22%23000000%22%20stroke-width%3D%221.16667%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[center_right_6px]">
-            <option value="">Tất cả</option>
-          </select>
-        </div> */}
-      </div>
+      <TournamentFilters
+        seasons={seasons}
+        selectedSeason={selectedSeason}
+        onSeasonChange={(season) => {
+          setSelectedSeason(season);
+          setSelectedRound("");
+          setSelectedGroup("");
+          setCurrentPage(1);
+        }}
+        onRoundChange={(round) => {
+          setSelectedRound(round);
+          setSelectedGroup("");
+          setCurrentPage(1);
+        }}
+        onGroupChange={(group) => {
+          setSelectedGroup(group);
+          setCurrentPage(1);
+        }}
+      />
 
       {isLoading ? (
         <div className="text-center py-12">Đang tải dữ liệu...</div>

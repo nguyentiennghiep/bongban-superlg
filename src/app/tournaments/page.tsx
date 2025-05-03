@@ -10,6 +10,8 @@ export default function TournamentsPage() {
   const [matches, setMatches] = useState<MatchSchedule[]>([]);
   const [seasons, setSeasons] = useState<Round[]>([]);
   const [selectedSeason, setSelectedSeason] = useState("");
+  const [selectedRound, setSelectedRound] = useState("");
+  const [selectedGroup, setSelectedGroup] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -42,7 +44,10 @@ export default function TournamentsPage() {
       try {
         const response = await matchScheduleApi.getMatchSchedules(
           selectedSeason,
-          currentPage
+          currentPage,
+          20,
+          selectedRound,
+          selectedGroup
         );
         if ("objects" in response) {
           setMatches(response.objects);
@@ -56,7 +61,7 @@ export default function TournamentsPage() {
     };
 
     fetchMatches();
-  }, [selectedSeason, currentPage]);
+  }, [selectedSeason, selectedRound, selectedGroup, currentPage]);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -77,6 +82,17 @@ export default function TournamentsPage() {
           selectedSeason={selectedSeason}
           onSeasonChange={(season) => {
             setSelectedSeason(season);
+            setSelectedRound("");
+            setSelectedGroup("");
+            setCurrentPage(1);
+          }}
+          onRoundChange={(round) => {
+            setSelectedRound(round);
+            setSelectedGroup("");
+            setCurrentPage(1);
+          }}
+          onGroupChange={(group) => {
+            setSelectedGroup(group);
             setCurrentPage(1);
           }}
         />
