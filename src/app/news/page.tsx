@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Post, postApi } from "@/services/api";
+import { Post, postApi } from "@/services";
 
 export default function NewsPage() {
   const [posts, setPosts] = useState<Post[]>([]);
