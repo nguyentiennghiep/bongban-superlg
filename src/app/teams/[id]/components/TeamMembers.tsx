@@ -17,7 +17,7 @@ export default function TeamMembers({
       {members.map((member) => {
         const athleteDetail = athleteDetails[member.vdv_id];
         const seasonInfo = athleteDetail?.mua_giai_tham_gia?.find(
-          (season) => season.mua_giai_ten === selectedSeason
+          (season) => season.mua_giai_id === selectedSeason
         );
 
         return (
@@ -27,18 +27,18 @@ export default function TeamMembers({
               id: member.vdv_id,
               name: member.thanhvien_ten,
               birthYear: athleteDetail?.nam_sinh || "",
-              rank: seasonInfo?.hang_vdv || member.vdv_hang || "",
+              rank: seasonInfo?.hang_vdv || athleteDetail?.hang_vdv || "",
               rankPoints:
                 seasonInfo?.diem_tham_gia?.toString() ||
-                member.vdv_diem?.toString() ||
+                athleteDetail?.diem_vdv?.toString() ||
                 "0",
               totalPoints:
                 seasonInfo?.diem_tham_gia?.toString() ||
-                member.vdv_diem?.toString() ||
+                athleteDetail?.diem_vdv?.toString() ||
                 "0",
               accumulatedPoints:
                 seasonInfo?.diem_tich_luy?.toString() ||
-                member.diem_tich_luy?.toString() ||
+                athleteDetail?.diem_tich_luy?.toString() ||
                 "0",
               avatarUrl: member.thanhvien_avatar_url
                 ? `https://admin.hanoispl.com/static${member.thanhvien_avatar_url}`
