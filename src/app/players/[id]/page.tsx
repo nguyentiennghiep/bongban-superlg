@@ -10,6 +10,7 @@ import {
   AthleteMatchHistoryResponse,
 } from "@/services/api";
 import PlayerStats from "@/app/components/PlayerStats";
+import MatchDetailModal from "@/app/components/MatchDetailModal";
 
 export default function PlayerDetailPage({
   params,
@@ -24,6 +25,11 @@ export default function PlayerDetailPage({
   const [matchHistory, setMatchHistory] =
     useState<AthleteMatchHistoryResponse | null>(null);
   const [isLoadingHistory, setIsLoadingHistory] = useState(false);
+  const [selectedMatch, setSelectedMatch] = useState<{
+    details: any[];
+    doi_a_ten: string;
+    doi_b_ten: string;
+  } | null>(null);
 
   useEffect(() => {
     const fetchPlayerData = async () => {
@@ -245,7 +251,7 @@ export default function PlayerDetailPage({
                       Tỉ số set
                     </th>
                     <th className="py-2 sm:py-3 px-2 sm:px-4 text-left font-roboto font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px]">
-                      Tổng điểm
+                      Chi tiết
                     </th>
                   </tr>
                 </thead>
@@ -275,7 +281,18 @@ export default function PlayerDetailPage({
                       <td className="px-2 sm:px-4">{match.ket_qua_tran_dau}</td>
                       <td className="px-2 sm:px-4">{match.tiso_setdau}</td>
                       <td className="px-2 sm:px-4">
-                        {match.tongdiem_toanbo_setdau}
+                        <button
+                          onClick={() =>
+                            setSelectedMatch({
+                              details: match.trandauthamgia,
+                              doi_a_ten: match.doi_a_ten,
+                              doi_b_ten: match.doi_b_ten,
+                            })
+                          }
+                          className="text-blue-600 hover:text-blue-800 font-semibold"
+                        >
+                          Xem
+                        </button>
                       </td>
                     </tr>
                   ))}
@@ -285,6 +302,17 @@ export default function PlayerDetailPage({
           )}
         </div>
       </div>
+
+      {/* Match Detail Modal */}
+      {selectedMatch && (
+        <MatchDetailModal
+          isOpen={!!selectedMatch}
+          onClose={() => setSelectedMatch(null)}
+          matchDetails={selectedMatch.details}
+          doi_a_ten={selectedMatch.doi_a_ten}
+          doi_b_ten={selectedMatch.doi_b_ten}
+        />
+      )}
     </main>
   );
 }
