@@ -1,23 +1,37 @@
-import { useState } from "react";
-
-interface MatchDetail {
-  tran_dau_id: string;
-  tran_so: number;
-  loai_dau: number;
-  doi_tham_gia: string;
-  diem_truoc_tran: number;
-  diem_sau_tran: number;
-  ket_qua_chitiet: Array<{ a: number; b: number }>;
-  doi_chien_thang: string;
-  ket_qua: string;
-  dong_doi: string | null;
-  doi_thu: string[];
+export interface MatchDetail {
+  details: Array<{
+    tran_dau_id: string;
+    tran_so: number;
+    loai_dau: number;
+    doi_tham_gia: string;
+    diem_truoc_tran: number;
+    diem_sau_tran: number;
+    ket_qua_chitiet: Array<{ a: number; b: number }>;
+    doi_chien_thang: string;
+    ket_qua: string;
+    dong_doi: string | null;
+    doi_thu: string[];
+  }>;
+  doi_a_ten: string;
+  doi_b_ten: string;
 }
 
 interface MatchDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
-  matchDetails: MatchDetail[];
+  matchDetails: Array<{
+    tran_dau_id: string;
+    tran_so: number;
+    loai_dau: number;
+    doi_tham_gia: string;
+    diem_truoc_tran: number;
+    diem_sau_tran: number;
+    ket_qua_chitiet: Array<{ a: number; b: number }>;
+    doi_chien_thang: string;
+    ket_qua: string;
+    dong_doi: string | null;
+    doi_thu: string[];
+  }>;
   doi_a_ten: string;
   doi_b_ten: string;
 }
@@ -37,7 +51,7 @@ export default function MatchDetailModal({
         <div className="flex justify-between items-center mb-4 sm:mb-6">
           <div className="bg-[#EE344D] rounded-xl px-3 sm:px-4 py-2">
             <h2 className="text-white font-semibold text-lg sm:text-xl">
-              Chi tiết trận đấu
+              Chi tiết trận đấu: {doi_a_ten} vs {doi_b_ten}
             </h2>
           </div>
           <button

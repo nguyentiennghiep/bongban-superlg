@@ -11,6 +11,7 @@ import {
 } from "@/services/api";
 import PlayerStats from "@/app/components/PlayerStats";
 import MatchDetailModal from "@/app/components/MatchDetailModal";
+import { MatchDetail } from "@/app/components/MatchDetailModal";
 
 export default function PlayerDetailPage({
   params,
@@ -25,11 +26,7 @@ export default function PlayerDetailPage({
   const [matchHistory, setMatchHistory] =
     useState<AthleteMatchHistoryResponse | null>(null);
   const [isLoadingHistory, setIsLoadingHistory] = useState(false);
-  const [selectedMatch, setSelectedMatch] = useState<{
-    details: any[];
-    doi_a_ten: string;
-    doi_b_ten: string;
-  } | null>(null);
+  const [selectedMatch, setSelectedMatch] = useState<MatchDetail | null>(null);
 
   useEffect(() => {
     const fetchPlayerData = async () => {
