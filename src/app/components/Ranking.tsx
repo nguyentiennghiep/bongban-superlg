@@ -203,13 +203,13 @@ export default function Ranking() {
                     Đội
                   </th>
                   <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
-                    Điểm
-                  </th>
-                  <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                     Thắng
                   </th>
                   <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                     Thua
+                  </th>
+                  <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                    Điểm
                   </th>
                 </tr>
               </thead>
@@ -253,11 +253,11 @@ export default function Ranking() {
                           {team.doi_bong_ten}
                         </div>
                       </td>
+                      <td className="px-2 sm:px-4">{team.so_tran_thang}</td>
+                      <td className="px-2 sm:px-4">{team.so_tran_thua}</td>
                       <td className="px-2 sm:px-4 font-semibold">
                         {team.diem_mua_giai}
                       </td>
-                      <td className="px-2 sm:px-4">{team.so_tran_thang}</td>
-                      <td className="px-2 sm:px-4">{team.so_tran_thua}</td>
                     </tr>
                   ))
                 ) : (
