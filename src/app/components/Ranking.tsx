@@ -59,7 +59,13 @@ export default function Ranking() {
             // TC2: Sort by win-loss difference
             const aWinLossDiff = a.so_tran_thang - a.so_tran_thua;
             const bWinLossDiff = b.so_tran_thang - b.so_tran_thua;
-            return bWinLossDiff - aWinLossDiff;
+            if (aWinLossDiff !== bWinLossDiff) {
+              return bWinLossDiff - aWinLossDiff;
+            }
+            // TC3: Sort by set difference
+            const aSetDiff = a.tong_so_set_thang - a.tong_so_set_thua;
+            const bSetDiff = b.tong_so_set_thang - b.tong_so_set_thua;
+            return bSetDiff - aSetDiff;
           });
           setRankings(sortedTeams);
         }

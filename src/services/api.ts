@@ -135,6 +135,8 @@ export interface TeamRanking {
   so_tran_thang: number;
   so_tran_thua: number;
   tong_so_tran: number;
+  tong_so_set_thang: number;
+  tong_so_set_thua: number;
 }
 
 export interface AthleteRanking {
@@ -153,6 +155,8 @@ export interface AthleteRanking {
   so_tran_thang: number;
   so_tran_thua: number;
   tong_so_tran: number;
+  tong_so_set_thang: number;
+  tong_so_set_thua: number;
 }
 
 export interface MatchSchedule {

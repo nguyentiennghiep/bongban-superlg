@@ -55,7 +55,10 @@ export default function TopPlayers() {
             if (aWinLossDiff !== bWinLossDiff) {
               return bWinLossDiff - aWinLossDiff;
             }
-            return 0;
+            // TC3: Sort by set difference
+            const aSetDiff = a.tong_so_set_thang - a.tong_so_set_thua;
+            const bSetDiff = b.tong_so_set_thang - b.tong_so_set_thua;
+            return bSetDiff - aSetDiff;
           });
           setPlayers(sortedPlayers);
         }
