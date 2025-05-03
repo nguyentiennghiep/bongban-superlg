@@ -275,21 +275,29 @@ export default function PlayerDetailPage({
                       </td>
                       <td className="px-2 sm:px-4">{match.doi_a_ten}</td>
                       <td className="px-2 sm:px-4">{match.doi_b_ten}</td>
-                      <td className="px-2 sm:px-4">{match.ket_qua_tran_dau}</td>
-                      <td className="px-2 sm:px-4">{match.tiso_setdau}</td>
                       <td className="px-2 sm:px-4">
-                        <button
-                          onClick={() =>
-                            setSelectedMatch({
-                              details: match.trandauthamgia,
-                              doi_a_ten: match.doi_a_ten,
-                              doi_b_ten: match.doi_b_ten,
-                            })
-                          }
-                          className="text-blue-600 hover:text-blue-800 font-semibold"
-                        >
-                          Xem
-                        </button>
+                        {match.ket_qua_tran_dau || "Chưa có kết quả"}
+                      </td>
+                      <td className="px-2 sm:px-4">
+                        {match.tiso_setdau || "Chưa có kết quả"}
+                      </td>
+                      <td className="px-2 sm:px-4">
+                        {match.ket_qua_tran_dau ? (
+                          <button
+                            onClick={() =>
+                              setSelectedMatch({
+                                details: match.trandauthamgia,
+                                doi_a_ten: match.doi_a_ten,
+                                doi_b_ten: match.doi_b_ten,
+                              })
+                            }
+                            className="text-blue-600 hover:text-blue-800 font-semibold"
+                          >
+                            Xem
+                          </button>
+                        ) : (
+                          "-"
+                        )}
                       </td>
                     </tr>
                   ))}
