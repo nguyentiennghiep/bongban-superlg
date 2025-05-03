@@ -48,13 +48,19 @@ export const rankingApi = {
   getTeamRankings: async (
     seasonId: string,
     page: number = 1,
-    resultsPerPage: number = 20
+    resultsPerPage: number = 20,
+    roundId?: string,
+    groupId?: string
   ): Promise<ApiResponse<TeamRanking>> => {
-    const response = await fetchApi<TeamRanking>("/xep_hang_doi_bong", {
+    const params = {
       mua_giai_id: seasonId,
       page,
       results_per_page: resultsPerPage,
-    });
+      ...(roundId && { vong_dau_id: roundId }),
+      ...(groupId && { bang_dau_id: groupId }),
+    };
+
+    const response = await fetchApi<TeamRanking>("/xep_hang_doi_bong", params);
 
     if ("objects" in response) {
       return response as ApiResponse<TeamRanking>;
@@ -71,13 +77,22 @@ export const rankingApi = {
   getAthleteRankings: async (
     seasonId: string,
     page: number = 1,
-    resultsPerPage: number = 20
+    resultsPerPage: number = 20,
+    roundId?: string,
+    groupId?: string
   ): Promise<ApiResponse<AthleteRanking>> => {
-    const response = await fetchApi<AthleteRanking>("/xep_hang_van_dong_vien", {
+    const params = {
       mua_giai_id: seasonId,
       page,
       results_per_page: resultsPerPage,
-    });
+      ...(roundId && { vong_dau_id: roundId }),
+      ...(groupId && { bang_dau_id: groupId }),
+    };
+
+    const response = await fetchApi<AthleteRanking>(
+      "/xep_hang_van_dong_vien",
+      params
+    );
 
     if ("objects" in response) {
       return response as ApiResponse<AthleteRanking>;

@@ -45,7 +45,7 @@ export default function MatchSchedule() {
         const response = await matchScheduleApi.getMatchSchedules(
           selectedSeason,
           currentPage,
-          10,
+          20,
           selectedRound,
           selectedGroup
         );
