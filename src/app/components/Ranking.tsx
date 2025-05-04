@@ -49,6 +49,34 @@ export default function Ranking() {
               ) {
                 setGroups(groupsResponse.objects);
                 setSelectedGroup(groupsResponse.objects[0].id);
+                // Fetch rankings for the first season, round, and group
+                const rankingsResponse = await rankingApi.getTeamRankings(
+                  firstSeason.mua_giai_id,
+                  1,
+                  1000,
+                  roundsResponse.objects[0].id,
+                  groupsResponse.objects[0].id
+                );
+                if ("objects" in rankingsResponse) {
+                  // Sort teams by criteria
+                  const sortedTeams = rankingsResponse.objects.sort((a, b) => {
+                    // TC1: Sort by points
+                    if (a.diem_mua_giai !== b.diem_mua_giai) {
+                      return b.diem_mua_giai - a.diem_mua_giai;
+                    }
+                    // TC2: Sort by win-loss difference
+                    const aWinLossDiff = a.so_tran_thang - a.so_tran_thua;
+                    const bWinLossDiff = b.so_tran_thang - b.so_tran_thua;
+                    if (aWinLossDiff !== bWinLossDiff) {
+                      return bWinLossDiff - aWinLossDiff;
+                    }
+                    // TC3: Sort by set difference
+                    const aSetDiff = a.tong_so_set_thang - a.tong_so_set_thua;
+                    const bSetDiff = b.tong_so_set_thang - b.tong_so_set_thua;
+                    return bSetDiff - aSetDiff;
+                  });
+                  setRankings(sortedTeams);
+                }
               }
             }
           }
@@ -65,7 +93,7 @@ export default function Ranking() {
 
   useEffect(() => {
     const fetchRankings = async () => {
-      if (!selectedSeason) return;
+      if (!selectedSeason || !selectedRound || !selectedGroup) return;
 
       setIsLoading(true);
       try {
@@ -73,8 +101,8 @@ export default function Ranking() {
           selectedSeason,
           1,
           1000,
-          selectedRound || undefined,
-          selectedGroup || undefined
+          selectedRound,
+          selectedGroup
         );
         if ("objects" in response) {
           // Sort teams by criteria
