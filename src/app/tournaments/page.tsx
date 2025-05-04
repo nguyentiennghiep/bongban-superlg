@@ -12,6 +12,7 @@ export default function TournamentsPage() {
   const [selectedSeason, setSelectedSeason] = useState("");
   const [selectedRound, setSelectedRound] = useState("");
   const [selectedGroup, setSelectedGroup] = useState("");
+  const [selectedMatchRound, setSelectedMatchRound] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -47,7 +48,8 @@ export default function TournamentsPage() {
           currentPage,
           20,
           selectedRound,
-          selectedGroup
+          selectedGroup,
+          selectedMatchRound
         );
         if ("objects" in response) {
           setMatches(response.objects);
@@ -61,7 +63,13 @@ export default function TournamentsPage() {
     };
 
     fetchMatches();
-  }, [selectedSeason, selectedRound, selectedGroup, currentPage]);
+  }, [
+    selectedSeason,
+    selectedRound,
+    selectedGroup,
+    selectedMatchRound,
+    currentPage,
+  ]);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -84,6 +92,7 @@ export default function TournamentsPage() {
             setSelectedSeason(season);
             setSelectedRound("");
             setSelectedGroup("");
+            setSelectedMatchRound("");
             setCurrentPage(1);
           }}
           onRoundChange={(round) => {
@@ -93,6 +102,10 @@ export default function TournamentsPage() {
           }}
           onGroupChange={(group) => {
             setSelectedGroup(group);
+            setCurrentPage(1);
+          }}
+          onMatchRoundChange={(round) => {
+            setSelectedMatchRound(round);
             setCurrentPage(1);
           }}
         />

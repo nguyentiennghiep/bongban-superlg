@@ -14,6 +14,7 @@ export default function MatchSchedule() {
   const [selectedSeason, setSelectedSeason] = useState("");
   const [selectedRound, setSelectedRound] = useState("");
   const [selectedGroup, setSelectedGroup] = useState("");
+  const [selectedMatchRound, setSelectedMatchRound] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -47,7 +48,8 @@ export default function MatchSchedule() {
           currentPage,
           20,
           selectedRound,
-          selectedGroup
+          selectedGroup,
+          selectedMatchRound
         );
         if ("objects" in response) {
           setMatches(response.objects);
@@ -61,7 +63,13 @@ export default function MatchSchedule() {
     };
 
     fetchMatches();
-  }, [selectedSeason, selectedRound, selectedGroup, currentPage]);
+  }, [
+    selectedSeason,
+    selectedRound,
+    selectedGroup,
+    selectedMatchRound,
+    currentPage,
+  ]);
 
   const formatDate = (dateNumber: number) => {
     const dateStr = dateNumber.toString();
@@ -201,6 +209,7 @@ export default function MatchSchedule() {
           setSelectedSeason(season);
           setSelectedRound("");
           setSelectedGroup("");
+          setSelectedMatchRound("");
           setCurrentPage(1);
         }}
         onRoundChange={(round) => {
@@ -210,6 +219,10 @@ export default function MatchSchedule() {
         }}
         onGroupChange={(group) => {
           setSelectedGroup(group);
+          setCurrentPage(1);
+        }}
+        onMatchRoundChange={(round) => {
+          setSelectedMatchRound(round);
           setCurrentPage(1);
         }}
       />

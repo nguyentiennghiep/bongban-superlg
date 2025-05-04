@@ -43,7 +43,8 @@ export const matchScheduleApi = {
     page: number = 1,
     resultsPerPage: number = 20,
     vong_dau_id?: string,
-    bang_dau_id?: string
+    bang_dau_id?: string,
+    luot_dau?: string
   ): Promise<ApiResponse<MatchSchedule>> => {
     const response = await fetchApi<MatchSchedule>("/lich_thi_dau", {
       mua_giai_id,
@@ -51,6 +52,7 @@ export const matchScheduleApi = {
       results_per_page: resultsPerPage,
       ...(vong_dau_id && { vong_dau_id }),
       ...(bang_dau_id && { bang_dau_id }),
+      ...(luot_dau && { luot_dau }),
     });
 
     if ("objects" in response) {
