@@ -19,7 +19,7 @@ export default function PlayersTeamsPage() {
   const fetchTeams = async (page: number, search?: string) => {
     try {
       setIsLoading(true);
-      const data = await teamApi.getTeams(page, 20, search);
+      const data = await teamApi.getTeams(page, 50, search);
       if ("objects" in data) {
         setTeams(data.objects);
         setTotalPages(data.total_pages);
