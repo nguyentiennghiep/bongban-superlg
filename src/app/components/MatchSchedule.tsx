@@ -5,8 +5,11 @@ import {
   Round,
   matchScheduleApi,
   type MatchSchedule,
+  matchDetailApi,
+  TeamMatchDetail,
 } from "@/services";
 import TournamentFilters from "@/app/tournaments/components/TournamentFilters";
+import TeamMatchDetailModal from "@/app/components/TeamMatchDetailModal";
 
 export default function MatchSchedule() {
   const [matches, setMatches] = useState<MatchSchedule[]>([]);
@@ -18,6 +21,10 @@ export default function MatchSchedule() {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [selectedMatch, setSelectedMatch] = useState<TeamMatchDetail | null>(
+    null
+  );
+  const [isLoadingDetails, setIsLoadingDetails] = useState(false);
 
   useEffect(() => {
     const fetchSeasons = async () => {
@@ -194,6 +201,18 @@ export default function MatchSchedule() {
     );
   };
 
+  const handleViewDetails = async (matchId: string) => {
+    try {
+      setIsLoadingDetails(true);
+      const data = await matchDetailApi.getMatchDetail(matchId);
+      setSelectedMatch(data);
+    } catch (error) {
+      console.error("Error fetching match details:", error);
+    } finally {
+      setIsLoadingDetails(false);
+    }
+  };
+
   return (
     <section className="container mx-auto px-4 sm:px-6 py-6 sm:py-10">
       <div className="bg-[#EE344D] rounded-xl p-4 mb-6">
@@ -253,6 +272,9 @@ export default function MatchSchedule() {
                   <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                     Đường đi
                   </th>
+                  <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                    Chi tiết
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -287,11 +309,24 @@ export default function MatchSchedule() {
                           Xem đường đi
                         </a>
                       </td>
+                      <td className="px-2 sm:px-4">
+                        {match.ket_qua ? (
+                          <button
+                            onClick={() => handleViewDetails(match.id)}
+                            className="text-blue-600 hover:text-blue-800 font-semibold"
+                            disabled={isLoadingDetails}
+                          >
+                            {isLoadingDetails ? "Đang tải..." : "Xem"}
+                          </button>
+                        ) : (
+                          "-"
+                        )}
+                      </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={6} className="p-12 text-center">
+                    <td colSpan={7} className="p-12 text-center">
                       Không có trận đấu nào
                     </td>
                   </tr>
@@ -302,6 +337,13 @@ export default function MatchSchedule() {
           {totalPages > 1 && renderPagination()}
         </>
       )}
+
+      {/* Team Match Detail Modal */}
+      <TeamMatchDetailModal
+        isOpen={!!selectedMatch}
+        onClose={() => setSelectedMatch(null)}
+        matchDetails={selectedMatch}
+      />
     </section>
   );
 }

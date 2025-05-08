@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react";
-import { matchScheduleApi, MatchSchedule } from "@/services";
+import {
+  matchScheduleApi,
+  MatchSchedule,
+  matchDetailApi,
+  TeamMatchDetail,
+} from "@/services";
+import TeamMatchDetailModal from "@/app/components/TeamMatchDetailModal";
 
 interface TeamMatchHistoryProps {
   teamId: string;
@@ -12,6 +18,10 @@ export default function TeamMatchHistory({
 }: TeamMatchHistoryProps) {
   const [matches, setMatches] = useState<MatchSchedule[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedMatch, setSelectedMatch] = useState<TeamMatchDetail | null>(
+    null
+  );
+  const [isLoadingDetails, setIsLoadingDetails] = useState(false);
 
   useEffect(() => {
     const fetchTeamMatches = async () => {
@@ -47,6 +57,18 @@ export default function TeamMatchHistory({
     return `${day}/${month}/${year}`;
   };
 
+  const handleViewDetails = async (matchId: string) => {
+    try {
+      setIsLoadingDetails(true);
+      const data = await matchDetailApi.getMatchDetail(matchId);
+      setSelectedMatch(data);
+    } catch (error) {
+      console.error("Error fetching match details:", error);
+    } finally {
+      setIsLoadingDetails(false);
+    }
+  };
+
   if (isLoading) {
     return <div className="text-center py-12">Đang tải dữ liệu...</div>;
   }
@@ -79,6 +101,7 @@ export default function TeamMatchHistory({
               <th className="px-3 sm:px-4">Đội B</th>
               <th className="px-3 sm:px-4">Kết quả</th>
               <th className="px-3 sm:px-4">Sân</th>
+              <th className="px-3 sm:px-4">Chi tiết</th>
             </tr>
           </thead>
           <tbody>
@@ -101,11 +124,31 @@ export default function TeamMatchHistory({
                 <td className="px-3 sm:px-4">
                   {match.doi_a_id === teamId ? "Sân nhà" : "Sân khách"}
                 </td>
+                <td className="px-3 sm:px-4">
+                  {match.ket_qua ? (
+                    <button
+                      onClick={() => handleViewDetails(match.id)}
+                      className="text-blue-600 hover:text-blue-800 font-semibold"
+                      disabled={isLoadingDetails}
+                    >
+                      {isLoadingDetails ? "Đang tải..." : "Xem"}
+                    </button>
+                  ) : (
+                    "-"
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
+      {/* Team Match Detail Modal */}
+      <TeamMatchDetailModal
+        isOpen={!!selectedMatch}
+        onClose={() => setSelectedMatch(null)}
+        matchDetails={selectedMatch}
+      />
     </div>
   );
 }

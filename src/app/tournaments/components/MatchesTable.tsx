@@ -1,4 +1,6 @@
-import { MatchSchedule } from "@/services";
+import { MatchSchedule, matchDetailApi, TeamMatchDetail } from "@/services";
+import { useState } from "react";
+import TeamMatchDetailModal from "@/app/components/TeamMatchDetailModal";
 
 interface MatchesTableProps {
   matches: MatchSchedule[];
@@ -15,12 +17,29 @@ export default function MatchesTable({
   totalPages,
   onPageChange,
 }: MatchesTableProps) {
+  const [selectedMatch, setSelectedMatch] = useState<TeamMatchDetail | null>(
+    null
+  );
+  const [isLoadingDetails, setIsLoadingDetails] = useState(false);
+
   const formatDate = (dateNumber: number) => {
     const dateStr = dateNumber.toString();
     const year = dateStr.substring(0, 4);
     const month = dateStr.substring(4, 6);
     const day = dateStr.substring(6, 8);
     return `${day}/${month}/${year}`;
+  };
+
+  const handleViewDetails = async (matchId: string) => {
+    try {
+      setIsLoadingDetails(true);
+      const data = await matchDetailApi.getMatchDetail(matchId);
+      setSelectedMatch(data);
+    } catch (error) {
+      console.error("Error fetching match details:", error);
+    } finally {
+      setIsLoadingDetails(false);
+    }
   };
 
   if (isLoading) {
@@ -50,6 +69,9 @@ export default function MatchesTable({
               </th>
               <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                 Đường đi
+              </th>
+              <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                Chi tiết
               </th>
             </tr>
           </thead>
@@ -85,11 +107,24 @@ export default function MatchesTable({
                       Xem đường đi
                     </a>
                   </td>
+                  <td className="px-2 sm:px-4">
+                    {match.ket_qua ? (
+                      <button
+                        onClick={() => handleViewDetails(match.id)}
+                        className="text-blue-600 hover:text-blue-800 font-semibold"
+                        disabled={isLoadingDetails}
+                      >
+                        {isLoadingDetails ? "Đang tải..." : "Xem"}
+                      </button>
+                    ) : (
+                      "-"
+                    )}
+                  </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={6} className="p-12 text-center">
+                <td colSpan={7} className="p-12 text-center">
                   Không có trận đấu nào
                 </td>
               </tr>
@@ -115,6 +150,13 @@ export default function MatchesTable({
           ))}
         </div>
       )}
+
+      {/* Team Match Detail Modal */}
+      <TeamMatchDetailModal
+        isOpen={!!selectedMatch}
+        onClose={() => setSelectedMatch(null)}
+        matchDetails={selectedMatch}
+      />
     </>
   );
 }
