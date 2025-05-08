@@ -1,11 +1,14 @@
 "use client";
 
 import Image from "next/image";
+import Breadcrumb from "@/app/components/Breadcrumb";
 
 export default function AboutPage() {
   return (
     <main className="bg-white min-h-screen">
       <div className="container mx-auto px-6 py-8">
+        <Breadcrumb />
+
         {/* Hero Section */}
         <div className="mb-16 text-center">
           <h1 className="text-[32px] font-[700] text-black mb-4">

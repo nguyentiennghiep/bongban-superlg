@@ -5,7 +5,11 @@ import { groupApi } from "@/services/groupApi";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-export default function Ranking() {
+interface RankingProps {
+  showTitle?: boolean;
+}
+
+export default function Ranking({ showTitle = false }: RankingProps) {
   const router = useRouter();
   const [seasons, setSeasons] = useState<Round[]>([]);
   const [selectedSeason, setSelectedSeason] = useState("");
@@ -224,11 +228,13 @@ export default function Ranking() {
 
   return (
     <section className="container mx-auto px-4 sm:px-6 py-6 sm:py-10">
-      <div className="bg-[#EE344D] rounded-xl p-4 mb-6">
-        <h2 className="text-white font-semibold text-xl sm:text-[30px] leading-[28px] sm:leading-[38px]">
-          Xếp hạng
-        </h2>
-      </div>
+      {showTitle && (
+        <div className="bg-[#EE344D] rounded-xl p-4 mb-6">
+          <h2 className="text-white font-semibold text-xl sm:text-[30px] leading-[28px] sm:leading-[38px]">
+            Xếp hạng
+          </h2>
+        </div>
+      )}
 
       {/* Filters */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
@@ -316,10 +322,13 @@ export default function Ranking() {
                     Đội
                   </th>
                   <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
-                    Thắng
+                    Số lượt đấu
                   </th>
                   <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
-                    Thua
+                    Tổng trận thắng
+                  </th>
+                  <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                    Tổng sec thắng
                   </th>
                   <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                     Điểm
@@ -366,8 +375,9 @@ export default function Ranking() {
                           {team.doi_bong_ten}
                         </div>
                       </td>
+                      <td className="px-2 sm:px-4">{team.tong_so_luot}</td>
                       <td className="px-2 sm:px-4">{team.so_tran_thang}</td>
-                      <td className="px-2 sm:px-4">{team.so_tran_thua}</td>
+                      <td className="px-2 sm:px-4">{team.tong_so_set_thang}</td>
                       <td className="px-2 sm:px-4 font-semibold">
                         {team.diem_mua_giai}
                       </td>
@@ -375,7 +385,7 @@ export default function Ranking() {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={7} className="p-3 text-center">
+                    <td colSpan={6} className="p-3 text-center">
                       Không có dữ liệu
                     </td>
                   </tr>

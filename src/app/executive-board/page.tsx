@@ -1,5 +1,7 @@
 "use client";
 
+import Breadcrumb from "@/app/components/Breadcrumb";
+
 interface BoardMemberProps {
   title: string;
   bgColor: string;
@@ -36,6 +38,8 @@ export default function ExecutiveBoardPage() {
   return (
     <div className="bg-white min-h-screen">
       <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-12">
+        <Breadcrumb />
+
         <h1 className="text-xl sm:text-3xl font-bold text-center mb-8 sm:mb-16">
           Ban điều hành
         </h1>

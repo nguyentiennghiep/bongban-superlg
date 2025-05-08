@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { teamApi, athleteApi, Team, Athlete } from "@/services";
 import Image from "next/image";
+import Breadcrumb from "@/app/components/Breadcrumb";
 
 export default function PlayersTeamsPage() {
   const [activeTab, setActiveTab] = useState<"team" | "player">("team");
@@ -85,6 +86,8 @@ export default function PlayersTeamsPage() {
   return (
     <main className="bg-white">
       <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <Breadcrumb />
+
         <h1 className="text-center font-roboto font-[600] text-2xl sm:text-[38px] leading-[32px] sm:leading-[46px] mb-4 sm:mb-6 text-black">
           Đội bóng và vận động viên
         </h1>

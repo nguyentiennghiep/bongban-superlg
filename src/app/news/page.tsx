@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Post, postApi } from "@/services";
+import Breadcrumb from "@/app/components/Breadcrumb";
 
 export default function NewsPage() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -68,6 +69,8 @@ export default function NewsPage() {
   return (
     <main className="bg-white min-h-screen">
       <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12">
+        <Breadcrumb />
+
         <h1 className="text-xl sm:text-[24px] font-[600] text-black text-center mb-6 sm:mb-8">
           Tin tức & sự kiện
         </h1>

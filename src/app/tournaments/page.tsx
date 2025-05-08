@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { roundApi, Round, matchScheduleApi, MatchSchedule } from "@/services";
-import Breadcrumb from "./components/Breadcrumb";
+import Breadcrumb from "@/app/components/Breadcrumb";
 import TournamentFilters from "./components/TournamentFilters";
 import MatchesTable from "./components/MatchesTable";
 

@@ -1,21 +1,13 @@
 "use client";
 
-import Link from "next/link";
+import Breadcrumb from "@/app/components/Breadcrumb";
 
 export default function ContactPage() {
   return (
     <main className="bg-white min-h-screen">
       <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
-        {/* Breadcrumb */}
-        <div className="flex items-center gap-2 mb-4 sm:mb-6 text-xs sm:text-sm">
-          <Link href="/" className="text-black">
-            Trang chủ
-          </Link>
-          <span className="text-black">/</span>
-          <span className="text-black">Liên hệ</span>
-        </div>
+        <Breadcrumb />
 
-        {/* Title */}
         <h1 className="text-center font-roboto font-[600] text-2xl sm:text-[38px] leading-[32px] sm:leading-[46px] mb-6 sm:mb-8 text-black">
           Liên hệ với chúng tôi
         </h1>

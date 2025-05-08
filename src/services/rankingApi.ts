@@ -22,6 +22,7 @@ export interface TeamRanking {
   tong_so_tran: number;
   tong_so_set_thang: number;
   tong_so_set_thua: number;
+  tong_so_luot: number;
 }
 
 export interface AthleteRanking {
