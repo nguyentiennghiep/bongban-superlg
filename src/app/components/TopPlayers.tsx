@@ -43,24 +43,7 @@ export default function TopPlayers() {
           5 // Limit to 5 players
         );
         if ("objects" in response) {
-          // Sort players by criteria
-          const sortedPlayers = response.objects.sort((a, b) => {
-            // TC1: Sort by points
-            if (a.diem_tich_luy !== b.diem_tich_luy) {
-              return b.diem_tich_luy - a.diem_tich_luy;
-            }
-            // TC2: Sort by win-loss difference
-            const aWinLossDiff = a.so_tran_thang - a.so_tran_thua;
-            const bWinLossDiff = b.so_tran_thang - b.so_tran_thua;
-            if (aWinLossDiff !== bWinLossDiff) {
-              return bWinLossDiff - aWinLossDiff;
-            }
-            // TC3: Sort by set difference
-            const aSetDiff = a.tong_so_set_thang - a.tong_so_set_thua;
-            const bSetDiff = b.tong_so_set_thang - b.tong_so_set_thua;
-            return bSetDiff - aSetDiff;
-          });
-          setPlayers(sortedPlayers);
+          setPlayers(response.objects);
         }
       } catch (error) {
         console.error("Error fetching players:", error);

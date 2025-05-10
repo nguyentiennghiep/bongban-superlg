@@ -23,6 +23,7 @@ export default function Ranking({ showTitle = false }: RankingProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const teamsPerPage = 20;
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     const fetchSeasons = async () => {
@@ -62,24 +63,7 @@ export default function Ranking({ showTitle = false }: RankingProps) {
                   groupsResponse.objects[0].id
                 );
                 if ("objects" in rankingsResponse) {
-                  // Sort teams by criteria
-                  const sortedTeams = rankingsResponse.objects.sort((a, b) => {
-                    // TC1: Sort by points
-                    if (a.diem_mua_giai !== b.diem_mua_giai) {
-                      return b.diem_mua_giai - a.diem_mua_giai;
-                    }
-                    // TC2: Sort by win-loss difference
-                    const aWinLossDiff = a.so_tran_thang - a.so_tran_thua;
-                    const bWinLossDiff = b.so_tran_thang - b.so_tran_thua;
-                    if (aWinLossDiff !== bWinLossDiff) {
-                      return bWinLossDiff - aWinLossDiff;
-                    }
-                    // TC3: Sort by set difference
-                    const aSetDiff = a.tong_so_set_thang - a.tong_so_set_thua;
-                    const bSetDiff = b.tong_so_set_thang - b.tong_so_set_thua;
-                    return bSetDiff - aSetDiff;
-                  });
-                  setRankings(sortedTeams);
+                  setRankings(rankingsResponse.objects);
                 }
               }
             }
@@ -109,24 +93,8 @@ export default function Ranking({ showTitle = false }: RankingProps) {
           selectedGroup
         );
         if ("objects" in response) {
-          // Sort teams by criteria
-          const sortedTeams = response.objects.sort((a, b) => {
-            // TC1: Sort by points
-            if (a.diem_mua_giai !== b.diem_mua_giai) {
-              return b.diem_mua_giai - a.diem_mua_giai;
-            }
-            // TC2: Sort by win-loss difference
-            const aWinLossDiff = a.so_tran_thang - a.so_tran_thua;
-            const bWinLossDiff = b.so_tran_thang - b.so_tran_thua;
-            if (aWinLossDiff !== bWinLossDiff) {
-              return bWinLossDiff - aWinLossDiff;
-            }
-            // TC3: Sort by set difference
-            const aSetDiff = a.tong_so_set_thang - a.tong_so_set_thua;
-            const bSetDiff = b.tong_so_set_thang - b.tong_so_set_thua;
-            return bSetDiff - aSetDiff;
-          });
-          setRankings(sortedTeams);
+          setRankings(response.objects);
+          setTotalPages(response.total_pages);
         }
       } catch (error) {
         console.error("Error fetching rankings:", error);
@@ -198,7 +166,6 @@ export default function Ranking({ showTitle = false }: RankingProps) {
   };
 
   const renderPagination = () => {
-    const totalPages = Math.ceil(rankings.length / teamsPerPage);
     if (totalPages <= 1) return null;
 
     return (

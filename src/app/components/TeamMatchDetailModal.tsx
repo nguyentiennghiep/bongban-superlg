@@ -217,22 +217,22 @@ export default function TeamMatchDetailModal({
                       <table className="w-full min-w-[640px]">
                         <thead className="bg-[#F3F3F3]">
                           <tr>
-                            <th className="px-2 sm:px-4 py-2 text-left text-xs sm:text-sm font-medium text-gray-500">
+                            <th className="py-2 text-left text-xs sm:text-sm font-medium text-gray-500">
                               Trận
                             </th>
-                            <th className="px-2 sm:px-4 py-2 text-left text-xs sm:text-sm font-medium text-gray-500">
-                              Loại đấu
+                            <th className="py-2 text-left text-xs sm:text-sm font-medium text-gray-500">
+                              Loại
                             </th>
-                            <th className="px-2 sm:px-4 py-2 text-left text-xs sm:text-sm font-medium text-gray-500">
+                            <th className="py-2 text-left text-xs sm:text-sm font-medium text-gray-500 max-w-[200px]">
                               Đội A
                             </th>
-                            <th className="px-2 sm:px-4 py-2 text-left text-xs sm:text-sm font-medium text-gray-500">
+                            <th className="py-2 text-left text-xs sm:text-sm font-medium text-gray-500 max-w-[200px]">
                               Đội B
                             </th>
-                            <th className="px-2 sm:px-4 py-2 text-left text-xs sm:text-sm font-medium text-gray-500">
+                            <th className="py-2 text-left text-xs sm:text-sm font-medium text-gray-500">
                               Kết quả
                             </th>
-                            <th className="px-2 sm:px-4 py-2 text-left text-xs sm:text-sm font-medium text-gray-500">
+                            <th className="py-2 text-left text-xs sm:text-sm font-medium text-gray-500">
                               Điểm
                             </th>
                           </tr>
@@ -240,13 +240,13 @@ export default function TeamMatchDetailModal({
                         <tbody className="divide-y divide-gray-200">
                           {matchDetails.ket_qua_tran_con.map((match) => (
                             <tr key={match.tran_so} className="bg-white">
-                              <td className="px-2 sm:px-4 py-2 text-xs sm:text-sm">
+                              <td className="py-2 text-xs sm:text-sm">
                                 {match.tran_so}
                               </td>
-                              <td className="px-2 sm:px-4 py-2 text-xs sm:text-sm">
+                              <td className="py-2 text-xs sm:text-sm">
                                 {match.loai_dau === 1 ? "Đơn" : "Đôi"}
                               </td>
-                              <td className="px-2 sm:px-4 py-2 text-xs sm:text-sm">
+                              <td className="py-2 text-xs sm:text-sm">
                                 <div>
                                   <p>
                                     {match.vdv_a1_ten} ({match.vdv_a1_hang})
@@ -258,7 +258,7 @@ export default function TeamMatchDetailModal({
                                   )}
                                 </div>
                               </td>
-                              <td className="px-2 sm:px-4 py-2 text-xs sm:text-sm">
+                              <td className="py-2 text-xs sm:text-sm">
                                 <div>
                                   <p>
                                     {match.vdv_b1_ten} ({match.vdv_b1_hang})
@@ -270,14 +270,14 @@ export default function TeamMatchDetailModal({
                                   )}
                                 </div>
                               </td>
-                              <td className="px-2 sm:px-4 py-2 text-xs sm:text-sm">
+                              <td className="py-2 text-xs sm:text-sm">
                                 {match.ket_qua_chitiet.map((set, index) => (
                                   <p key={index}>
                                     {set.a}-{set.b}
                                   </p>
                                 ))}
                               </td>
-                              <td className="px-2 sm:px-4 py-2 text-xs sm:text-sm">
+                              <td className="py-2 text-xs sm:text-sm">
                                 <div>
                                   <p
                                     className={
@@ -309,22 +309,22 @@ export default function TeamMatchDetailModal({
 
                     {/* Mobile Table View */}
                     <div className="sm:hidden overflow-x-auto px-2 sm:px-4 -mx-3">
-                      <table className="w-full min-w-[400px]">
+                      <table className="w-full min-w-[360px]">
                         <thead className="bg-[#F3F3F3]">
                           <tr>
-                            <th className="px-1.5 py-1.5 text-left text-[10px] font-medium text-gray-500">
+                            <th className="py-1.5 text-left text-[10px] font-medium text-gray-500">
                               Trận
                             </th>
-                            <th className="px-1.5 py-1.5 text-left text-[10px] font-medium text-gray-500">
-                              Loại đấu
+                            <th className="py-1.5 text-left text-[10px] font-medium text-gray-500">
+                              Loại
                             </th>
-                            <th className="px-1.5 py-1.5 text-left text-[10px] font-medium text-gray-500">
+                            <th className="py-1.5 text-left text-[10px] font-medium text-gray-500 max-w-[145px]">
                               Đội A
                             </th>
-                            <th className="px-1.5 py-1.5 text-left text-[10px] font-medium text-gray-500">
+                            <th className="py-1.5 text-left text-[10px] font-medium text-gray-500 max-w-[145px]">
                               Đội B
                             </th>
-                            <th className="px-1.5 py-1.5 text-left text-[10px] font-medium text-gray-500">
+                            <th className="py-1.5 text-left text-[10px] font-medium text-gray-500">
                               Kết quả
                             </th>
                           </tr>
@@ -332,13 +332,13 @@ export default function TeamMatchDetailModal({
                         <tbody className="divide-y divide-gray-200">
                           {matchDetails.ket_qua_tran_con.map((match) => (
                             <tr key={match.tran_so} className="bg-white">
-                              <td className="px-1.5 py-1.5 text-[10px] whitespace-nowrap">
+                              <td className="py-1.5 text-[10px] whitespace-nowrap">
                                 {match.tran_so}
                               </td>
-                              <td className="px-1.5 py-1.5 text-[10px] whitespace-nowrap">
+                              <td className="py-1.5 text-[10px] whitespace-nowrap">
                                 {match.loai_dau === 1 ? "Đơn" : "Đôi"}
                               </td>
-                              <td className="px-1.5 py-1.5 text-[10px]">
+                              <td className="py-1.5 text-[10px]">
                                 <div className="space-y-0.5">
                                   <p className="whitespace-nowrap">
                                     {match.vdv_a1_ten} ({match.vdv_a1_hang})
@@ -350,7 +350,7 @@ export default function TeamMatchDetailModal({
                                   )}
                                 </div>
                               </td>
-                              <td className="px-1.5 py-1.5 text-[10px]">
+                              <td className="py-1.5 text-[10px]">
                                 <div className="space-y-0.5">
                                   <p className="whitespace-nowrap">
                                     {match.vdv_b1_ten} ({match.vdv_b1_hang})
@@ -362,7 +362,7 @@ export default function TeamMatchDetailModal({
                                   )}
                                 </div>
                               </td>
-                              <td className="px-1.5 py-1.5 text-[10px]">
+                              <td className="py-1.5 text-[10px]">
                                 <div className="space-y-0.5">
                                   {match.ket_qua_chitiet.map((set, index) => (
                                     <p

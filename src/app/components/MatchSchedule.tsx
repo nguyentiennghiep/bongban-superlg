@@ -254,25 +254,25 @@ export default function MatchSchedule() {
             <table className="w-full">
               <thead>
                 <tr className="bg-black text-white text-left h-[42px]">
-                  <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                  <th className="px-1 sm:px-2 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                     Ngày
                   </th>
-                  <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                  <th className="px-1 sm:px-2 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                     Vòng
                   </th>
-                  <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                  <th className="px-1 sm:px-2 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                     Đội nhà
                   </th>
-                  <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                  <th className="px-1 sm:px-2 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                     Đội khách
                   </th>
-                  <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                  <th className="px-1 sm:px-2 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                     Tỷ số
                   </th>
-                  <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                  <th className="px-1 sm:px-2 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                     Đường đi
                   </th>
-                  <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                  <th className="px-1 sm:px-2 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                     Chi tiết
                   </th>
                 </tr>
@@ -286,14 +286,14 @@ export default function MatchSchedule() {
                         index % 2 === 0 ? "bg-[#F3F3F3]" : "bg-[#D9D9D9]"
                       }`}
                     >
-                      <td className="px-2 sm:px-4">
+                      <td className="px-1 sm:px-2">
                         {formatDate(match.ngay_thi_dau)} {match.gio_thi_dau}
                       </td>
-                      <td className="px-2 sm:px-4">{match.vong_dau_ten}</td>
-                      <td className="px-2 sm:px-4">{match.doi_a_ten}</td>
-                      <td className="px-2 sm:px-4">{match.doi_b_ten}</td>
-                      <td className="px-2 sm:px-4">{match.ket_qua || "-"}</td>
-                      <td className="px-2 sm:px-4">
+                      <td className="px-1 sm:px-2">{match.vong_dau_ten}</td>
+                      <td className="px-1 sm:px-2">{match.doi_a_ten}</td>
+                      <td className="px-1 sm:px-2">{match.doi_b_ten}</td>
+                      <td className="px-1 sm:px-2">{match.ket_qua || "-"}</td>
+                      <td className="px-1 sm:px-2">
                         <a
                           href={
                             match.map_san_dau.includes("iframe")
@@ -309,7 +309,7 @@ export default function MatchSchedule() {
                           Xem đường đi
                         </a>
                       </td>
-                      <td className="px-2 sm:px-4">
+                      <td className="px-1 sm:px-2">
                         {match.ket_qua ? (
                           <button
                             onClick={() => handleViewDetails(match.id)}
