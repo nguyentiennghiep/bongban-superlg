@@ -28,7 +28,9 @@ export default function TeamMatchHistory({
       try {
         setIsLoading(true);
         const response = await matchScheduleApi.getMatchSchedules(
-          selectedSeason
+          selectedSeason,
+          1,
+          1000
         );
         if (response.objects) {
           // Lọc các trận đấu của đội này (cả khi là đội A hoặc đội B)

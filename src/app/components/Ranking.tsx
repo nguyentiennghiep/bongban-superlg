@@ -376,7 +376,9 @@ export default function Ranking({ showTitle = false }: RankingProps) {
                         </div>
                       </td>
                       <td className="px-2 sm:px-4">{team.tong_so_luot}</td>
-                      <td className="px-2 sm:px-4">{team.so_tran_thang}</td>
+                      <td className="px-2 sm:px-4">
+                        {team.tong_so_tran_con_thang}
+                      </td>
                       <td className="px-2 sm:px-4">{team.tong_so_set_thang}</td>
                       <td className="px-2 sm:px-4 font-semibold">
                         {team.diem_mua_giai}
