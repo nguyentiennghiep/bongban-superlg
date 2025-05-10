@@ -313,7 +313,7 @@ export default function MatchSchedule() {
                         {match.ket_qua ? (
                           <button
                             onClick={() => handleViewDetails(match.id)}
-                            className="text-blue-600 hover:text-blue-800 font-semibold"
+                            className="text-blue-600 hover:text-blue-800 font-semibold text-[12px] sm:text-[14px]"
                             disabled={isLoadingDetails}
                           >
                             {isLoadingDetails ? "Đang tải..." : "Xem"}
