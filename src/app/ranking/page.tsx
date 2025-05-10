@@ -2,6 +2,7 @@
 
 import Ranking from "@/app/components/Ranking";
 import Breadcrumb from "@/app/components/Breadcrumb";
+import TopPlayers from "@/app/components/TopPlayers";
 
 export default function RankingPage() {
   return (
@@ -13,7 +14,8 @@ export default function RankingPage() {
         Bảng xếp hạng
       </h1>
 
-      <Ranking showTitle={false} />
+      <Ranking showTitle />
+      <TopPlayers />
     </div>
   );
 }

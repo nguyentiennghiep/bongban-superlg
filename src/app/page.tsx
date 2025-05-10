@@ -15,7 +15,7 @@ export default function HomePage() {
 
       {/* Xếp hạng */}
       <div className="container mx-auto px-4 sm:px-6">
-        <Ranking />
+        <Ranking showTitle />
       </div>
 
       {/* Các cây vợt có phong độ tốt nhất */}
