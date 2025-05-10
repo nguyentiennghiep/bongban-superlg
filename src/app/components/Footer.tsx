@@ -73,8 +73,8 @@ export default function Footer() {
           <Link href="/players-teams" className="hover:text-[#EE344D]">
             Đội bóng và vận động viên
           </Link>
-          <Link href="/tournaments" className="hover:text-[#EE344D]">
-            Giải đấu
+          <Link href="/schedule-ranking" className="hover:text-[#EE344D]">
+            Lịch thi đấu và Bảng xếp hạng
           </Link>
           <Link href="/contact" className="hover:text-[#EE344D]">
             Liên hệ

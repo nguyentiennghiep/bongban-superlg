@@ -10,10 +10,8 @@ export default function Breadcrumb() {
 
   const getBreadcrumbName = (segment: string) => {
     switch (segment) {
-      case "ranking":
-        return "Bảng xếp hạng";
-      case "tournaments":
-        return "Lịch thi đấu";
+      case "schedule-ranking":
+        return "Lịch thi đấu và Bảng xếp hạng";
       case "players-teams":
         return "Đội bóng và Vận động viên";
       case "news":

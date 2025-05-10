@@ -111,24 +111,14 @@ export default function Header() {
             </li>
             <li className="w-full md:w-auto">
               <Link
-                href="/tournaments"
+                href="/schedule-ranking"
                 className={`block py-2 px-4 md:px-0 hover:text-[#EE344D] transition leading-6 ${
-                  pathname === "/tournaments"
+                  pathname === "/schedule-ranking"
                     ? "text-[#EE344D]"
                     : "text-[#212529]"
                 }`}
               >
-                Lịch thi đấu
-              </Link>
-            </li>
-            <li className="w-full md:w-auto">
-              <Link
-                href="/ranking"
-                className={`block py-2 px-4 md:px-0 hover:text-[#EE344D] transition leading-6 ${
-                  pathname === "/ranking" ? "text-[#EE344D]" : "text-[#212529]"
-                }`}
-              >
-                Bảng xếp hạng
+                Lịch thi đấu và Bảng xếp hạng
               </Link>
             </li>
             <li className="w-full md:w-auto">
