@@ -92,45 +92,57 @@ export default function TeamMatchHistory({
       </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full">
+        <table className="w-full min-w-[400px]">
           <thead>
-            <tr className="bg-black text-white text-left h-[42px]">
-              <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+            <tr className="bg-black text-white text-left h-[32px] sm:h-[42px]">
+              <th className="px-1.5 sm:px-4 font-[600] text-[10px] sm:text-[14px] leading-[14px] sm:leading-[22px] font-roboto">
                 Ngày
               </th>
-              <th className="px-3 sm:px-4">Giờ</th>
-              <th className="px-3 sm:px-4">Đội A</th>
-              <th className="px-3 sm:px-4">Đội B</th>
-              <th className="px-3 sm:px-4">Kết quả</th>
-              <th className="px-3 sm:px-4">Sân</th>
-              <th className="px-3 sm:px-4">Chi tiết</th>
+              <th className="px-1.5 sm:px-4 text-[10px] sm:text-[14px] leading-[14px] sm:leading-[22px]">
+                Giờ
+              </th>
+              <th className="px-1.5 sm:px-4 text-[10px] sm:text-[14px] leading-[14px] sm:leading-[22px]">
+                Đội A
+              </th>
+              <th className="px-1.5 sm:px-4 text-[10px] sm:text-[14px] leading-[14px] sm:leading-[22px]">
+                Đội B
+              </th>
+              <th className="px-1.5 sm:px-4 text-[10px] sm:text-[14px] leading-[14px] sm:leading-[22px]">
+                Kết quả
+              </th>
+              <th className="px-1.5 sm:px-4 text-[10px] sm:text-[14px] leading-[14px] sm:leading-[22px]">
+                Sân
+              </th>
+              <th className="px-1.5 sm:px-4 text-[10px] sm:text-[14px] leading-[14px] sm:leading-[22px]">
+                Chi tiết
+              </th>
             </tr>
           </thead>
           <tbody>
             {matches.map((match, index) => (
               <tr
                 key={match.id}
-                className={`text-black font-roboto font-[400] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] h-[42px] ${
+                className={`text-black font-roboto font-[400] text-[10px] sm:text-[14px] leading-[14px] sm:leading-[22px] h-[32px] sm:h-[42px] ${
                   index % 2 === 0 ? "bg-[#F3F3F3]" : "bg-[#D9D9D9]"
                 }`}
               >
-                <td className="px-2 sm:px-4">
+                <td className="px-1.5 sm:px-4">
                   {formatDate(match.ngay_thi_dau)}
                 </td>
-                <td className="px-3 sm:px-4">{match.gio_thi_dau}</td>
-                <td className="px-3 sm:px-4">{match.doi_a_ten}</td>
-                <td className="px-3 sm:px-4">{match.doi_b_ten}</td>
-                <td className="px-3 sm:px-4">
+                <td className="px-1.5 sm:px-4">{match.gio_thi_dau}</td>
+                <td className="px-1.5 sm:px-4">{match.doi_a_ten}</td>
+                <td className="px-1.5 sm:px-4">{match.doi_b_ten}</td>
+                <td className="px-1.5 sm:px-4">
                   {match.ket_qua || "Chưa có kết quả"}
                 </td>
-                <td className="px-3 sm:px-4">
+                <td className="px-1.5 sm:px-4">
                   {match.doi_a_id === teamId ? "Sân nhà" : "Sân khách"}
                 </td>
-                <td className="px-3 sm:px-4">
+                <td className="px-1.5 sm:px-4">
                   {match.ket_qua ? (
                     <button
                       onClick={() => handleViewDetails(match.id)}
-                      className="text-blue-600 hover:text-blue-800 font-semibold"
+                      className="text-blue-600 hover:text-blue-800 font-semibold text-[10px] sm:text-[14px]"
                       disabled={isLoadingDetails}
                     >
                       {isLoadingDetails ? "Đang tải..." : "Xem"}

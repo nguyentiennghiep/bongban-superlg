@@ -213,7 +213,7 @@ export default function TeamMatchDetailModal({
                       </h4>
                     </div>
                     {/* Desktop Table View */}
-                    <div className="hidden sm:block overflow-x-auto -mx-3 sm:mx-0">
+                    <div className="hidden sm:block overflow-x-auto px-2 sm:px-4 -mx-3 sm:mx-0">
                       <table className="w-full min-w-[640px]">
                         <thead className="bg-[#F3F3F3]">
                           <tr>
@@ -308,7 +308,7 @@ export default function TeamMatchDetailModal({
                     </div>
 
                     {/* Mobile Table View */}
-                    <div className="sm:hidden overflow-x-auto -mx-3">
+                    <div className="sm:hidden overflow-x-auto px-2 sm:px-4 -mx-3">
                       <table className="w-full min-w-[400px]">
                         <thead className="bg-[#F3F3F3]">
                           <tr>
