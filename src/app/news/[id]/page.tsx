@@ -4,6 +4,7 @@ import { useEffect, useState, use } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Post, postApi } from "@/services";
+import Breadcrumb from "@/app/components/Breadcrumb";
 
 export default function NewsDetailPage({
   params,
@@ -55,8 +56,9 @@ export default function NewsDetailPage({
   };
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12">
-      <div className="max-w-4xl mx-auto">
+    <main className="bg-white min-h-screen">
+      <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <Breadcrumb postTitle={post ? post.title : undefined} />
         {loading ? (
           <div className="bg-white rounded-lg overflow-hidden">
             <div className="relative h-[250px] sm:h-[400px]">
@@ -74,116 +76,101 @@ export default function NewsDetailPage({
             <p className="text-red-500 text-sm sm:text-base">{error}</p>
             <Link
               href="/news"
-              className="mt-4 inline-block text-[#FF1654] hover:underline"
+              className="mt-4 inline-block text-[#EE344D] hover:underline"
             >
               Quay lại danh sách tin tức
             </Link>
           </div>
         ) : post ? (
-          <main className="bg-white min-h-screen">
-            <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
-              {/* Breadcrumb */}
-              <div className="flex items-center gap-2 mb-4 sm:mb-6 text-xs sm:text-sm">
-                <Link href="/" className="text-black">
-                  Trang chủ
-                </Link>
-                <span className="text-black">/</span>
-                <Link href="/news" className="text-black">
-                  Tin tức
-                </Link>
-                <span className="text-black">/</span>
-                <span className="text-black">Chi tiết</span>
+          <div className="max-w-4xl mx-auto">
+            <h1 className="text-center font-roboto font-[600] text-2xl sm:text-[38px] leading-[32px] sm:leading-[46px] mb-4 sm:mb-6 text-black">
+              {post.title}
+            </h1>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+              {/* Main News Content */}
+              <div className="lg:col-span-2">
+                <article className="mb-8 sm:mb-12">
+                  <div className="mb-3">
+                    <span className="text-[#666666] text-[11px] sm:text-[12px]">
+                      Đăng vào lúc {formatDate(post.approved_time)}
+                    </span>
+                  </div>
+                  {post.image_thumbnail && (
+                    <div className="mb-4">
+                      <div className="relative h-[250px] sm:h-[350px] md:h-[400px]">
+                        <Image
+                          src={`https://admin.hanoispl.com/static${post.image_thumbnail}`}
+                          alt={post.title}
+                          fill
+                          className="w-full rounded-lg object-fit"
+                          priority
+                        />
+                      </div>
+                    </div>
+                  )}
+                  <div
+                    className="text-sm sm:text-[14px] leading-[18px] sm:leading-[22px] text-[#333333] mb-4 font-roboto"
+                    dangerouslySetInnerHTML={{ __html: post.content }}
+                  />
+                  <div className="flex justify-between items-center text-sm text-gray-500 mt-4">
+                    <span>{post.tac_gia}</span>
+                    <span>{formatDate(post.approved_time)}</span>
+                  </div>
+                </article>
               </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
-                {/* Main News Content */}
-                <div className="lg:col-span-2">
-                  <article className="mb-8 sm:mb-12">
-                    <div className="mb-3">
-                      <span className="text-[#666666] text-[11px] sm:text-[12px]">
-                        Đăng vào lúc {formatDate(post.approved_time)}
-                      </span>
-                    </div>
-                    <h1 className="text-xl sm:text-[24px] font-[600] mb-4 text-black">
-                      {post.title}
-                    </h1>
-                    {post.image_thumbnail && (
-                      <div className="mb-4">
-                        <div className="relative h-[250px] sm:h-[350px] md:h-[400px]">
-                          <Image
-                            src={`https://admin.hanoispl.com/static${post.image_thumbnail}`}
-                            alt={post.title}
-                            fill
-                            className="w-full rounded-lg object-fit"
-                            priority
-                          />
-                        </div>
-                      </div>
-                    )}
-                    <div
-                      className="text-sm sm:text-[14px] leading-[18px] sm:leading-[22px] text-[#333333] mb-4"
-                      dangerouslySetInnerHTML={{ __html: post.content }}
-                    />
-                    <div className="flex justify-between items-center text-sm text-gray-500 mt-4">
-                      <span>{post.tac_gia}</span>
-                      <span>{formatDate(post.approved_time)}</span>
-                    </div>
-                  </article>
-                </div>
-
-                {/* Featured News Sidebar */}
-                <div>
-                  <h2 className="text-lg sm:text-[20px] font-[600] mb-4 sm:mb-6 text-black">
-                    Tin nổi bật khác
-                  </h2>
-                  <div className="space-y-4 sm:space-y-6">
-                    {relatedPosts.map((relatedPost) => (
-                      <div key={relatedPost.id} className="group">
-                        {relatedPost.image_thumbnail && (
-                          <div className="mb-3">
-                            <div className="relative h-[150px] sm:h-[200px]">
-                              <Image
-                                src={`https://admin.hanoispl.com/static${relatedPost.image_thumbnail}`}
-                                alt={relatedPost.title}
-                                fill
-                                className="w-full rounded-lg object-fit"
-                              />
-                            </div>
+              {/* Featured News Sidebar */}
+              <div>
+                <h2 className="text-lg sm:text-[20px] font-[600] mb-4 sm:mb-6 text-black font-roboto">
+                  Tin nổi bật khác
+                </h2>
+                <div className="space-y-4 sm:space-y-6">
+                  {relatedPosts.map((relatedPost) => (
+                    <div key={relatedPost.id} className="group">
+                      {relatedPost.image_thumbnail && (
+                        <div className="mb-3">
+                          <div className="relative h-[150px] sm:h-[200px]">
+                            <Image
+                              src={`https://admin.hanoispl.com/static${relatedPost.image_thumbnail}`}
+                              alt={relatedPost.title}
+                              fill
+                              className="w-full rounded-lg object-fit"
+                            />
                           </div>
-                        )}
-                        <div className="mb-2">
-                          <span className="text-[#666666] text-[11px] sm:text-[12px]">
-                            Đăng vào lúc {formatDate(relatedPost.approved_time)}
-                          </span>
                         </div>
-                        <h3 className="text-sm sm:text-[16px] font-[600] group-hover:text-[#FF1654]">
-                          <Link
-                            href={`/news/${relatedPost.id}`}
-                            className="text-black"
-                          >
-                            {relatedPost.title}
-                          </Link>
-                        </h3>
-                        <div className="mt-2">
-                          <p className="text-xs sm:text-[14px] text-[#666666]">
-                            {relatedPost.description}
-                          </p>
-                        </div>
-                        <div className="mt-2">
-                          <Link
-                            href={`/news/${relatedPost.id}`}
-                            className="text-[#FF1654] text-xs sm:text-[14px] hover:underline"
-                          >
-                            Xem thêm
-                          </Link>
-                        </div>
+                      )}
+                      <div className="mb-2">
+                        <span className="text-[#666666] text-[11px] sm:text-[12px]">
+                          Đăng vào lúc {formatDate(relatedPost.approved_time)}
+                        </span>
                       </div>
-                    ))}
-                  </div>
+                      <h3 className="text-sm sm:text-[16px] font-[600] group-hover:text-[#EE344D] font-roboto">
+                        <Link
+                          href={`/news/${relatedPost.id}`}
+                          className="text-black"
+                        >
+                          {relatedPost.title}
+                        </Link>
+                      </h3>
+                      <div className="mt-2">
+                        <p className="text-xs sm:text-[14px] text-[#666666] font-roboto">
+                          {relatedPost.description}
+                        </p>
+                      </div>
+                      <div className="mt-2">
+                        <Link
+                          href={`/news/${relatedPost.id}`}
+                          className="text-[#EE344D] text-xs sm:text-[14px] hover:underline font-roboto"
+                        >
+                          Xem thêm
+                        </Link>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
-          </main>
+          </div>
         ) : (
           <div className="text-center py-8 sm:py-12">
             <p className="text-gray-500 text-sm sm:text-base">
@@ -191,13 +178,13 @@ export default function NewsDetailPage({
             </p>
             <Link
               href="/news"
-              className="mt-4 inline-block text-[#FF1654] hover:underline"
+              className="mt-4 inline-block text-[#EE344D] hover:underline"
             >
               Quay lại danh sách tin tức
             </Link>
           </div>
         )}
       </div>
-    </div>
+    </main>
   );
 }

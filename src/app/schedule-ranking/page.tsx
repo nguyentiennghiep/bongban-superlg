@@ -92,76 +92,78 @@ export default function RankingPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
-      <Breadcrumb />
+    <main className="bg-white">
+      <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <Breadcrumb />
 
-      {/* Title */}
-      <h1 className="text-center font-roboto font-[600] text-2xl sm:text-[38px] leading-[32px] sm:leading-[46px] mb-6 sm:mb-8 text-black">
-        Lịch thi đấu và Bảng xếp hạng
-      </h1>
+        {/* Title */}
+        <h1 className="text-center font-roboto font-[600] text-2xl sm:text-[38px] leading-[32px] sm:leading-[46px] mb-4 sm:mb-6 text-black">
+          Lịch thi đấu và Bảng xếp hạng
+        </h1>
 
-      {/* Tabs */}
-      <div className="flex gap-1 mb-4 sm:mb-6">
-        <button
-          className={`px-4 sm:px-6 py-2 rounded-sm text-sm sm:text-base ${
-            activeTab === "tournaments"
-              ? "bg-[#EE344D] text-white"
-              : "bg-white text-black border border-gray-300"
-          }`}
-          onClick={() => setActiveTab("tournaments")}
-        >
-          Lịch thi đấu
-        </button>
-        <button
-          className={`px-4 sm:px-6 py-2 rounded-sm text-sm sm:text-base ${
-            activeTab === "ranking"
-              ? "bg-[#EE344D] text-white"
-              : "bg-white text-black border border-gray-300"
-          }`}
-          onClick={() => setActiveTab("ranking")}
-        >
-          Bảng xếp hạng
-        </button>
+        {/* Tabs */}
+        <div className="flex gap-1 mb-4 sm:mb-6">
+          <button
+            className={`px-4 sm:px-6 py-2 rounded-sm text-sm sm:text-base ${
+              activeTab === "tournaments"
+                ? "bg-[#EE344D] text-white"
+                : "bg-white text-black border border-gray-300"
+            }`}
+            onClick={() => setActiveTab("tournaments")}
+          >
+            Lịch thi đấu
+          </button>
+          <button
+            className={`px-4 sm:px-6 py-2 rounded-sm text-sm sm:text-base ${
+              activeTab === "ranking"
+                ? "bg-[#EE344D] text-white"
+                : "bg-white text-black border border-gray-300"
+            }`}
+            onClick={() => setActiveTab("ranking")}
+          >
+            Bảng xếp hạng
+          </button>
+        </div>
+
+        {activeTab === "ranking" ? (
+          <RankingWrapper />
+        ) : (
+          <>
+            <TournamentFilters
+              seasons={seasons}
+              selectedSeason={selectedSeason}
+              onSeasonChange={(season) => {
+                setSelectedSeason(season);
+                setSelectedRound("");
+                setSelectedGroup("");
+                setSelectedMatchRound("");
+                setCurrentPage(1);
+              }}
+              onRoundChange={(round) => {
+                setSelectedRound(round);
+                setSelectedGroup("");
+                setCurrentPage(1);
+              }}
+              onGroupChange={(group) => {
+                setSelectedGroup(group);
+                setCurrentPage(1);
+              }}
+              onMatchRoundChange={(round) => {
+                setSelectedMatchRound(round);
+                setCurrentPage(1);
+              }}
+            />
+
+            <MatchesTable
+              matches={matches}
+              isLoading={isLoading}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          </>
+        )}
       </div>
-
-      {activeTab === "ranking" ? (
-        <RankingWrapper />
-      ) : (
-        <>
-          <TournamentFilters
-            seasons={seasons}
-            selectedSeason={selectedSeason}
-            onSeasonChange={(season) => {
-              setSelectedSeason(season);
-              setSelectedRound("");
-              setSelectedGroup("");
-              setSelectedMatchRound("");
-              setCurrentPage(1);
-            }}
-            onRoundChange={(round) => {
-              setSelectedRound(round);
-              setSelectedGroup("");
-              setCurrentPage(1);
-            }}
-            onGroupChange={(group) => {
-              setSelectedGroup(group);
-              setCurrentPage(1);
-            }}
-            onMatchRoundChange={(round) => {
-              setSelectedMatchRound(round);
-              setCurrentPage(1);
-            }}
-          />
-
-          <MatchesTable
-            matches={matches}
-            isLoading={isLoading}
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-          />
-        </>
-      )}
-    </div>
+    </main>
   );
 }

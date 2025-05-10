@@ -12,6 +12,7 @@ import {
 import PlayerStats from "@/app/components/PlayerStats";
 import MatchDetailModal from "@/app/components/MatchDetailModal";
 import { MatchDetail } from "@/app/components/MatchDetailModal";
+import { ChevronRight } from "lucide-react";
 
 export default function PlayerDetailPage({
   params,
@@ -129,17 +130,24 @@ export default function PlayerDetailPage({
     <main className="bg-white min-h-screen">
       <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
         {/* Breadcrumb */}
-        <div className="flex items-center gap-2 mb-4 sm:mb-6 text-xs sm:text-sm">
-          <Link href="/" className="text-black">
+        <nav className="flex items-center space-x-2 text-sm mb-4">
+          <Link href="/" className="text-gray-500 hover:text-[#EE344D]">
             Trang chủ
           </Link>
-          <span className="text-black">/</span>
-          <Link href="/players-teams" className="text-black">
-            Đội và vận động viên
-          </Link>
-          <span className="text-black">/</span>
-          <span className="text-black">{playerData.ten_vdv}</span>
-        </div>
+          <div className="flex items-center space-x-2">
+            <ChevronRight size={16} className="text-gray-500" />
+            <Link
+              href="/players-teams"
+              className="text-gray-500 hover:text-[#EE344D]"
+            >
+              Đội bóng và Vận động viên
+            </Link>
+          </div>
+          <div className="flex items-center space-x-2">
+            <ChevronRight size={16} className="text-gray-500" />
+            <span className="text-[#EE344D]">{playerData.ten_vdv}</span>
+          </div>
+        </nav>
 
         {/* Title */}
         <h1 className="text-center font-roboto font-[600] text-2xl sm:text-[38px] leading-[32px] sm:leading-[46px] mb-4 sm:mb-6 text-black">

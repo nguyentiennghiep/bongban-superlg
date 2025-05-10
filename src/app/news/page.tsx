@@ -68,10 +68,10 @@ export default function NewsPage() {
 
   return (
     <main className="bg-white min-h-screen">
-      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12">
+      <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
         <Breadcrumb />
 
-        <h1 className="text-xl sm:text-[24px] font-[600] text-black text-center mb-6 sm:mb-8">
+        <h1 className="text-center font-roboto font-[600] text-2xl sm:text-[38px] leading-[32px] sm:leading-[46px] mb-4 sm:mb-6 text-black">
           Tin tức & sự kiện
         </h1>
 
@@ -84,11 +84,11 @@ export default function NewsPage() {
                 value={searchInput}
                 onChange={handleSearchChange}
                 placeholder="Tìm kiếm tin tức..."
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF1654] focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#EE344D] focus:border-transparent text-sm sm:text-base"
               />
               <button
                 type="submit"
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-[#FF1654] text-white px-4 py-1 rounded-md hover:bg-[#d41447] transition-colors"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-[#EE344D] text-white px-4 py-1 rounded-md hover:bg-[#d41447] transition-colors text-sm sm:text-base"
               >
                 Tìm
               </button>
@@ -159,15 +159,15 @@ export default function NewsPage() {
                         {formatDate(post.approved_time)}
                       </span>
                     </div>
-                    <h2 className="text-lg font-bold mb-2 text-black group-hover:text-[#FF1654] transition-colors line-clamp-2">
+                    <h2 className="text-lg font-bold mb-2 text-black group-hover:text-[#EE344D] transition-colors line-clamp-2 font-roboto">
                       {post.title}
                     </h2>
-                    <p className="text-gray-600 mb-4 line-clamp-2 text-sm">
+                    <p className="text-gray-600 mb-4 line-clamp-2 text-sm font-roboto">
                       {post.description}
                     </p>
                     <div className="flex justify-between items-center text-sm text-gray-500">
                       <span>{post.tac_gia}</span>
-                      <span className="text-[#FF1654] group-hover:underline">
+                      <span className="text-[#EE344D] group-hover:underline">
                         Xem thêm
                       </span>
                     </div>
@@ -185,9 +185,9 @@ export default function NewsPage() {
                       <button
                         key={page}
                         onClick={() => handlePageChange(page)}
-                        className={`px-4 py-2 rounded-md ${
+                        className={`px-4 py-2 rounded-md font-roboto text-sm sm:text-base font-[500] ${
                           currentPage === page
-                            ? "bg-[#FF1654] text-white"
+                            ? "bg-[#EE344D] text-white"
                             : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                         }`}
                       >
