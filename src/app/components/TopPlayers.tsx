@@ -40,7 +40,7 @@ export default function TopPlayers() {
         const response = await rankingApi.getAthleteRankings(
           selectedSeason,
           1, // Always page 1
-          5 // Limit to 5 players
+          10 // Limit to 10 players
         );
         if ("objects" in response) {
           setPlayers(response.objects);
@@ -64,7 +64,7 @@ export default function TopPlayers() {
       {/* Title with red background */}
       <div className="bg-[#EE344D] rounded-xl p-4 mb-6">
         <h2 className="text-white font-semibold text-xl sm:text-[30px] leading-[28px] sm:leading-[38px]">
-          Các cây vợt có phong độ tốt nhất
+          TOP 10 VĐV có phong độ tốt nhất
         </h2>
       </div>
 
