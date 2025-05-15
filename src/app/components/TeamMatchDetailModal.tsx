@@ -217,92 +217,108 @@ export default function TeamMatchDetailModal({
                       <table className="w-full min-w-[640px]">
                         <thead className="bg-[#F3F3F3]">
                           <tr>
-                            <th className="py-2 text-left text-xs sm:text-sm font-medium text-gray-500">
+                            <th className="py-2 text-xs sm:text-sm font-medium text-gray-500 text-center">
                               Trận
                             </th>
-                            <th className="py-2 text-left text-xs sm:text-sm font-medium text-gray-500">
+                            <th className="py-2 text-xs sm:text-sm font-medium text-gray-500 text-center">
                               Loại
                             </th>
-                            <th className="py-2 text-left text-xs sm:text-sm font-medium text-gray-500 max-w-[200px]">
-                              Đội A
+                            <th className="py-2 text-xs sm:text-sm font-medium text-gray-500 max-w-[200px] text-center">
+                              Chủ nhà
                             </th>
-                            <th className="py-2 text-left text-xs sm:text-sm font-medium text-gray-500 max-w-[200px]">
-                              Đội B
+                            <th className="py-2 text-xs sm:text-sm font-medium text-gray-500 w-12 text-center"></th>
+                            <th className="py-2 text-xs sm:text-sm font-medium text-gray-500 max-w-[200px] text-center">
+                              Khách
                             </th>
-                            <th className="py-2 text-left text-xs sm:text-sm font-medium text-gray-500">
+                            <th className="py-2 text-xs sm:text-sm font-medium text-gray-500 text-center">
                               Kết quả
                             </th>
-                            <th className="py-2 text-left text-xs sm:text-sm font-medium text-gray-500">
+                            <th className="py-2 text-xs sm:text-sm font-medium text-gray-500 text-center">
                               Điểm
                             </th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200">
-                          {matchDetails.ket_qua_tran_con.map((match) => (
-                            <tr key={match.tran_so} className="bg-white">
-                              <td className="py-2 text-xs sm:text-sm">
-                                {match.tran_so}
-                              </td>
-                              <td className="py-2 text-xs sm:text-sm">
-                                {match.loai_dau === 1 ? "Đơn" : "Đôi"}
-                              </td>
-                              <td className="py-2 text-xs sm:text-sm">
-                                <div>
-                                  <p>
-                                    {match.vdv_a1_ten} ({match.vdv_a1_hang})
-                                  </p>
-                                  {match.vdv_a2_ten && (
+                          {matchDetails.ket_qua_tran_con.map((match) => {
+                            let setA = 0,
+                              setB = 0;
+                            match.ket_qua_chitiet.forEach((set) => {
+                              if (set.a > set.b) setA++;
+                              else if (set.b > set.a) setB++;
+                            });
+                            return (
+                              <tr key={match.tran_so} className="bg-white">
+                                <td className="py-2 text-xs sm:text-sm text-center">
+                                  {match.tran_so}
+                                </td>
+                                <td className="py-2 text-xs sm:text-sm text-center">
+                                  {match.loai_dau === 1 ? "Đơn" : "Đôi"}
+                                </td>
+                                <td className="py-2 text-xs sm:text-sm text-center">
+                                  <div>
                                     <p>
-                                      {match.vdv_a2_ten} ({match.vdv_a2_hang})
+                                      {match.vdv_a1_ten} ({match.vdv_a1_hang})
                                     </p>
-                                  )}
-                                </div>
-                              </td>
-                              <td className="py-2 text-xs sm:text-sm">
-                                <div>
-                                  <p>
-                                    {match.vdv_b1_ten} ({match.vdv_b1_hang})
-                                  </p>
-                                  {match.vdv_b2_ten && (
+                                    {match.vdv_a2_ten && (
+                                      <p>
+                                        {match.vdv_a2_ten} ({match.vdv_a2_hang})
+                                      </p>
+                                    )}
+                                  </div>
+                                </td>
+                                <td className="py-2 text-xs sm:text-sm text-center">
+                                  <div className="flex justify-center items-center font-bold gap-1">
+                                    <span>{setA}</span>
+                                    <span>-</span>
+                                    <span>{setB}</span>
+                                  </div>
+                                </td>
+                                <td className="py-2 text-xs sm:text-sm text-center">
+                                  <div>
                                     <p>
-                                      {match.vdv_b2_ten} ({match.vdv_b2_hang})
+                                      {match.vdv_b1_ten} ({match.vdv_b1_hang})
                                     </p>
-                                  )}
-                                </div>
-                              </td>
-                              <td className="py-2 text-xs sm:text-sm">
-                                {match.ket_qua_chitiet.map((set, index) => (
-                                  <p key={index}>
-                                    {set.a}-{set.b}
-                                  </p>
-                                ))}
-                              </td>
-                              <td className="py-2 text-xs sm:text-sm">
-                                <div>
-                                  <p
-                                    className={
-                                      match.diem_doi_a > 0
-                                        ? "text-green-600"
-                                        : "text-red-600"
-                                    }
-                                  >
-                                    {match.diem_doi_a > 0 ? "+" : ""}
-                                    {match.diem_doi_a}
-                                  </p>
-                                  <p
-                                    className={
-                                      match.diem_doi_b > 0
-                                        ? "text-green-600"
-                                        : "text-red-600"
-                                    }
-                                  >
-                                    {match.diem_doi_b > 0 ? "+" : ""}
-                                    {match.diem_doi_b}
-                                  </p>
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
+                                    {match.vdv_b2_ten && (
+                                      <p>
+                                        {match.vdv_b2_ten} ({match.vdv_b2_hang})
+                                      </p>
+                                    )}
+                                  </div>
+                                </td>
+                                <td className="py-2 text-xs sm:text-sm text-center">
+                                  {match.ket_qua_chitiet.map((set, index) => (
+                                    <p key={index}>
+                                      {set.a}-{set.b}
+                                    </p>
+                                  ))}
+                                </td>
+                                <td className="py-2 text-xs sm:text-sm text-center">
+                                  <div>
+                                    <p
+                                      className={
+                                        match.diem_doi_a > 0
+                                          ? "text-green-600"
+                                          : "text-red-600"
+                                      }
+                                    >
+                                      {match.diem_doi_a > 0 ? "+" : ""}
+                                      {match.diem_doi_a}
+                                    </p>
+                                    <p
+                                      className={
+                                        match.diem_doi_b > 0
+                                          ? "text-green-600"
+                                          : "text-red-600"
+                                      }
+                                    >
+                                      {match.diem_doi_b > 0 ? "+" : ""}
+                                      {match.diem_doi_b}
+                                    </p>
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+                          })}
                         </tbody>
                       </table>
                     </div>
@@ -312,70 +328,86 @@ export default function TeamMatchDetailModal({
                       <table className="w-full min-w-[360px]">
                         <thead className="bg-[#F3F3F3]">
                           <tr>
-                            <th className="py-1.5 text-left text-[10px] font-medium text-gray-500">
+                            <th className="py-1.5 text-[10px] font-medium text-gray-500 text-center">
                               Trận
                             </th>
-                            <th className="py-1.5 text-left text-[10px] font-medium text-gray-500">
+                            <th className="py-1.5 text-[10px] font-medium text-gray-500 text-center">
                               Loại
                             </th>
-                            <th className="py-1.5 text-left text-[10px] font-medium text-gray-500 max-w-[145px]">
-                              Đội A
+                            <th className="py-1.5 text-[10px] font-medium text-gray-500 max-w-[145px] text-center">
+                              Chủ nhà
                             </th>
-                            <th className="py-1.5 text-left text-[10px] font-medium text-gray-500 max-w-[145px]">
-                              Đội B
+                            <th className="py-1.5 text-[10px] font-medium text-gray-500 w-8 text-center"></th>
+                            <th className="py-1.5 text-[10px] font-medium text-gray-500 max-w-[145px] text-center">
+                              Khách
                             </th>
-                            <th className="py-1.5 text-left text-[10px] font-medium text-gray-500">
+                            <th className="py-1.5 text-[10px] font-medium text-gray-500 text-center">
                               Kết quả
                             </th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200">
-                          {matchDetails.ket_qua_tran_con.map((match) => (
-                            <tr key={match.tran_so} className="bg-white">
-                              <td className="py-1.5 text-[10px] whitespace-nowrap">
-                                {match.tran_so}
-                              </td>
-                              <td className="py-1.5 text-[10px] whitespace-nowrap">
-                                {match.loai_dau === 1 ? "Đơn" : "Đôi"}
-                              </td>
-                              <td className="py-1.5 text-[10px]">
-                                <div className="space-y-0.5">
-                                  <p className="whitespace-nowrap">
-                                    {match.vdv_a1_ten} ({match.vdv_a1_hang})
-                                  </p>
-                                  {match.vdv_a2_ten && (
-                                    <p className="whitespace-nowrap">
-                                      {match.vdv_a2_ten} ({match.vdv_a2_hang})
+                          {matchDetails.ket_qua_tran_con.map((match) => {
+                            let setA = 0,
+                              setB = 0;
+                            match.ket_qua_chitiet.forEach((set) => {
+                              if (set.a > set.b) setA++;
+                              else if (set.b > set.a) setB++;
+                            });
+                            return (
+                              <tr key={match.tran_so} className="bg-white">
+                                <td className="py-1.5 text-[10px] whitespace-nowrap text-center">
+                                  {match.tran_so}
+                                </td>
+                                <td className="py-1.5 text-[10px] whitespace-nowrap text-center">
+                                  {match.loai_dau === 1 ? "Đơn" : "Đôi"}
+                                </td>
+                                <td className="py-1.5 text-[10px] text-center">
+                                  <div className="space-y-0.5">
+                                    <p>
+                                      {match.vdv_a1_ten} ({match.vdv_a1_hang})
                                     </p>
-                                  )}
-                                </div>
-                              </td>
-                              <td className="py-1.5 text-[10px]">
-                                <div className="space-y-0.5">
-                                  <p className="whitespace-nowrap">
-                                    {match.vdv_b1_ten} ({match.vdv_b1_hang})
-                                  </p>
-                                  {match.vdv_b2_ten && (
-                                    <p className="whitespace-nowrap">
-                                      {match.vdv_b2_ten} ({match.vdv_b2_hang})
+                                    {match.vdv_a2_ten && (
+                                      <p>
+                                        {match.vdv_a2_ten} ({match.vdv_a2_hang})
+                                      </p>
+                                    )}
+                                  </div>
+                                </td>
+                                <td className="py-1.5 text-[10px] text-center">
+                                  <div className="flex justify-center items-center font-bold gap-1">
+                                    <span>{setA}</span>
+                                    <span>-</span>
+                                    <span>{setB}</span>
+                                  </div>
+                                </td>
+                                <td className="py-1.5 text-[10px] text-center">
+                                  <div className="space-y-0.5">
+                                    <p>
+                                      {match.vdv_b1_ten} ({match.vdv_b1_hang})
                                     </p>
-                                  )}
-                                </div>
-                              </td>
-                              <td className="py-1.5 text-[10px]">
-                                <div className="space-y-0.5">
-                                  {match.ket_qua_chitiet.map((set, index) => (
-                                    <p
-                                      key={index}
-                                      className="whitespace-nowrap"
-                                    >
-                                      {set.a}-{set.b}
-                                    </p>
-                                  ))}
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
+                                    {match.vdv_b2_ten && (
+                                      <p>
+                                        {match.vdv_b2_ten} ({match.vdv_b2_hang})
+                                      </p>
+                                    )}
+                                  </div>
+                                </td>
+                                <td className="py-1.5 text-[10px] text-center">
+                                  <div className="space-y-0.5">
+                                    {match.ket_qua_chitiet.map((set, index) => (
+                                      <p
+                                        key={index}
+                                        className="whitespace-nowrap"
+                                      >
+                                        {set.a}-{set.b}
+                                      </p>
+                                    ))}
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+                          })}
                         </tbody>
                       </table>
                     </div>

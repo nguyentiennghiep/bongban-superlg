@@ -118,6 +118,12 @@ export default function TopPlayers() {
                 <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                   Điểm tích lũy
                 </th>
+                <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                  Set thắng
+                </th>
+                <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                  Set thua
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -163,6 +169,8 @@ export default function TopPlayers() {
                     <td className="px-2 sm:px-4">{player.doi_bong_ten}</td>
                     <td className="px-2 sm:px-4">{player.vdv_hang}</td>
                     <td className="px-2 sm:px-4">{player.diem_tich_luy}</td>
+                    <td className="px-2 sm:px-4">{player.tong_so_set_thang}</td>
+                    <td className="px-2 sm:px-4">{player.tong_so_set_thua}</td>
                   </tr>
                 ))
               ) : (

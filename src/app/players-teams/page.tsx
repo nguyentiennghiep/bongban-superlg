@@ -179,39 +179,39 @@ export default function PlayersTeamsPage() {
             <thead>
               <tr className="bg-black text-white text-left h-[42px]">
                 <th
-                  className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto"
+                  className="px-2 sm:px-4 font-[600] text-xs sm:text-[14px] leading-[16px] sm:leading-[22px] font-roboto"
                   style={{ width: "20px", minWidth: "20px", maxWidth: "20px" }}
                 >
                   #
                 </th>
                 {activeTab === "team" ? (
                   <>
-                    <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                    <th className="px-2 sm:px-4 font-[600] text-xs sm:text-[14px] leading-[16px] sm:leading-[22px] font-roboto">
                       Tên đội
                     </th>
-                    <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                    <th className="px-2 sm:px-4 font-[600] text-xs sm:text-[14px] leading-[16px] sm:leading-[22px] font-roboto">
                       Đội Trưởng
                     </th>
-                    <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                    <th className="px-2 sm:px-4 font-[600] text-xs sm:text-[14px] leading-[16px] sm:leading-[22px] font-roboto">
                       Sân nhà
                     </th>
                   </>
                 ) : (
                   <>
-                    <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                    <th className="px-2 sm:px-4 font-[600] text-xs sm:text-[14px] leading-[16px] sm:leading-[22px] font-roboto">
                       Tên
                     </th>
-                    <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                    <th className="px-2 sm:px-4 font-[600] text-xs sm:text-[14px] leading-[16px] sm:leading-[22px] font-roboto">
                       Đội
                     </th>
-                    <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                    <th className="px-2 sm:px-4 font-[600] text-xs sm:text-[14px] leading-[16px] sm:leading-[22px] font-roboto">
                       Tuổi
                     </th>
-                    <th className="px-2 sm:px-4 w-16 sm:w-24 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
+                    <th className="px-2 sm:px-4 w-16 sm:w-24 font-[600] text-xs sm:text-[14px] leading-[16px] sm:leading-[22px] font-roboto">
                       Hạng
                     </th>
-                    <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
-                      Điểm
+                    <th className="px-2 sm:px-4 font-[600] text-xs sm:text-[14px] leading-[16px] sm:leading-[22px] font-roboto">
+                      Tổng điểm
                     </th>
                   </>
                 )}
@@ -231,7 +231,7 @@ export default function PlayersTeamsPage() {
                 teams.map((team, index) => (
                   <tr
                     key={team.id}
-                    className={`text-black font-roboto font-[400] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] h-[42px] ${
+                    className={`text-black font-roboto font-[400] text-xs sm:text-[14px] leading-[16px] sm:leading-[22px] h-[42px] ${
                       index % 2 === 0 ? "bg-[#F3F3F3]" : "bg-[#D9D9D9]"
                     }`}
                   >
@@ -283,39 +283,60 @@ export default function PlayersTeamsPage() {
                   </tr>
                 ))
               ) : (
-                athletes.map((athlete, index) => (
-                  <tr
-                    key={athlete.id}
-                    className={`text-black font-roboto font-[400] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] h-[42px] ${
-                      index % 2 === 0 ? "bg-[#F3F3F3]" : "bg-[#D9D9D9]"
-                    }`}
-                  >
-                    <td
-                      className="px-2 sm:px-4"
-                      style={{
-                        width: "20px",
-                        minWidth: "20px",
-                        maxWidth: "20px",
-                      }}
+                athletes.map((athlete, index) => {
+                  const diemBanDau = athlete.vdv_diem || 0;
+                  const diemTichLuy = athlete.diem_tich_luy || 0;
+                  const tongDiem = diemBanDau + diemTichLuy;
+                  const diemTichLuyColor =
+                    diemTichLuy > 0
+                      ? "text-green-600"
+                      : diemTichLuy < 0
+                      ? "text-red-600"
+                      : "";
+                  const sign = diemTichLuy >= 0 ? "+" : "-";
+                  return (
+                    <tr
+                      key={athlete.id}
+                      className={`text-black font-roboto font-[400] text-xs sm:text-[14px] leading-[16px] sm:leading-[22px] h-[42px] ${
+                        index % 2 === 0 ? "bg-[#F3F3F3]" : "bg-[#D9D9D9]"
+                      }`}
                     >
-                      {athlete.stt}
-                    </td>
-                    <td className="px-2 sm:px-4">
-                      <Link
-                        href={`/players/${athlete.vdv_id}`}
-                        className="text-blue-600 hover:underline"
+                      <td
+                        className="px-2 sm:px-4"
+                        style={{
+                          width: "20px",
+                          minWidth: "20px",
+                          maxWidth: "20px",
+                        }}
                       >
-                        {athlete.vdv_ten}
-                      </Link>
-                    </td>
-                    <td className="px-2 sm:px-4">{athlete.doi_bong_ten}</td>
-                    <td className="px-2 sm:px-4">
-                      {new Date().getFullYear() - parseInt(athlete.nam_sinh)}
-                    </td>
-                    <td className="px-2 sm:px-4">{athlete.vdv_hang || "-"}</td>
-                    <td className="px-2 sm:px-4">{athlete.vdv_diem || "-"}</td>
-                  </tr>
-                ))
+                        {athlete.stt}
+                      </td>
+                      <td className="px-2 sm:px-4">
+                        <Link
+                          href={`/players/${athlete.vdv_id}`}
+                          className="text-blue-600 hover:underline"
+                        >
+                          {athlete.vdv_ten}
+                        </Link>
+                      </td>
+                      <td className="px-2 sm:px-4">{athlete.doi_bong_ten}</td>
+                      <td className="px-2 sm:px-4">
+                        {new Date().getFullYear() - parseInt(athlete.nam_sinh)}
+                      </td>
+                      <td className="px-2 sm:px-4">
+                        {athlete.vdv_hang || "-"}
+                      </td>
+                      <td className="px-2 sm:px-4">
+                        {tongDiem} ({diemBanDau}{" "}
+                        <span className={diemTichLuyColor}>
+                          {sign}
+                          {Math.abs(diemTichLuy)}
+                        </span>
+                        )
+                      </td>
+                    </tr>
+                  );
+                })
               )}
             </tbody>
           </table>
