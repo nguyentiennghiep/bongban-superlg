@@ -41,6 +41,8 @@ export interface TeamMatchDetail {
     doi_chien_thang: string;
     diem_doi_a: number;
     diem_doi_b: number;
+    doi_chap: number;
+    tyle_chap: number;
   }>;
 }
 

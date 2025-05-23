@@ -45,6 +45,9 @@ interface TeamMatchDetail {
     doi_chien_thang: string;
     diem_doi_a: number;
     diem_doi_b: number;
+    doi_chap: number;
+    tyle_chap: number;
+    link_video?: string;
   }>;
 }
 
@@ -220,9 +223,6 @@ export default function TeamMatchDetailModal({
                             <th className="py-2 text-xs sm:text-sm font-medium text-gray-500 text-center">
                               Trận
                             </th>
-                            <th className="py-2 text-xs sm:text-sm font-medium text-gray-500 text-center">
-                              Loại
-                            </th>
                             <th className="py-2 text-xs sm:text-sm font-medium text-gray-500 max-w-[200px] text-center">
                               Chủ nhà
                             </th>
@@ -235,6 +235,9 @@ export default function TeamMatchDetailModal({
                             </th>
                             <th className="py-2 text-xs sm:text-sm font-medium text-gray-500 text-center">
                               Điểm
+                            </th>
+                            <th className="py-2 text-xs sm:text-sm font-medium text-gray-500 text-center">
+                              Video
                             </th>
                           </tr>
                         </thead>
@@ -252,18 +255,31 @@ export default function TeamMatchDetailModal({
                                   {match.tran_so}
                                 </td>
                                 <td className="py-2 text-xs sm:text-sm text-center">
-                                  {match.loai_dau === 1 ? "Đơn" : "Đôi"}
-                                </td>
-                                <td className="py-2 text-xs sm:text-sm text-center">
-                                  <div>
-                                    <p>
-                                      {match.vdv_a1_ten} ({match.vdv_a1_hang})
-                                    </p>
-                                    {match.vdv_a2_ten && (
+                                  <div className="flex flex-col items-center">
+                                    <div>
                                       <p>
-                                        {match.vdv_a2_ten} ({match.vdv_a2_hang})
+                                        {match.vdv_a1_ten} ({match.vdv_a1_hang})
                                       </p>
-                                    )}
+                                      {match.vdv_a2_ten && (
+                                        <p>
+                                          {match.vdv_a2_ten} (
+                                          {match.vdv_a2_hang})
+                                        </p>
+                                      )}
+                                    </div>
+                                    <p
+                                      className={
+                                        match.doi_chap === 2 &&
+                                        match.tyle_chap > 0
+                                          ? "text-blue-600 text-xs font-semibold mt-0.5"
+                                          : "invisible text-xs font-semibold mt-0.5"
+                                      }
+                                    >
+                                      +
+                                      {match.tyle_chap > 0
+                                        ? match.tyle_chap
+                                        : 0}
+                                    </p>
                                   </div>
                                 </td>
                                 <td className="py-2 text-xs sm:text-sm text-center">
@@ -274,15 +290,31 @@ export default function TeamMatchDetailModal({
                                   </div>
                                 </td>
                                 <td className="py-2 text-xs sm:text-sm text-center">
-                                  <div>
-                                    <p>
-                                      {match.vdv_b1_ten} ({match.vdv_b1_hang})
-                                    </p>
-                                    {match.vdv_b2_ten && (
+                                  <div className="flex flex-col items-center">
+                                    <div>
                                       <p>
-                                        {match.vdv_b2_ten} ({match.vdv_b2_hang})
+                                        {match.vdv_b1_ten} ({match.vdv_b1_hang})
                                       </p>
-                                    )}
+                                      {match.vdv_b2_ten && (
+                                        <p>
+                                          {match.vdv_b2_ten} (
+                                          {match.vdv_b2_hang})
+                                        </p>
+                                      )}
+                                    </div>
+                                    <p
+                                      className={
+                                        match.doi_chap === 1 &&
+                                        match.tyle_chap > 0
+                                          ? "text-blue-600 text-xs font-semibold mt-0.5"
+                                          : "invisible text-xs font-semibold mt-0.5"
+                                      }
+                                    >
+                                      +
+                                      {match.tyle_chap > 0
+                                        ? match.tyle_chap
+                                        : 0}
+                                    </p>
                                   </div>
                                 </td>
                                 <td className="py-2 text-xs sm:text-sm text-center">
@@ -316,6 +348,20 @@ export default function TeamMatchDetailModal({
                                     </p>
                                   </div>
                                 </td>
+                                <td className="py-2 text-xs sm:text-sm text-center">
+                                  {match.link_video ? (
+                                    <a
+                                      href={match.link_video}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="text-blue-600 hover:text-blue-800 text-xs sm:text-sm font-medium"
+                                    >
+                                      Link
+                                    </a>
+                                  ) : (
+                                    <span className="text-gray-400">-</span>
+                                  )}
+                                </td>
                               </tr>
                             );
                           })}
@@ -331,9 +377,6 @@ export default function TeamMatchDetailModal({
                             <th className="py-1.5 text-[10px] font-medium text-gray-500 text-center">
                               Trận
                             </th>
-                            <th className="py-1.5 text-[10px] font-medium text-gray-500 text-center">
-                              Loại
-                            </th>
                             <th className="py-1.5 text-[10px] font-medium text-gray-500 max-w-[145px] text-center">
                               Chủ nhà
                             </th>
@@ -343,6 +386,9 @@ export default function TeamMatchDetailModal({
                             </th>
                             <th className="py-1.5 text-[10px] font-medium text-gray-500 text-center">
                               Kết quả
+                            </th>
+                            <th className="py-1.5 text-[10px] font-medium text-gray-500 text-center">
+                              Video
                             </th>
                           </tr>
                         </thead>
@@ -359,19 +405,32 @@ export default function TeamMatchDetailModal({
                                 <td className="py-1.5 text-[10px] whitespace-nowrap text-center">
                                   {match.tran_so}
                                 </td>
-                                <td className="py-1.5 text-[10px] whitespace-nowrap text-center">
-                                  {match.loai_dau === 1 ? "Đơn" : "Đôi"}
-                                </td>
                                 <td className="py-1.5 text-[10px] text-center">
-                                  <div className="space-y-0.5">
-                                    <p>
-                                      {match.vdv_a1_ten} ({match.vdv_a1_hang})
-                                    </p>
-                                    {match.vdv_a2_ten && (
+                                  <div className="flex flex-col items-center space-y-0.5">
+                                    <div>
                                       <p>
-                                        {match.vdv_a2_ten} ({match.vdv_a2_hang})
+                                        {match.vdv_a1_ten} ({match.vdv_a1_hang})
                                       </p>
-                                    )}
+                                      {match.vdv_a2_ten && (
+                                        <p>
+                                          {match.vdv_a2_ten} (
+                                          {match.vdv_a2_hang})
+                                        </p>
+                                      )}
+                                    </div>
+                                    <p
+                                      className={
+                                        match.doi_chap === 2 &&
+                                        match.tyle_chap > 0
+                                          ? "text-blue-600 text-[10px] font-semibold mt-0.5"
+                                          : "invisible text-[10px] font-semibold mt-0.5"
+                                      }
+                                    >
+                                      +
+                                      {match.tyle_chap > 0
+                                        ? match.tyle_chap
+                                        : 0}
+                                    </p>
                                   </div>
                                 </td>
                                 <td className="py-1.5 text-[10px] text-center">
@@ -382,15 +441,31 @@ export default function TeamMatchDetailModal({
                                   </div>
                                 </td>
                                 <td className="py-1.5 text-[10px] text-center">
-                                  <div className="space-y-0.5">
-                                    <p>
-                                      {match.vdv_b1_ten} ({match.vdv_b1_hang})
-                                    </p>
-                                    {match.vdv_b2_ten && (
+                                  <div className="flex flex-col items-center space-y-0.5">
+                                    <div>
                                       <p>
-                                        {match.vdv_b2_ten} ({match.vdv_b2_hang})
+                                        {match.vdv_b1_ten} ({match.vdv_b1_hang})
                                       </p>
-                                    )}
+                                      {match.vdv_b2_ten && (
+                                        <p>
+                                          {match.vdv_b2_ten} (
+                                          {match.vdv_b2_hang})
+                                        </p>
+                                      )}
+                                    </div>
+                                    <p
+                                      className={
+                                        match.doi_chap === 1 &&
+                                        match.tyle_chap > 0
+                                          ? "text-blue-600 text-[10px] font-semibold mt-0.5"
+                                          : "invisible text-[10px] font-semibold mt-0.5"
+                                      }
+                                    >
+                                      +
+                                      {match.tyle_chap > 0
+                                        ? match.tyle_chap
+                                        : 0}
+                                    </p>
                                   </div>
                                 </td>
                                 <td className="py-1.5 text-[10px] text-center">
@@ -404,6 +479,20 @@ export default function TeamMatchDetailModal({
                                       </p>
                                     ))}
                                   </div>
+                                </td>
+                                <td className="py-1.5 text-[10px] text-center">
+                                  {match.link_video ? (
+                                    <a
+                                      href={match.link_video}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="text-blue-600 hover:text-blue-800 text-[10px] font-medium"
+                                    >
+                                      Link
+                                    </a>
+                                  ) : (
+                                    <span className="text-gray-400">-</span>
+                                  )}
                                 </td>
                               </tr>
                             );

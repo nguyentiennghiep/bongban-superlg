@@ -54,8 +54,8 @@ export default function TeamMatchHistory({
   const formatDate = (dateNumber: number) => {
     const dateStr = dateNumber.toString();
     const year = dateStr.substring(0, 4);
-    const month = dateStr.substring(4, 6);
-    const day = dateStr.substring(6, 8);
+    const month = parseInt(dateStr.substring(4, 6));
+    const day = parseInt(dateStr.substring(6, 8));
     return `${day}/${month}/${year}`;
   };
 
@@ -102,16 +102,13 @@ export default function TeamMatchHistory({
                 Giờ
               </th>
               <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
-                Đội A
+                Đội Nhà
               </th>
               <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
-                Đội B
+                Đội Khách
               </th>
               <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                 Kết quả
-              </th>
-              <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
-                Sân
               </th>
               <th className="px-2 sm:px-4 font-[600] text-[12px] sm:text-[14px] leading-[18px] sm:leading-[22px] font-roboto">
                 Chi tiết
@@ -134,9 +131,6 @@ export default function TeamMatchHistory({
                 <td className="px-2 sm:px-4">{match.doi_b_ten}</td>
                 <td className="px-2 sm:px-4">
                   {match.ket_qua || "Chưa có kết quả"}
-                </td>
-                <td className="px-2 sm:px-4">
-                  {match.doi_a_id === teamId ? "Sân nhà" : "Sân khách"}
                 </td>
                 <td className="px-2 sm:px-4">
                   {match.ket_qua ? (
