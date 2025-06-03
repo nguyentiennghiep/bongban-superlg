@@ -1,4 +1,5 @@
-export const BASE_URL = "https://admin.hanoispl.com/public/api";
+export const BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || "https://admin.hanoispl.com/public/api";
 
 export interface ApiResponse<T> {
   objects: T[];

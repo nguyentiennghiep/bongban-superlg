@@ -45,6 +45,7 @@ export interface AthleteDetail {
     diem_tich_luy: number;
     hang_vdv: string;
     ghi_chu?: string;
+    diem_tien_trinh?: number;
   }>;
 }
 

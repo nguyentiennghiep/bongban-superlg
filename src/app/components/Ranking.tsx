@@ -344,8 +344,11 @@ export default function Ranking({ showTitle = false }: RankingProps) {
                       </td>
                       <td className="px-2 sm:px-4">{team.tong_so_luot}</td>
                       <td className="px-2 sm:px-4">
-                        {team.tong_so_tran_con_thang} ({team.tongso_thang_don},{" "}
-                        {team.tongso_thang_doi})
+                        {team.tong_so_tran_con_thang} (
+                        {`${team.tongso_thang_don}/${team.tongso_thang_don_bo_cuoc}`}
+                        ,{" "}
+                        {`${team.tongso_thang_doi}/${team.tongso_thang_doi_bo_cuoc}`}
+                        )
                       </td>
                       <td className="px-2 sm:px-4">{team.tong_so_set_thang}</td>
                       <td className="px-2 sm:px-4 font-semibold">

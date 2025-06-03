@@ -162,12 +162,15 @@ export default function PlayerDetailPage({
           rankPoints={
             getCurrentSeasonStats()?.diem_tham_gia?.toString() ||
             playerData.diem_vdv?.toString() ||
-            "0"
+            "-"
           }
           accumulatedPoints={
             getCurrentSeasonStats()?.diem_tich_luy?.toString() ||
             playerData.diem_tich_luy?.toString() ||
-            "0"
+            "-"
+          }
+          totalPoints={
+            getCurrentSeasonStats()?.diem_tien_trinh?.toString() || "-"
           }
           matches={[]}
           winRate={{

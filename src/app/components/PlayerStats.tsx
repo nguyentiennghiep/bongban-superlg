@@ -21,6 +21,7 @@ interface PlayerStatsProps {
   };
   avatarUrl?: string;
   notes?: string;
+  totalPoints?: string;
 }
 
 export default function PlayerStats({
@@ -33,6 +34,7 @@ export default function PlayerStats({
   winRate,
   avatarUrl,
   notes,
+  totalPoints,
 }: PlayerStatsProps) {
   const [seasons, setSeasons] = useState<Round[]>([]);
   const [selectedSeason, setSelectedSeason] = useState("");
@@ -113,9 +115,7 @@ export default function PlayerStats({
                 Tổng điểm
               </span>
               <span className="font-roboto font-[600] text-sm sm:text-[14px] leading-[18px] sm:leading-[22px] text-black">
-                {(
-                  parseFloat(accumulatedPoints) + parseFloat(rankPoints)
-                ).toString()}
+                {totalPoints}
               </span>
             </div>
             {notes && (
