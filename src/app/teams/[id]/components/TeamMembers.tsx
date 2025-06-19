@@ -32,10 +32,7 @@ export default function TeamMembers({
                 seasonInfo?.diem_tham_gia?.toString() ||
                 athleteDetail?.diem_vdv?.toString() ||
                 "0",
-              totalPoints:
-                seasonInfo?.diem_tham_gia?.toString() ||
-                athleteDetail?.diem_vdv?.toString() ||
-                "0",
+              totalPoints: seasonInfo?.diem_tien_trinh?.toString() || "-",
               accumulatedPoints:
                 seasonInfo?.diem_tich_luy?.toString() ||
                 athleteDetail?.diem_tich_luy?.toString() ||

@@ -78,10 +78,7 @@ export default function PlayerCard({ player }: PlayerCardProps) {
                 Tổng điểm
               </span>
               <span className="font-['Roboto'] font-[600] text-[12px] sm:text-[16px] leading-[18px] sm:leading-[24px] text-black text-right">
-                {(
-                  parseFloat(player.accumulatedPoints) +
-                  parseFloat(player.rankPoints)
-                ).toFixed(1)}
+                {player.totalPoints}
               </span>
             </div>
           </div>

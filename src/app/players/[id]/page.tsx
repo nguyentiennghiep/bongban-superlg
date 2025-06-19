@@ -13,6 +13,10 @@ import PlayerStats from "@/app/components/PlayerStats";
 import MatchDetailModal from "@/app/components/MatchDetailModal";
 import { MatchDetail } from "@/app/components/MatchDetailModal";
 import { ChevronRight } from "lucide-react";
+import {
+  rankingHistoryApi,
+  RankingHistoryItem,
+} from "@/services/rankingHistory";
 
 export default function PlayerDetailPage({
   params,
@@ -28,6 +32,9 @@ export default function PlayerDetailPage({
     useState<AthleteMatchHistoryResponse | null>(null);
   const [isLoadingHistory, setIsLoadingHistory] = useState(false);
   const [selectedMatch, setSelectedMatch] = useState<MatchDetail | null>(null);
+  const [rankingHistoryList, setRankingHistoryList] = useState<
+    RankingHistoryItem[]
+  >([]);
 
   useEffect(() => {
     const fetchPlayerData = async () => {
@@ -87,6 +94,23 @@ export default function PlayerDetailPage({
 
     fetchMatchHistory();
   }, [selectedSeason, resolvedParams.id]);
+
+  // Fetch ranking history when playerData or selectedSeason changes
+  useEffect(() => {
+    const fetchRankingHistory = async () => {
+      if (!playerData || !selectedSeason) return;
+      try {
+        const res = await rankingHistoryApi.getPlayerRankingHistory(
+          playerData.id,
+          selectedSeason
+        );
+        setRankingHistoryList(res.objects || []);
+      } catch {
+        setRankingHistoryList([]);
+      }
+    };
+    fetchRankingHistory();
+  }, [playerData, selectedSeason]);
 
   const getCurrentSeasonStats = () => {
     if (!playerData) return null;
@@ -172,7 +196,6 @@ export default function PlayerDetailPage({
           totalPoints={
             getCurrentSeasonStats()?.diem_tien_trinh?.toString() || "-"
           }
-          matches={[]}
           winRate={{
             total: matchHistory?.tong_quan.tong_so_tran || 0,
             wins: matchHistory?.tong_quan.so_tran_thang || 0,
@@ -189,6 +212,7 @@ export default function PlayerDetailPage({
               : undefined
           }
           notes={getCurrentSeasonStats()?.ghi_chu || ""}
+          rankingHistoryList={rankingHistoryList}
         />
 
         {/* Season Filter */}
@@ -199,7 +223,7 @@ export default function PlayerDetailPage({
           <select
             value={selectedSeason}
             onChange={(e) => setSelectedSeason(e.target.value)}
-            className="w-full sm:w-[300px] p-[6px] pr-[6px] rounded bg-[#F3F3F3] text-black text-sm leading-[22px] border border-[#DFDFDF] appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2014%2014%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M3.5%205.25L7%208.75L10.5%205.25%22%20stroke%3D%22%23000000%22%20stroke-width%3D%221.16667%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[center_right_6px]"
+            className="w-full sm:w-[300px] p-[6px] pr-[6px] rounded bg-[#F3F3F3] text-black text-sm leading-[22px] border border-[#DFDFDF] appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2014%2014%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M3.5%205.25L7%208.75L10.5%205.25%22%20stroke%3D%22%23000000%22%20stroke-width%3D%221.16667%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[center_right_6px]"
           >
             {seasons.length > 0 ? (
               seasons.map((season) => (
