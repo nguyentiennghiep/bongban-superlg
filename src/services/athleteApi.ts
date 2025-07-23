@@ -46,6 +46,7 @@ export interface AthleteDetail {
     hang_vdv: string;
     ghi_chu?: string;
     diem_tien_trinh?: number;
+    trang_thai_thi_dau: number;
   }>;
 }
 

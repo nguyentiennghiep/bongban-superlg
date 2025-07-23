@@ -20,6 +20,7 @@ interface PlayerStatsProps {
   notes?: string;
   totalPoints?: string;
   rankingHistoryList?: RankingHistoryItem[];
+  competitionStatus?: number;
 }
 
 export default function PlayerStats({
@@ -33,6 +34,7 @@ export default function PlayerStats({
   notes,
   totalPoints,
   rankingHistoryList,
+  competitionStatus,
 }: PlayerStatsProps) {
   const [seasons, setSeasons] = useState<Round[]>([]);
   const [selectedSeason, setSelectedSeason] = useState("");
@@ -73,6 +75,9 @@ export default function PlayerStats({
     fetchSeasons();
   }, []);
 
+  // Check if athlete has stopped competing
+  const hasStoppedCompeting = competitionStatus === 2;
+
   return (
     <div className="bg-[#F3F3F3] rounded-lg p-4 sm:p-8">
       <div className="grid grid-cols-1 sm:grid-cols-[240px_1fr] gap-4 sm:gap-8">
@@ -92,6 +97,26 @@ export default function PlayerStats({
           <p className="font-roboto text-sm sm:text-[14px] leading-[18px] sm:leading-[22px] text-black text-center">
             Năm sinh: {birthYear}
           </p>
+
+          {/* Competition Status Indicator */}
+          {hasStoppedCompeting && (
+            <div className="mt-2 text-center">
+              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                <svg
+                  className="w-3 h-3 mr-1"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                Đã ngừng thi đấu
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Right Column - Stats */}

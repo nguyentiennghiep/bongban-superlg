@@ -213,6 +213,7 @@ export default function PlayerDetailPage({
           }
           notes={getCurrentSeasonStats()?.ghi_chu || ""}
           rankingHistoryList={rankingHistoryList}
+          competitionStatus={getCurrentSeasonStats()?.trang_thai_thi_dau}
         />
 
         {/* Season Filter */}
