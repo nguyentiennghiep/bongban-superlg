@@ -94,11 +94,15 @@ export default function MatchesTable({
                   <td className="px-2 sm:px-4">
                     <a
                       href={
+                        match.map_san_dau &&
                         match.map_san_dau.includes("iframe")
                           ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
                               match.diachi_thi_dau
                             )}`
-                          : match.map_san_dau
+                          : match.map_san_dau ||
+                            `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                              match.diachi_thi_dau || ""
+                            )}`
                       }
                       target="_blank"
                       rel="noopener noreferrer"
