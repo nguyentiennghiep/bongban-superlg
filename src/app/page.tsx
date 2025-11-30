@@ -10,8 +10,6 @@ export default function HomePage() {
   return (
     <div className="bg-white">
       <Banner />
-      <Introduction />
-      <NewsEvents />
 
       {/* Xếp hạng */}
       <div className="container mx-auto">
@@ -27,6 +25,8 @@ export default function HomePage() {
       <div className="container mx-auto pb-6 sm:pb-10">
         <MatchSchedule />
       </div>
+      <Introduction />
+      <NewsEvents />
     </div>
   );
 }
