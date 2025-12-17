@@ -26,10 +26,11 @@ export default function NewsDetailPage({
 
         // Fetch related posts
         const relatedData = await postApi.getPosts(1, 3, "");
+        const relatedObjects = Array.isArray(relatedData?.objects)
+          ? relatedData.objects
+          : [];
         setRelatedPosts(
-          relatedData.objects
-            .filter((p) => p.id !== resolvedParams.id)
-            .slice(0, 3)
+          relatedObjects.filter((p) => p.id !== resolvedParams.id).slice(0, 3)
         );
       } catch (err) {
         console.error("Error fetching post details:", err);

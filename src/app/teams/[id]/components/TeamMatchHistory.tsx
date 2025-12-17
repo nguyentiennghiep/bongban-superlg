@@ -32,14 +32,15 @@ export default function TeamMatchHistory({
           1,
           1000
         );
-        if (response.objects) {
-          // Lọc các trận đấu của đội này (cả khi là đội A hoặc đội B)
-          console.log(response.objects);
-          const teamMatches = response.objects.filter(
-            (match) => match.doi_a_id === teamId || match.doi_b_id === teamId
-          );
-          setMatches(teamMatches);
-        }
+        const objects = Array.isArray(response?.objects)
+          ? response.objects
+          : [];
+
+        // Lọc các trận đấu của đội này (cả khi là đội A hoặc đội B)
+        const teamMatches = objects.filter(
+          (match) => match.doi_a_id === teamId || match.doi_b_id === teamId
+        );
+        setMatches(teamMatches);
       } catch (error) {
         console.error("Error fetching team matches:", error);
         setMatches([]);
